@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2F2B2F"
+    android:orientation="vertical" >
+
+     <include
+            android:id="@+id/nearby_header"
+            layout="@layout/common_title_bar" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <!-- android:background="@drawable/home_littleyellow" -->
+
+       
+    </RelativeLayout>
+
+         <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x84"
+                android:background="#2F2B2F"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x20"
+                    android:text="当前定位城市："
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x30" />
+
+                <TextView
+                    android:id="@+id/tv_currentcity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x10"
+                    android:text="北京"
+                    android:textColor="#72324F"
+                    android:textSize="@dimen/x40" />
+            </LinearLayout>
+            
+         
+         
+         
+         <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x20"
+                    android:text="热门城市："
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x30" />
+
+                
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_hotcity1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    android:text="北京"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x40" />
+                <TextView
+                    android:id="@+id/tv_hotcity2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    android:text="上海"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x40" />
+                <TextView
+                    android:id="@+id/tv_hotcity3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    android:text="杭州"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x40" />
+                </LinearLayout>
+                
+                
+                
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x84"
+                    android:background="#2F2B2F"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x20"
+                    android:text="全部城市："
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x30" />
+            </LinearLayout>
+            
+ 	<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+           android:id="@+id/fl_content"            
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" 
+                android:layout_gravity="center"
+                >
+
+                <ListView
+                    android:id="@+id/lv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:divider="@null"
+                    android:dividerHeight="1dp"
+                    android:listSelector="@android:color/transparent"
+                    android:scrollbars="none" >
+                </ListView>
+            </RelativeLayout>
+        </FrameLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x50"
+            android:gravity="center"
+            android:text="亲，暂无该城市服务"
+            android:textColor="#333333"
+            android:textSize="20sp" />
+        
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="#2F2B2F"
+    android:id="@+id/nearby_layout_root">
+        <include
+            android:id="@+id/index_head"
+            layout="@layout/common_title_bar" />
+
+    <FrameLayout
+        android:id="@+id/fl_videocontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/index_head" >
+        
+        <ListView 
+            
+            android:id="@+id/daijia_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="#242124"
+            android:dividerHeight="@dimen/x2"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"></ListView>
+
+        <!-- <com.hangzhou.tonight.view.XListView
+            android:id="@+id/daijia_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#312D31"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            android:visibility="visible" >
+        </com.hangzhou.tonight.view.XListView> -->
+    </FrameLayout>
+    
+
+</RelativeLayout>

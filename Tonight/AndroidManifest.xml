@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hangzhou.tonight"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="21" />
+    
+      <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 此权限用来显示反馈崩溃信息对话框 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 判断堆栈中是否有本应用的权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <application
+        android:name="com.hangzhou.tonight.base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        
+        
+ 
+        <activity
+            android:name=".maintabs.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+        <activity android:name=".module.individual.activity.IndividualActivity" android:label="@string/individual"></activity>
+        
+        <activity
+            android:name=".WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/title_activity_login" >
+        </activity>
+        
+         <service android:name=".service.XXService" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name="com.hangzhou.tonight.activity.MerchantsHomeListActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        
+         <activity
+            android:name=".maintabs.BusinessActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+          <activity
+            android:name=".maintabs.SessionListActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+          <activity
+            android:name="com.hangzhou.tonight.activity.PromotionActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+          <activity
+            android:name="com.hangzhou.tonight.activity.MerchantDetailActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+          <activity
+            android:name="com.hangzhou.tonight.activity.PromotionDetailActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+           <activity
+            android:name="com.hangzhou.tonight.activity.SelectCityActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+             <activity
+            android:name="com.hangzhou.tonight.activity.BrDayServerActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+               <activity
+            android:name="com.hangzhou.tonight.activity.DriverServerActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+        
+          <activity
+            android:name=".maintabs.DiscoverActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+          
+        
+        <activity
+            android:name=".maintabs.UserSettingActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+           <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+               
+           <activity
+            android:name="com.hangzhou.tonight.activity.ShareActivity"
+            android:label="@string/app_name" >
+            <intent-filter> 
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
+        
+        <!-- 基础FragmentActivity -->
+        <activity android:name="com.hangzhou.tonight.module.base.BaseSingeFragmentActivity"></activity>
+        <!-- 我的订单模块 -->   
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.MyOrderActivity" android:label="@string/individual_my_order"></activity>
+        <!-- 我的账户模块 -->
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.MyAccountActivity" android:label="@string/individual_my_account"></activity>
+        <!-- 消息模块 -->
+        <activity android:name="com.hangzhou.tonight.module.message.activity.MessageMainActivity" android:label="@string/message"></activity>
+		<!-- 个人信息 -->
+        <activity android:name="com.hangzhou.tonight.module.social.activity.FindActivity" android:label="@string/find"></activity>
+        <!-- 社交模块 -->
+        <activity android:name="com.hangzhou.tonight.module.social.activity.TonightCircleActivity" android:label="@string/tonight_circle"></activity>
+        <activity android:name="com.hangzhou.tonight.module.social.activity.GroupActivity" android:label="@string/group"></activity>
+        <activity android:name="com.hangzhou.tonight.module.social.activity.FriendActivity" android:label="@string/friend"></activity>
+        
+        
+        
+          <activity android:name=".notice.MyNoticeActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
+       	<!-- 系统消息 -->
+        <activity android:name=".notice.SystemNoticeDetailActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
+        <!-- 用户信息 -->
+        <!-- 聊天 -->
+        <activity android:name=".im.ChatActivity1" android:launchMode="standard" android:screenOrientation="portrait"></activity>
+		<!-- 聊天记录 -->
+		<!-- 好友信息 -->
+	    <!-- 联系人列表 -->
+	    <activity android:name=".im.ContacterMainActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
+	     <activity android:name=".im.RoomChatActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
+		
+        <!-- 会议室成员列表  -->
+        <activity
+             android:name=".im.RoomMemberActivity"
+             android:screenOrientation="portrait"
+            />
+        
+        <!-- 创建群  -->
+        <activity
+             android:name=".im.GroupCreateActivity"
+             android:screenOrientation="portrait"
+            />
+         <!-- 加入群  -->
+        <activity
+             android:name=".im.GroupJoinActivity"
+             android:screenOrientation="portrait"
+            />
+        
+        
+          <!-- 全屏显示图片  -->
+        <activity
+             android:name=".im.ImageShower"
+             android:screenOrientation="portrait"
+            />
+
+        <!-- 联系人服务 -->
+		<service android:name=".service.IMContactService"></service>
+		<!-- 聊天服务 -->
+		<service android:name=".service.IMChatService"></service>  
+		<!-- 系统消息服务 -->
+		<service android:name=".service.IMSystemMsgService"></service>
+		<!-- 重连接服务 -->
+ 		<service android:name=".service.ReConnectService"></service>
+        
+        
+        
+        
+    </application>
+
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    
+    
+    <!-- 这个权限用于进行网络定位-->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+<!-- 这个权限用于访问GPS定位-->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+<!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+<!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+<!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+<!-- 用于读取手机当前的状态-->
+<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+<!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+<!-- 访问网络，网络定位需要上网-->
+<uses-permission android:name="android.permission.INTERNET" />
+<!-- SD卡读取权限，用户写入离线定位数据-->
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+<!--允许应用读取低级别的系统日志文件 -->
+<uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
+    
+
+</manifest>

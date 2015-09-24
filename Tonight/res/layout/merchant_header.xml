@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.ab.view.sliding.AbSlidingPlayView
+        android:id="@+id/mAbSlidingPlayView"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/x280" >
+    </com.ab.view.sliding.AbSlidingPlayView>
+
+    <!--
+         <com.youti.view.CustomViewPager
+            android:id="@+id/vPager"
+           android:layout_width="fill_parent"
+           android:layout_height="150dip"
+            android:persistentDrawingCache="animation" />
+    -->
+
+    
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:background="#312D31">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x15"
+                android:layout_marginTop="@dimen/x15"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/new_qx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/img_qb"
+                        android:layout_width="@dimen/x100"
+                        android:layout_height="@dimen/x100"
+                        android:scaleType="fitXY"
+                         android:src="@drawable/qb"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_qx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="清吧"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/new_tennis"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/img_yzh"
+                        android:layout_width="@dimen/x100"
+                        android:layout_height="@dimen/x100"
+                        android:scaleType="fitXY"
+                         android:src="@drawable/yzh"
+                         />
+
+                    <TextView
+                        android:id="@+id/tv_tennis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="夜总会"
+                       android:textColor="#ffffff"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/new_golf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/img_myb"
+                        android:layout_width="@dimen/x100"
+                        android:layout_height="@dimen/x100"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/myb"
+                         />
+
+                    <TextView
+                        android:id="@+id/tv_golf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="慢摇吧"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/new_gd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/img_ktv"
+                        android:layout_width="@dimen/x100"
+                        android:layout_height="@dimen/x100"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ktv" />
+
+                    <TextView
+                        android:id="@+id/tv_gd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="量贩KTV"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/x30"
+        android:background="#2F2B2F" />
+    <!--
+           <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/wdjl_fengexian" />
+    -->
+
+    <!--
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/wdjl_fengexian" />
+
+             <View
+                android:id="@+id/indicate_line"
+                android:layout_width="@dimen/x80"
+                android:layout_height="2dp"
+                android:background="#6049a1" /> 
+        </RelativeLayout>
+    -->
+
+</LinearLayout>

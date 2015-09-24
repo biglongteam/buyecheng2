@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/x220"
+    android:orientation="horizontal"
+    android:background="#2F2B2F"
+    android:paddingTop="@dimen/x10"
+    android:paddingLeft="@dimen/x20"
+    android:paddingRight="@dimen/x20"
+   >
+
+    <ImageView
+        android:id="@+id/img_merchant"
+        android:layout_width="@dimen/x250"
+        android:layout_height="@dimen/x200"
+        android:scaleType="fitXY"       
+          />
+    <!-- android:background="@drawable/userhome_pic" -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/x200"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/tv_merchant_name"
+                android:layout_width="@dimen/x320"
+                android:layout_height="wrap_content"
+                android:text="蜜桃酒吧"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:textColor="#FFE64087"
+                android:textSize="17sp" />
+
+
+            <TextView
+                android:id="@+id/tv_merc_distance"
+                android:layout_width="@dimen/x100"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="1KM"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/x28" />
+        </LinearLayout>
+
+        
+        
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x14"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
+
+           <TextView
+                android:id="@+id/tv_merchant_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.68"
+                android:lines="2"
+                android:lineSpacingExtra="4sp"
+                android:lineSpacingMultiplier="1.0"
+                android:text="坚持锻炼是人生最好的生活方式。。坚持锻炼是人生最好的生活方式。。。坚持锻炼是人生最好的生活方式。。。。"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
+            
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:layout_marginBottom="@dimen/x10"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/tv_merchant_address"
+                android:layout_width="@dimen/x310"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/toutiao_location1"
+                android:text="金水东路12号"
+                android:singleLine="true"
+                android:textColor="#FF9B9B9B"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_merchant_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="333元"
+                android:layout_alignParentRight="true"
+                android:textColor="#FFE04A10"
+                android:textSize="@dimen/x30" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,6 @@
+<resources>
+
+    <string name="app_name">hoo-ad-customview-IosTbarView</string>
+	<!-- 通用词汇 -->
+    <string name="back">返回</string>
+</resources>

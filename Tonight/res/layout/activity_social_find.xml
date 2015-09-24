@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hangzhou.tonight"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color" >
+    
+	<com.hangzhou.tonight.module.base.widget.TbarView
+        android:id="@id/custom_actionbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/social_find_circle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/tonight_circle"
+        app:drawableLeft="@drawable/circle"
+        app:allow_default="false"
+        />
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/social_find_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/group"
+        app:drawableLeft="@drawable/group"
+        app:allow_default="false"
+        />
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/social_find_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/friend"
+        app:drawableLeft="@drawable/friend"
+        app:allow_default="false"
+        />
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/social_find_around"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/around_people"
+        app:drawableLeft="@drawable/around"
+        app:allow_default="false"
+        />
+    
+</LinearLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="listview">
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:listSelector">@drawable/widget_selector_list_item_transparent</item>
+        <item name="android:divider">@color/divider</item>
+        <item name="android:dividerHeight">1px</item>
+    </style>
+    
+    <style name="EditText">
+        <item name="android:background">@drawable/widget_selector_edittext</item>
+        <item name="android:minHeight">24dip</item>
+        <item name="android:textAppearance">@style/TextAppearance.Small</item>
+    </style>
+    
+    <style name="CommunityListView">
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:listSelector">@drawable/widget_selector_list_item_white</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">10dip</item>
+    </style>
+    
+    <style name="LineEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/wdiget_selector_editbox</item>
+        <item name="android:minHeight">24dip</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+    
+    <style name="Animations" />
+
+    <style name="Animations.PopDownMenu">
+        <item name="@android:windowEnterAnimation">@anim/widget_grow_from_topright_to_bottomleft</item>
+        <item name="@android:windowExitAnimation">@anim/widget_shrink_from_bottomright_to_topleft</item>
+    </style>
+    
+    <style name="Dialog_FullScreen" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item> -->
+        
+        
+        <!-- <item name="android:windowFrame">@null</item>边框
+        <item name="android:windowIsFloating">true</item>是否浮现在activity之上
+        <item name="android:windowIsTranslucent">true</item>半透明
+        <item name="android:windowNoTitle">true</item>无标题
+        <item name="android:windowBackground">@color/transparent</item>背景透明
+        <item name="android:backgroundDimEnabled">false</item>模糊 -->
+    </style>
+    
+</resources>   

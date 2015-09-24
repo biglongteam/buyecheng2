@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="65.32999dip"
+    android:layout_alignParentBottom="true"
+     >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="52.0dip"
+        android:layout_gravity="bottom"
+        android:background="@drawable/tab_bg"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+		<!-- 前半部分 -->
+        <FrameLayout
+            android:id="@+id/frame_home"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_weight="1.0" >
+
+            <ImageView
+                android:id="@+id/tab_home_click"
+                android:layout_width="28.0dip"
+                android:layout_height="28.0dip"
+                android:layout_gravity="top|center"
+                android:layout_marginTop="5.0dip"
+                android:src="@drawable/tab_home" />
+
+            <TextView
+                android:id="@+id/tab_home_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="2.0dip"
+                android:text="首页"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_forum"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_marginRight="10.0dip"
+            android:layout_weight="1.0" >
+
+            <ImageView
+                android:id="@+id/tab_bang"
+                android:layout_width="28.0dip"
+                android:layout_height="28.0dip"
+                android:layout_gravity="top|center"
+                android:layout_marginTop="5.0dip"
+                android:src="@drawable/find" />
+
+            <TextView
+                android:id="@+id/tab_bang_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="2.0dip"
+                android:text="发现"
+                android:textSize="12sp" />
+        </FrameLayout>
+		<!-- 中间部分(预留给凸起部分) -->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" />
+		<!-- 后半部分 -->
+        <FrameLayout
+            android:id="@+id/frame_message"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_marginLeft="10.0dip"
+            android:layout_weight="1.0" >
+
+            <ImageView
+                android:id="@+id/tab_message"
+                android:layout_width="27.0dip"
+                android:layout_height="27.0dip"
+                android:layout_gravity="top|center"
+                android:layout_marginTop="5.0dip"
+                android:src="@drawable/tab_message" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="2.0dip"
+                android:text="消息"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_persional"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_weight="1.0" >
+
+            <ImageView
+                android:id="@+id/tab_person"
+                android:layout_width="27.0dip"
+                android:layout_height="27.0dip"
+                android:layout_gravity="top|center"
+                android:layout_marginTop="5.0dip"
+                android:src="@drawable/tab_person" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="2.0dip"
+                android:text="个人"
+                android:textSize="12sp" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_core"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1.0" >
+
+        <ImageView
+            android:id="@+id/tab_act"
+            android:layout_width="66.666595dip"
+            android:layout_height="74dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/tab_ask" />
+        
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="2.0dip"
+            android:text="活动"
+            android:textSize="12sp" />
+    </FrameLayout>
+
+</FrameLayout>

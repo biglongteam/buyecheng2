@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#312D31" 
+    xmlns:app="http://schemas.android.com/apk/res/com.hangzhou.tonight">
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/message_setting"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/judge_me"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/share_software"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+       
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/feedback"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/change_password"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/about"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    	
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@drawable/selector_setting_button_exit"
+        android:clickable="true"
+        android:text="@string/exit_account"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        />
+</LinearLayout>

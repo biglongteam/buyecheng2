@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <declare-styleable name="CommonLoadingAnim">
+        <attr name="text1" format="string" />
+        <attr name="size" format="string" />
+    </declare-styleable>
+
+</resources>

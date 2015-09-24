@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#312D31"
+    android:orientation="vertical" 
+    xmlns:app="http://schemas.android.com/apk/res/com.hangzhou.tonight">
+
+    <com.hangzhou.tonight.module.base.widget.TbarView
+        android:id="@id/custom_actionbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/message_main_good"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/good"
+        app:drawableLeft="@drawable/good"
+        app:allow_default="false"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/message_main_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/comment"
+        app:drawableLeft="@drawable/comment"
+        app:allow_default="false"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/message_main_order_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/order_message"
+        app:drawableLeft="@drawable/order"
+        app:allow_default="false"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/message_main_system_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/system_message"
+        app:drawableLeft="@drawable/system_message"
+        app:allow_default="false"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/message_main_validate_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/validate_message"
+        app:drawableLeft="@drawable/validate"
+        app:allow_default="false"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/message_main_friend_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/friend_message"
+        app:drawableLeft="@drawable/friend"
+        app:allow_default="false"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+</LinearLayout>

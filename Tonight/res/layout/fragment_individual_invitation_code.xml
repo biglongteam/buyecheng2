@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:text="@string/my_invitation_code"
+        />
+    <EditText
+        android:id="@+id/invitation_code_mine"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:textColor="@color/white"
+        android:inputType="text"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/selector_individual_edittext_invitationcode"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        />
+	 <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:text="@string/friends_gifts"
+        />
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="26dp"
+	    android:layout_marginRight="26dp"
+	    android:layout_marginTop="20dp"
+	    android:orientation="horizontal"
+	    >
+
+	    <EditText
+	        android:id="@+id/indididual_code_friends_gifts"
+	        android:layout_width="0dip"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center"
+	        android:layout_weight="1.0"
+	        android:inputType="text"
+        	android:gravity="center"
+	        android:textColor="@color/white"
+	        android:background="@drawable/selector_individual_edittext_invitationcode"
+	        android:textSize="20sp" />
+
+	    <Button
+	        android:id="@+id/individual_code_submit" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/receive"
+	        android:textColor="@color/white"
+	        android:layout_marginLeft="8dp"
+	        android:textSize="18sp"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp"
+	        android:paddingLeft="32dp"
+	        android:paddingRight="32dp"
+	        android:background="@drawable/selector_individual_button_receive"
+	        />
+	</LinearLayout> 
+</LinearLayout>

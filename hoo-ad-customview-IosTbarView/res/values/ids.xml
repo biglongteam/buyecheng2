@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <item name="custom_actionbar_container" type="id"></item>
+    
+    <item name="custom_actionbar_back"   type="id"></item>
+    <item name="custom_actionbar_title"  type="id"></item>
+    <item name="custom_actionbar_handle" type="id"></item>
+    
+    
+</resources>

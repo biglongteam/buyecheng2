@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:id="@+id/nearby_layout_root">
+
+    <RelativeLayout 
+    android:id="@+id/index_head"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/x100"
+    android:background="#231E23" >
+
+    <TextView
+        android:id="@+id/tv_header_back"
+        android:layout_width="@dimen/x180"
+        android:layout_height="54dip"
+        android:gravity="center"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
+        android:textSize="17sp"
+        android:text="杭州"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:drawableRight="@drawable/down_pull"
+        android:scaleType="centerInside" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@id/tv_header_back"
+         >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="@dimen/x300"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="false"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:text="注 册"
+            android:textSize="@dimen/x40" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/title_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:layout_marginRight="@dimen/x105"
+        android:src="@drawable/search2x"
+        android:visibility="gone"
+        />
+    
+    
+     <ImageView
+        android:id="@+id/title_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:layout_marginRight="@dimen/x15"
+        android:src="@drawable/more"
+        />
+    
+</RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_videocontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/index_head" >
+
+        <com.hangzhou.tonight.view.XListView
+            android:id="@+id/promotion_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#312D31"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            android:visibility="visible" >
+        </com.hangzhou.tonight.view.XListView>
+    </FrameLayout>
+    
+
+</RelativeLayout>

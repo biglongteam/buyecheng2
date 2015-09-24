@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Button" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/btn_style_blue</item>
+        <item name="android:textAppearance">@style/TextAppearance.Medium.White</item>
+        <item name="android:minHeight">34dip</item>
+        <item name="android:minWidth">113dip</item>
+        <item name="android:shadowColor">#ffffffff</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingRight">0dip</item>
+    </style>
+    
+    <style name="Button.Blue" parent="Button">
+        <item name="android:background">@drawable/btn_style_blue</item>
+        <item name="android:textColor">@color/textcolor_white</item>
+        <item name="android:minHeight">34dip</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+    </style>
+    
+    <!-- <style name="Button.Red" parent="Button">
+        <item name="android:background">@drawable/btn_style_red</item>
+        <item name="android:textColor">@color/textcolor_white</item>
+        <item name="android:minHeight">34dip</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+    </style> -->
+    
+    
+    
+    <style name="Button.Yellow" parent="Button">
+        <item name="android:background">@drawable/btn_style_yellow</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:minHeight">40dip</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+    </style>
+    
+</resources>

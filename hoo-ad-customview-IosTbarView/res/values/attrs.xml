@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="IosTbarViewStyle" format="reference" />
+	<declare-styleable name="IosTbarViewStyle">
+	    <attr name="hideBack"  format="boolean"/>
+        <attr name="backTitle" format="string"/>
+        <attr name="backIcon"  format="reference"/>
+        <attr name="actionbarTitle"     format="string"/>
+    	<attr name="handleTitle" format="string"/>
+    	<attr name="handleIcon" format="reference"/>
+    </declare-styleable>
+</resources>

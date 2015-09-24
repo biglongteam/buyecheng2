@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#312D31" >
+    
+    <com.hangzhou.tonight.module.base.widget.TbarView
+        android:id="@id/custom_actionbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    
+    <RadioGroup
+        android:id="@+id/module_tab_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:background="#fff" >
+    </RadioGroup>
+	
+    <com.hangzhou.tonight.module.base.widget.NoSlidingViewPager
+        android:id="@+id/module_tab_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></com.hangzhou.tonight.module.base.widget.NoSlidingViewPager>
+    
+</LinearLayout>

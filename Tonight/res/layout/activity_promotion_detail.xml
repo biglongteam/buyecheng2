@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nearby_layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+        <include
+            android:id="@+id/nearby_header"
+            layout="@layout/common_title_bar" />
+        
+        <ScrollView 
+            android:scrollbars="none"
+            android:layout_width="fill_parent"
+   			 android:layout_height="fill_parent">
+        
+    <LinearLayout
+        android:id="@+id/ll_promotion_detail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        
+
+        <com.ab.view.sliding.AbSlidingPlayView
+            android:id="@+id/mAbSlidingPlayView"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/x300"
+            android:layout_below="@id/nearby_header" >
+        </com.ab.view.sliding.AbSlidingPlayView>
+        
+        
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-60dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x16"
+                android:background="@drawable/bg_promention_price"
+                android:shadowColor="#ff0000ff"
+                android:shadowDy="3"
+                android:gravity="center"
+                android:text="120元/小时"
+                android:paddingLeft="@dimen/x15"
+                android:paddingRight="@dimen/x15"
+                android:paddingTop="@dimen/x5"
+                android:paddingBottom="@dimen/x5"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mAbSlidingPlayView"
+            android:background="@color/white"
+             >
+
+            <RelativeLayout
+                android:id="@+id/rl_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" >
+                <TextView
+                    android:id="@+id/tv_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/favorite"
+                    android:drawablePadding="@dimen/x15"
+                    android:paddingTop="@dimen/x5"
+                    android:gravity="center"
+                    android:text="收藏"
+                    android:textColor="#D5D5D5"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            
+            
+            <View 
+                android:layout_width="@dimen/x3"
+                android:layout_height="@dimen/x85"
+                android:background="#B9B9B9"
+                />
+            
+            <RelativeLayout
+                android:id="@+id/rl_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" >
+
+                <!--
+                     <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/favorite" />
+                -->
+
+                <TextView
+                    android:id="@+id/tv_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/share2x"
+                    android:drawablePadding="@dimen/x15"
+                    android:paddingTop="@dimen/x5"
+                    android:gravity="center"
+                    android:text="分享"
+                    android:textColor="#D5D5D5"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="#312D31"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/x30"
+            android:paddingBottom="@dimen/x30"  >
+
+            
+              <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x15"
+                 >
+                
+                <View 
+                    android:background="#50E3C2" 
+                    android:layout_width="@dimen/x10"
+                    android:layout_height="@dimen/x40"
+                    android:paddingLeft="@dimen/x15"
+                    />
+            <TextView
+                android:id="@+id/tv_plan_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x15"
+                android:text="夜色派对 ："
+                android:textColor="#72324F"
+                android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="@dimen/x490"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/x15"
+                android:paddingLeft="@dimen/x15"
+                android:paddingTop="@dimen/x15"
+                android:text="活动介绍"
+                android:textSize="@dimen/x38" />
+
+            <TextView
+                android:id="@+id/tv_act_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:scrollHorizontally="false"
+                android:text="北京市昌平区沙阳路13号gdffsd"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="@dimen/x490"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/x15"
+                android:paddingLeft="@dimen/x15"
+                android:paddingTop="@dimen/x15"
+                android:text="活动时间"
+                android:textSize="@dimen/x38" />
+
+            <TextView
+                android:id="@+id/tv_act_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:scrollHorizontally="false"
+                android:text="2015-4-4 —— 2015-6-8"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="@dimen/x490"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/x15"
+                android:paddingLeft="@dimen/x15"
+                android:paddingTop="@dimen/x15"
+                android:text="活动地址"
+                android:textSize="@dimen/x38" />
+
+            <TextView
+                android:id="@+id/tv_act_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:scrollHorizontally="false"
+                android:text="瑞达路科学大道交叉口向北100m"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        
+        
+        <View 
+                    android:background="#231E23" 
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x2"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    />
+        
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="#312D31"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/x20" 
+            android:paddingBottom="@dimen/x20">
+
+            
+             
+                 <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x15"
+                 >
+                
+                <View 
+                    android:background="#ADA023" 
+                    android:layout_width="@dimen/x10"
+                    android:layout_height="@dimen/x40"
+                    android:paddingLeft="@dimen/x15"
+                    />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x15"
+                android:text="活动内容 ："
+                android:textColor="#72324F"
+                android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_neirong1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingRight="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="1，蜜桃酒吧包厢一间"
+                android:textSize="15sp" />
+
+            <!-- <TextView
+                android:id="@+id/tv_neirong2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="2，包含小食2份"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_neirong3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="3，包含啤酒12听"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_neirong4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="4,包含可乐大桶两份"
+                android:textSize="15sp" /> -->
+        </LinearLayout>
+
+        
+        
+        
+        <View 
+                    android:background="#231E23" 
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x2"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    />
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="#312D31"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/x40" >
+            
+               <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x15"
+                 >
+                
+                <View 
+                    android:background="#B8E986" 
+                    android:layout_width="@dimen/x10"
+                    android:layout_height="@dimen/x40"
+                    android:paddingLeft="@dimen/x15"
+                    />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x15"
+                android:text="购买须知 ："
+                android:textColor="#72324F"
+                android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_xuzhi1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingRight="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="1，仅在活动期间有效"
+                android:textSize="15sp" />
+
+            <!-- <TextView
+                android:id="@+id/tv_xuzhi2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="2，禁止外带酒水"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_xuzhi3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="3，到店时请出示有效证件"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_xuzhi4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="4,本券不能重复使用"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_xuzhi5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_plan_tip"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="5,商家提供免费WIFI,停车位"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_xuzhi6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="none"
+                android:lineSpacingExtra="@dimen/x10"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLines="10"
+                android:paddingLeft="@dimen/x45"
+                android:paddingTop="@dimen/x15"
+                android:scrollHorizontally="false"
+                android:text="6,无需预约"
+                android:textSize="15sp" /> -->
+
+            <Button
+                android:id="@+id/bt_lianxi"
+                android:layout_width="@dimen/x460"
+                android:layout_height="@dimen/x90"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/x40"
+                android:background="@drawable/bt_lianxi_bg"
+                android:text="联系商家"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/bt_goumai"
+                android:layout_width="@dimen/x460"
+                android:layout_height="@dimen/x90"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/x50"
+                android:layout_marginTop="@dimen/x40"
+                android:background="@drawable/bg_red_textview"
+                android:text="立即购买"
+                android:textSize="18sp" />
+        </LinearLayout>
+        </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+

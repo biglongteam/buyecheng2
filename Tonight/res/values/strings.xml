@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">不夜程</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    
+    <string name="status_available">在线</string>
+    <string name="status_away">离开</string>
+    <string name="status_chat">Q我吧</string>
+    <string name="status_dnd">请勿打扰</string>
+    <string name="status_xa">隐身</string>
+    <string name="status_offline">离线</string>
+    <string name="status_busy">忙碌</string>
+    <string name="status_online">在线</string>
+    <string name="hide_login">隐身登录</string>
+    <string name="request_failed">登录失败:</string>
+     <string name="aio_ime_action_label">完成</string>
+    
+      <string name="chat_send_photo">发送图片</string>
+      <string name="chat_send">发送</string>
+      <string name="press_again_backrun">再按一次返回桌面</string>
+      
+    <!-- 通用 -->
+    <string name="agree">同意</string>
+    <string name="disagree">拒绝</string>
+    <string name="back">返回</string>
+    <string name="user_nick">用户昵称</string>
+    <string name="user_head">用户头像</string>
+    <string name="settings">设置</string>
+    <string name="individual">个人</string>
+    <string name="receive">领取</string>
+    
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    
+    <string name="about">关于</string>
+    <string name="feedback">意见反馈</string>
+    <string name="share_software">分享软件</string>
+    <string name="message_setting">消息设置</string>
+    <string name="judge_me">评价我吧</string>
+    <string name="change_password">修改密码</string>
+    <!-- individual 个人模块 -->
+    <string name="label_account">账户 : %1$s</string>
+    <string name="individual_my_account">我的账户</string>
+	<string name="individual_my_order">我的订单</string>
+	<string name="individual_my_collection">我的收藏</string>
+	<string name="individual_my_commission">我的佣金</string>
+	<string name="individual_invitation_code">邀请码</string>
+	<string name="exit_account">退出账号</string>
+	<string name="my_invitation_code">我的邀请码</string>
+	<string name="friends_gifts">好友礼包</string>
+	<string name="mycommission_pay">消费%1$s元</string>
+	<string name="money_ch">￥</string>
+	<string name="input_please">请输入</string>
+	<!-- 消息模块 -->
+	<string name="message">消息</string>
+	<string name="good">赞</string>
+	<string name="comment">评论</string>
+	<string name="order_message">订单消息</string>
+	<string name="system_message">系统消息</string>
+	<string name="validate_message">验证消息</string>
+	<string name="friend_message">好友消息</string>
+	<string name="praise_you">赞了你</string>
+	<string name="comment_your">评论你的</string>
+	
+	<string name="order_message_ordernum">订单号 : %1$s</string>
+	<!-- 社交模块 -->
+	<string name="find">发现</string>
+	<string name="tonight_circle">不夜圈</string>
+	<string name="group">群组</string>
+	<string name="friend">好友</string>
+	<string name="around_people">附近的人</string>
+	
+	<string name="input_phonenum_name">输入号码或名称</string>
+	<string name="friend_addressbook">通讯录好友</string>
+	<string name="friend_qq">QQ好友</string>
+	<string name="friend_wechat">微信好友</string>
+	<string name="add_friend">添加好友</string>
+    
+      
+	
+	   <!-- 下拉刷新相关 -->
+    
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_null">没有更多数据...</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    
+    
+    <string name="umeng_socialize_text_sina_key">微博</string>
+    <string name="umeng_socialize_text_qq_key">QQ</string>
+    <string name="umeng_socialize_text_weixin_key">微信</string>
+</resources>

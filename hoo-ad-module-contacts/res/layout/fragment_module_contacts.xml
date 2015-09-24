@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        >
+        
+        <com.hoo.ad.base.widget.EditTextWithClear
+            android:id="@+id/contacts_search"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:drawableLeft="@drawable/widget_edittext_withclear_search"
+            android:drawableRight="@drawable/widget_edittext_withclear"
+			android:drawablePadding="5dp"
+			android:background="@drawable/shape_module_contcats_edittext_normal"
+	        android:singleLine="true"
+	        android:hint="@string/fragment_module_contacts_search_tip"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:freezesText="true"
+            android:imeOptions="actionSearch"
+	        ></com.hoo.ad.base.widget.EditTextWithClear>
+        
+    </RelativeLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/module_contacts_devide_line" />
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        
+        <include 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/base_module_listview"
+            />
+        
+        <include 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            layout="@layout/base_module_view_empty_tip"
+            />
+        
+        <TextView
+            android:id="@+id/contacts_dialog_tip"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="30.0dip" />
+        
+        <com.hoo.ad.base.widget.SideBar
+            android:id="@+id/contacts_sidebar"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center"
+            ></com.hoo.ad.base.widget.SideBar>
+    </FrameLayout>
+</LinearLayout>

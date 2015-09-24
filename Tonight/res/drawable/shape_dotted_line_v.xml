@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://www.itstrike.cn/Question/2c80c3a2-0162-466e-8164-cd4ce91072c6.html -->
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="90"
+    android:toDegrees="90" >
+
+    <shape android:shape="line" >
+        <stroke
+            android:dashGap="2px"
+            android:dashWidth="4px"
+            android:width="1dip"
+            android:color="@color/white" />
+        <size android:height="200dp"/>
+    </shape>
+
+</rotate>

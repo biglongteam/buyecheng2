@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 空视图中textview组件id -->
+    <item name="base_helper_empty_view_textview" type="id"/>
+    <!-- 空视图中 textview组件id[历史原因导致一个直接放到layout,一个使用helper] -->
+    <item name="base_module_view_empty_tip" type="id"></item>
+    
+    <!-- 基础模块- 基础listview的 -->
+    <item name="base_module_listview" type="id"></item>
+</resources>

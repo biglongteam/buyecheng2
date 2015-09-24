@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/index_head"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/x100"
+    android:background="#231E23" >
+
+    <TextView
+        android:id="@+id/tv_header_back"
+        android:layout_width="wrap_content"
+        android:layout_height="54dip"
+        android:gravity="center"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
+        android:text="返回"
+        android:textSize="15sp"
+        android:drawableLeft="@drawable/left_arrow"
+        android:scaleType="centerInside" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="@dimen/x300"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="false"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:text="注 册"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">hoo-ad-lib</string>
+    <string name="hello_world">Hello world!</string>
+
+    
+    <!-- 常用字符 -->
+    <string name="welcome">Welcome</string>
+    <string name="login">Login</string>
+    
+    
+    
+    
+    
+    
+</resources>

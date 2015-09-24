@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- 自定义 ID -->
+    <item name="custom_actionbar_container" type="id" />    
+    <item name="custom_actionbar_back"    type="id" />
+    <item name="custom_actionbar_title"   type="id" />
+    <item name="custom_actionbar_hanlder" type="id" />
+    
+</resources>

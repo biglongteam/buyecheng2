@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="commnon_toast_padding">10dip</dimen>
+    <dimen name="common_loading_anim_size_samll">50dip</dimen>
+    
+</resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 条件筛选界面 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x380"
+    android:layout_height="@dimen/x380" 
+    android:paddingLeft="@dimen/x20"
+    android:paddingRight="@dimen/x20"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+     android:layout_marginTop="@dimen/x45"
+   >
+
+    
+     <Button 
+        android:id="@+id/bt_rq"
+        android:layout_width="@dimen/x180"
+        android:layout_height="wrap_content" 
+        android:text="按人气"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/x15"
+         android:paddingBottom="@dimen/x15"
+        android:layout_marginTop="@dimen/x45"
+        android:background="@drawable/sort_item_selector"
+        />
+    
+    <Button 
+        android:id="@+id/bt_jg"
+        android:layout_width="@dimen/x180"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="center"
+        android:text="按价格"
+         android:background="@drawable/sort_item_selector"
+         android:paddingTop="@dimen/x15"
+          android:paddingBottom="@dimen/x15"
+         android:layout_marginTop="@dimen/x25"
+        />
+    
+     <Button 
+         android:id="@+id/bt_hp"
+        android:layout_width="@dimen/x180"
+        android:layout_height="wrap_content" 
+        android:text="按好评"
+        android:layout_gravity="center"
+         android:background="@drawable/sort_item_selector"
+         android:paddingTop="@dimen/x15"
+          android:paddingBottom="@dimen/x15"
+         android:layout_marginTop="@dimen/x25"
+        />
+    <Button 
+        android:id="@+id/bt_jl"
+        android:layout_width="@dimen/x180"
+        android:layout_height="wrap_content" 
+        android:text="按距离"
+        android:layout_gravity="center"
+        android:background="@drawable/sort_item_selector"
+        android:paddingTop="@dimen/x15"
+        android:paddingBottom="@dimen/x15"
+        android:layout_marginTop="@dimen/x25"
+        />
+    
+   <Button 
+       android:id="@+id/bt_qx"
+        android:layout_width="@dimen/x180"
+        android:layout_height="wrap_content" 
+        android:paddingTop="@dimen/x15"
+        android:paddingBottom="@dimen/x15"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/x25"
+        android:layout_marginBottom="@dimen/x45"
+        android:background="@drawable/bg_yellow_sortx"
+        android:text="X"
+        />
+   
+    
+
+</LinearLayout>

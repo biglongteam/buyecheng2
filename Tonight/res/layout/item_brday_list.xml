@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="#2F2B2F"
+    android:orientation="vertical"
+    android:id="@+id/nearby_layout_root">
+
+    <LinearLayout 
+    android:id="@+id/index_head"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/x20"
+    android:orientation="vertical"
+    >
+        
+        <ImageView 
+            android:id="@+id/iv_brday1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/kc_picture"
+            />
+    
+        <TextView 
+            android:id="@+id/tv_brday_name"
+             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="生日策划"
+            android:textSize="@dimen/x40"
+            />
+        
+         <TextView 
+             android:id="@+id/tv_brday_desc"
+             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="房间布置，气球，蛋糕"
+            android:textSize="@dimen/x35"
+            />
+         
+            <Button
+                android:id="@+id/bt_brday_yuyue"
+                android:layout_width="@dimen/x460"
+                android:layout_height="@dimen/x90"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/x30"
+                android:layout_marginTop="@dimen/x30"
+                android:background="@drawable/bg_red_yuyue"
+                android:text="立即预约"
+                android:textSize="@dimen/x40" />
+</LinearLayout>
+
+
+</LinearLayout>

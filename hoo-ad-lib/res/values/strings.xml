@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">hoo-ad-lib</string>
+    <string name="hello_world">Hello world!</string>
+
+    
+    <!-- 常用字符 -->
+    <string name="welcome">欢迎</string>
+    <string name="login">登录</string>
+    
+    <string name="exit_click_again">再按一次,退出系统.</string>
+    
+    <string name="base_helper_empty_view_textview">当前空空如也~到它处逛逛:)</string>
+    
+    <string name="data_is_empty">当前数据为空</string>
+    
+</resources>

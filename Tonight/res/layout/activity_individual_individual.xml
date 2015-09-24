@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#312D31"
+    android:orientation="vertical" 
+    xmlns:app="http://schemas.android.com/apk/res/com.hangzhou.tonight">
+
+    <com.hangzhou.tonight.module.base.widget.TbarView
+        android:id="@id/custom_actionbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    
+    <LinearLayout
+        android:id="@+id/individual_infomation_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/user_head"
+            android:src="@drawable/default_head" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/individual_information_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/user_nick"
+                android:textColor="#FFE64087"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/individual_information_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:text="@string/label_account" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_gray_right" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="50dp"
+        android:background="#FF1A171A" />
+
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_my_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/individual_my_account"
+        app:drawableLeft="@drawable/account"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_my_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/individual_my_order"
+        app:drawableLeft="@drawable/order"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_my_commission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/individual_my_commission"
+        app:drawableLeft="@drawable/commission"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_my_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/individual_my_collection"
+        app:drawableLeft="@drawable/collection"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_invitation_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/individual_invitation_code"
+        app:drawableLeft="@drawable/invitation_code"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+    <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/settings"
+        app:drawableLeft="@drawable/setting"
+        ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
+    
+</LinearLayout>

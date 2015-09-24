@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 当组件被点击时,背景变为黑色透明状 -->
+    <item android:state_pressed="true" android:drawable="@drawable/bg_black_alpha"></item>
+</selector>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/x220"
+    android:orientation="horizontal"
+    android:background="#383438"
+    android:paddingTop="@dimen/x10"
+    android:paddingLeft="@dimen/x20"
+    android:paddingRight="@dimen/x20"
+   >
+
+    
+    <!-- android:background="@drawable/userhome_pic" -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/x200"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评 分："
+                android:textColor="#D1397F"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_merchant_fuwu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/x50"
+                android:text="4.5"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/x28" />
+            
+            
+            <!-- 
+              <TextView
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="环境："
+                android:textColor="#D1397F"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_merchant_huanjing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/x50"
+                android:text="4.5"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/x28" />
+            
+            
+              <TextView
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格："
+                android:textColor="#D1397F"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_merchant_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.5"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/x28" /> -->
+        </LinearLayout>
+        
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x14"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
+
+           <TextView
+                android:id="@+id/tv_merchant_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.68"
+                android:lines="2"
+                android:text="坚持锻炼是人生最好的生活方式。。坚持锻炼是人生最好的生活方式。。。坚持锻炼是人生最好的生活方式。。。。"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/x30" />
+            
+
+
+            
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/x14"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/tv_pinglun_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/default_coachhead"
+                android:text="张三"
+                android:gravity="center"
+                android:drawablePadding="@dimen/x10"
+                android:paddingRight="@dimen/x50"
+                android:textColor="#D1397F"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_pinglun_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.5"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/x28" />
+            </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

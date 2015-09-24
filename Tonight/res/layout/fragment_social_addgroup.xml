@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/social_group_imgs" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+         android:paddingLeft="16dp"
+        >
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="16dp"
+	        android:layout_marginBottom="12dp"
+	        >
+	        <ImageView 
+	            android:layout_width="60dp"
+	            android:layout_height="60dp"
+	            android:src="@drawable/default_head"
+	            android:layout_marginRight="16dp"
+	            />
+	        
+	        <ImageView
+	            android:id="@+id/social_head_add" 
+	            android:layout_width="60dp"
+	            android:layout_height="60dp"
+	            android:src="@drawable/head_add"
+	            />
+	    </LinearLayout>
+		<View 
+		    android:layout_width="match_parent"
+		    android:layout_height="0.5dip"
+		    android:background="@color/divider_commission"
+		    />
+    </LinearLayout>
+    
+     <Button
+        android:id="@+id/social_creategroup" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确认创建"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_module_aboutadd"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        />
+     
+     
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/social_group_imgs"
+        android:layout_above="@id/social_creategroup"
+        >
+        <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+        
+         <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="群组号" 
+				android:layout_marginRight="40dp"
+				android:textSize="15sp"
+				android:textColor="@color/white"               
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/social_group_id" 
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#FFE64087"
+                android:textSize="18sp"
+                />
+        </TableRow>
+        <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+    
+         <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="群昵称" 
+				android:layout_marginRight="40dp"
+				android:textSize="15sp"
+				android:textColor="@color/white"               
+                >
+            </TextView>
+            <EditText
+                android:id="@+id/social_group_name" 
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#FFE64087"
+                android:textSize="18sp"
+                android:background="@null"
+                android:singleLine="true"
+                android:hint="输入群昵称"
+                android:textColorHint="@color/white"
+                />
+        </TableRow>
+        <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+    	
+         <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="群标签" 
+				android:layout_marginRight="40dp"
+				android:textSize="15sp"
+				android:textColor="@color/white"               
+                >
+            </TextView>
+            <EditText
+                android:id="@+id/social_group_label" 
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#FFE64087"
+                android:textSize="18sp"
+                android:background="@null"
+                android:singleLine="true"
+                android:hint="输入群标签"
+                android:textColorHint="@color/white"
+                />
+        </TableRow>
+        <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+    
+        
+         <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="群介绍" 
+				android:layout_marginRight="40dp"
+				android:textSize="15sp"
+				android:textColor="@color/white"
+				               
+                >
+            </TextView>
+            <EditText
+                android:id="@+id/social_group_profile" 
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#FFE64087"
+                android:textSize="18sp"
+                android:background="@null"
+                android:textColorHint="@color/white"
+                android:hint="输入简单介绍"
+                android:layout_gravity="top|left"
+                android:maxLines="3"
+                />
+        </TableRow>
+        <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+    
+         <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="创建日期" 
+				android:layout_marginRight="40dp"
+				android:textSize="15sp"
+				android:textColor="@color/white"               
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/social_createdate" 
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#FFE64087"
+                android:textSize="18sp"
+                />
+        </TableRow>
+        <View android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+    
+    </TableLayout>
+        
+    </ScrollView>
+    
+   
+</RelativeLayout>
