@@ -127,7 +127,7 @@
                         android:layout_marginTop="10dip"
                         android:clickable="true"
                         android:textColor="#ffffff"
-                        android:text="第三方合作平台登录"
+                        android:text="忘记密码  >"
                         android:textSize="14sp" />
                 </LinearLayout>
 

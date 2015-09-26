@@ -34,6 +34,7 @@ public class MyPreference {
 	private static final String ISFIRSTCLICKPHOTO="isFirstClikcPhoto";
 	
 	private static final String ISSET="isSet";//是否设置过支付密码
+	private static final String ISFRIST="isFrist";//是否 第一次 打开应用
 	
 	private static final String ISTIP="isTip";//是否有消息提示
 	private static final String HISTORY_ONE = "history_1";
@@ -323,7 +324,7 @@ public class MyPreference {
 	}
 	
 	public String getUserFact(){
-		String userFat = sharedPreference.getString(USER_FAT, "未收藏");
+		String userFat = sharedPreference.getString(USER_FAT, "0");
 		return userFat;
 	}
 	

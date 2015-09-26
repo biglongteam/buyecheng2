@@ -1,33 +1,17 @@
 package com.hangzhou.tonight;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,8 +22,6 @@ import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -51,15 +33,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import com.hangzhou.tonight.base.BaseActivity;
-import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.Base64Utils;
-import com.hangzhou.tonight.util.CommonTools;
 import com.hangzhou.tonight.util.FileUtils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.JsonResolveUtils;
@@ -73,7 +51,6 @@ import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.T;
 import com.hangzhou.tonight.view.HandyTextView;
 import com.hangzhou.tonight.view.HeaderLayout;
-import com.hangzhou.tonight.view.HeaderLayout.HeaderStyle;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.UMServiceFactory;
@@ -378,7 +355,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                Set<String> keys = info.keySet();
     	                for(String key : keys){
     	                   sb.append(key+"="+info.get(key).toString()+"\r\n");
-    	                  
     	                }
     	                if(i==1){
     	                	//微信登录，获得unionid
@@ -390,12 +366,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	isBind(onlyId,1);
     	                	 // isBund(String.valueOf(2),onlyId,head_img,screen_name,sex);
     	                }else if(i==2){
-    	                	//新浪微博登录，获得uid
+    	                	//新浪微博登录，获得uid wb_uid；access_token(
+    	                	
     	                	onlyId=info.get("uid").toString();
     	                	head_img=info.get("profile_image_url").toString();
     	                	screen_name=info.get("screen_name").toString();
     	                	sex=info.get("gender").toString();
     	                	isBind(onlyId,2);
+    	                	
+    	                	
     	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
     	                	//isBund(String.valueOf(3),onlyId,head_img,screen_name,sex);
     	                }else{
@@ -603,16 +582,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 						phone = object.getString("phone");
 						money = object.getString("money");
 						favorite = object.getString("favorite");
+						
 						praised = object.getString("praised");
 						groups = object.getString("groups");
 						friends = object.getString("friends");
 						
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
-					
 					MyPreference.getInstance(LoginActivity.this).setUserId(uid);
 					MyPreference.getInstance(LoginActivity.this).setPassword(mPassword);
 					MyPreference.getInstance(LoginActivity.this).setLoginName(mAccount);;
@@ -620,7 +598,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 					MyPreference.getInstance(LoginActivity.this).setUserSex(sex);
 					MyPreference.getInstance(LoginActivity.this).setUserName(nick);
 					MyPreference.getInstance(LoginActivity.this).setUserbirth(birth);
-					//MyPreference.getInstance(LoginActivity.this).setFact(favorite);
+					
+					if(!favorite.contains(",")){
+						MyPreference.getInstance(LoginActivity.this).setUserFact("0");
+					}else{
+						MyPreference.getInstance(LoginActivity.this).setUserFact(favorite);
+					}
+					
 					MyPreference.getInstance(LoginActivity.this).setUserPraised(praised);
 					MyPreference.getInstance(LoginActivity.this).setUserGroups(groups);
 					MyPreference.getInstance(LoginActivity.this).setUserFrinds(friends);

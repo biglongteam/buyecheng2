@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">不夜程</string>
@@ -83,6 +83,21 @@
 	<string name="friend_wechat">微信好友</string>
 	<string name="add_friend">添加好友</string>
     
+
+ <string-array name="jazzy_effects">
+        <item>Standard</item>
+        <item>Tablet</item>
+        <item>CubeIn</item>
+        <item>CubeOut</item>
+        <item>FlipVertical</item>
+        <item>FlipHorizontal</item>
+        <item>Stack</item>
+        <item>ZoomIn</item>
+        <item>ZoomOut</item>
+        <item>RotateUp</item>
+        <item>RotateDown</item>
+        <item>Accordion</item>
+    </string-array>
       
 	
 	   <!-- 下拉刷新相关 -->
@@ -99,4 +114,43 @@
     <string name="umeng_socialize_text_sina_key">微博</string>
     <string name="umeng_socialize_text_qq_key">QQ</string>
     <string name="umeng_socialize_text_weixin_key">微信</string>
+ 
+ 
+ <!--  微信 支付  -->
+ 
+ <!-- WXPayEntryActivity -->
+	<string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+	<string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+  <string name="app_back">返回</string>
+    <string name="app_ok">确定</string>
+    <string name="app_cancel">取消</string>
+    <string name="app_continue">继续</string>
+    <string name="app_tip">提示</string>
+    <string name="app_send">发送</string>
+    <string name="app_set">设置</string>
+    <string name="app_save">保存</string>
+    <string name="app_delete">删除</string>
+    <string name="app_nextstep">下一步</string>
+    <string name="app_prevstep">上一步</string>
+    <string name="app_finish">完成</string>
+    <string name="app_find">查找</string>
+    <string name="app_edit">编辑</string>
+    
+    
+    
+    <!-- PayActivity -->
+	<string name="pay_by_wx">通过微信支付</string>
+	<string name="check_pay">检查微信版本是否支持支付</string>
+	<string name="input_reqkey">输入reqkey</string>
+	<string name="input_package_value">输入package value</string>
+	<string name="input_sign">输入sign</string>
+	<string name="getting_access_token">正在获取access token...</string>
+	<string name="get_access_token_succ">获取access token成功</string>
+	<string name="get_access_token_fail" formatted="false">获取access token失败，原因%s</string>
+	<string name="getting_prepayid">正在获取预支付订单...</string>
+	<string name="paying">支付中</string>
+	<string name="get_prepayid_succ">获取prepayid成功</string>
+	<string name="get_prepayid_fail" formatted="false">获取prepayid失败，原因%s</string>
+ 
+ 
 </resources>
