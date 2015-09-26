@@ -16,24 +16,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.base.Config;
@@ -42,13 +47,16 @@ import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.module.social.fragment.MyFriendFragment;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
+import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
+import com.hangzhou.tonight.util.MD5Utils;
 import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
-import com.hangzhou.tonight.util.PreferenceUtils;
 import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.SystemUiHider;
-import com.hangzhou.tonight.view.HeaderLayout.SearchState;
+import com.hangzhou.tonight.view.JazzyViewPager;
+import com.hangzhou.tonight.view.JazzyViewPager.TransitionEffect;
+import com.hangzhou.tonight.view.OutlineContainer;
 
 
 /**
@@ -59,18 +67,12 @@ import com.hangzhou.tonight.view.HeaderLayout.SearchState;
  */
 public class WelcomeActivity extends BaseActivity {
   
-    private static final boolean AUTO_HIDE = true;  
-    private static final int AUTO_HIDE_DELAY_MILLIS = 5000;  
-    private static final boolean TOGGLE_ON_CLICK = true;  
-    private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-   
-    private SystemUiHider mSystemUiHider;
     private String account;
     private String password ;
 
     private Context mContext;
-    
-    
+    private JazzyViewPager mJazzy;
+    private Button but_start;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,87 +81,14 @@ public class WelcomeActivity extends BaseActivity {
         init();
         mContext = this;
         openTonight();
-        final View controlsView = findViewById(R.id.fullscreen_content_controls);
-        final View contentView = findViewById(R.id.fullscreen_content);
-        final View adsView = findViewById(R.id.fullscreen_imageview);
-       
-		MyPreference.getInstance(mContext).getCityConvsion();
+        if(MyPreference.getInstance(mContext).getIsFirst()){
+        	setupJazziness(TransitionEffect.Tablet);
+        }else {
+        	login();
+        }
 		
-        
-        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
-        mSystemUiHider.setup();
-        mSystemUiHider
-                .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
-                    // Cached values.
-                    int mControlsHeight;
-                    int mShortAnimTime;
-
-                    @Override
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-                    public void onVisibilityChange(boolean visible) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-                            // If the ViewPropertyAnimator API is available
-                            // (Honeycomb MR2 and later), use it to animate the
-                            // in-layout UI controls at the bottom of the
-                            // screen.
-                            if (mControlsHeight == 0) {
-                                mControlsHeight = controlsView.getHeight();
-                            }
-                            if (mShortAnimTime == 0) {
-                                mShortAnimTime = getResources().getInteger(
-                                        android.R.integer.config_shortAnimTime);
-                            }
-                            controlsView.animate()
-                                    .translationY(visible ? 0 : mControlsHeight)
-                                    .setDuration(mShortAnimTime);
-                        } else {
-                            // If the ViewPropertyAnimator APIs aren't
-                            // available, simply show or hide the in-layout UI
-                            // controls.
-                            controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-                        }
-
-                        if (visible && AUTO_HIDE) {
-                            // Schedule a hide().
-                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
-                        }
-                    }
-                });
-
-        // Set up the user interaction to manually show or hide the system UI.
-        contentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TOGGLE_ON_CLICK) {
-                    mSystemUiHider.toggle();
-                } else {
-                    mSystemUiHider.show();
-                }
-            }
-        });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        delayedLoadActivity(AUTO_HIDE_DELAY_MILLIS);
-    }
-    
-    
-   /* private void init(){
-		account = PreferenceUtils.getPrefString(this,
-				PreferenceConstants.ACCOUNT, "");
-		password = PreferenceUtils.getPrefString(this,
-				PreferenceConstants.PASSWORD, "");
-	}*/
-    
-    
-   
     private void openTonight(){
     	putAsyncTask2(new AsyncTask<Void, Void, String>() {
 
@@ -205,7 +134,6 @@ public class WelcomeActivity extends BaseActivity {
     }
     
     
-    
 	private Map<String, String> setParams(){
 		Map<String, String> map = new HashMap<String, String>();
 		ArrayList<Object> arry = new ArrayList<Object>();
@@ -213,9 +141,7 @@ public class WelcomeActivity extends BaseActivity {
 		arry.add(1, 0);
 		String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",
 				JsonUtils.list2json(arry));
-
 		System.out.println("RC4加密后：   " + data0);
-		
 		String encoded1 = "";
 		try {
 			encoded1 = new String(Base64Utils.encode(
@@ -254,44 +180,188 @@ public class WelcomeActivity extends BaseActivity {
 		System.out.println("RC4解密后：    " +data7);
 		
 		map.put("d", encoded1);
-		
 		return map;
 		
 	}
 
+	
+	
+	
 
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
+	private void login() {
+		/*
+		 * if ((!validateAccount()) || (!validatePwd())) { return; }
+		 */
 
-    Handler mHideHandler = new Handler();
-    Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mSystemUiHider.hide();
-        }
-    };
-    
-    
-    Runnable mLoadRunnable = new Runnable() {
-        @Override
-        public void run() {
-        	loadActivity();
+		new AsyncTask<Void, Void, String>() {
+
+			private String uid;
+			private String nick;
+			private String birth;
+			private String sex;
+			private String phone;
+			private String money;
+			private String favorite;
+			private String praised;
+			private String groups;
+			private String friends;
+
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				//showLoadingDialog("正在登录,请稍后...");
 			}
-    };
-    
-    
+
+			@Override
+			protected String doInBackground(Void... params) {
+
+				Map<String, String> param =setLoginParams();
+				return HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER,
+						param, "UTF-8");
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				super.onPostExecute(result);
+				dismissLoadingDialog();
+				/*
+				 * if (result) { Intent intent = new Intent(WelcomeActivity.this,
+				 * MainActivity.class); startActivity(intent); finish(); } else
+				 * { showCustomToast("账号或密码错误,请检查是否输入正确"); }
+				 */
+				boolean success=dealResult(result);
+				if(success){
+					JSONObject object;
+					
+					
+					 /*"uid": "9000034",
+					    "favorite": [],
+					    "praised": [],
+					    "groups": [],
+					    "friends": [],
+					    "nick": "nickname",
+					    "birth": "1988-09-09",
+					    "sex": "1",
+					    "phone": "15225095589",
+					    "money": "0.00",
+					    "paypass": "0",
+					    "s": 1*/
+					try {
+						object = new JSONObject(result);
+						uid = object.getString("uid");
+						nick = object.getString("nick");
+						birth = object.getString("birth");
+						sex = object.getString("sex");
+						phone = object.getString("phone");
+						money = object.getString("money");
+						favorite = object.getString("favorite");
+						praised = object.getString("praised");
+						groups = object.getString("groups");
+						friends = object.getString("friends");
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
+					MyPreference.getInstance(WelcomeActivity.this).setUserId(uid);
+					MyPreference.getInstance(WelcomeActivity.this).setPassword(password);
+					MyPreference.getInstance(WelcomeActivity.this).setLoginName(account);
+					MyPreference.getInstance(WelcomeActivity.this).setTelNumber(phone);
+					MyPreference.getInstance(WelcomeActivity.this).setUserSex(sex);
+					MyPreference.getInstance(WelcomeActivity.this).setUserName(nick);
+					MyPreference.getInstance(WelcomeActivity.this).setUserbirth(birth);
+					
+					if(!favorite.contains(",")){
+						MyPreference.getInstance(WelcomeActivity.this).setUserFact("0");
+					}else{
+						MyPreference.getInstance(WelcomeActivity.this).setUserFact(favorite);
+					}
+					
+					MyPreference.getInstance(WelcomeActivity.this).setUserPraised(praised);
+					MyPreference.getInstance(WelcomeActivity.this).setUserGroups(groups);
+					MyPreference.getInstance(WelcomeActivity.this).setUserFrinds(friends);
+					Intent intent = new Intent(WelcomeActivity.this, MainActivity.class); 
+					
+					
+					/*uid；
+					nick(⽤用户昵称)；
+					birth(如2014-1-1)；
+					sex(1男,0⼥女)；
+					phone；
+					money(余额)；
+					favorite(收藏的活动ID数组)；
+					praised(点赞过的动态ID数组)；
+					groups(加⼊入的群组的map){gid，position(群内
+					位置，1:群主,9:普通成员)，time(加群时间)}；
+					friends(好友uid数组)；
+					*/
+					startActivity(intent);
+					finish();
+				}else{
+					showCustomToast("账号或密码错误,请检查是否输入正确");
+				}
+			}
+		}.execute();
+	}
+	
+	
+	
+	
+	private Map<String, String> setLoginParams(){
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> parms = new HashMap<String, Object>();
+		String psw = "sq"+password;
+		String pw = MD5Utils.md5(psw).substring(0, 27);
+		String dd = pw+"ton";
+		String mPassword = MD5Utils.md5(dd);
+		
+		//parms.put("id", 1000003);
+		//parms.put("password", "9d2b201382a3a8cf1342c1be422594d5");
+		/*登录密码= md5(substr(md5("sq".$password), 0,27).”ton”);
+		如密码为51tonight则为: md5(“sq51tonight”)=“16d88e6ba9fbbbf04c5ca181ba6f16f7”，之后截取32位的前27位，得“16d88e6ba9fbbbf04c5ca181ba6”，然后该字
+		符串再拼接ton之后再md5，即md5(“16d88e6ba9fbbbf04c5ca181ba6ton”)所得即为登录密码“7084f8139b3ecb942258288336f792c3”;
+		其中md5采⽤用32位⼩小写*/
+		parms.put("id",account);		
+		parms.put("password", mPassword);
+		ArrayList<Object> arry = new ArrayList<Object>();
+		arry.add(0, "userLogin");
+		arry.add(1, 0);
+		arry.add(2, parms);
+		String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",
+				JsonUtils.list2json(arry));
+		String encoded1 = "";
+		try {
+			encoded1 = new String(Base64Utils.encode(
+					data0.getBytes("ISO-8859-1"), 0, data0.length()));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		System.out.println("base64编码后：     " + encoded1);
+		String decode = "";
+		try {
+			if(!encoded1.equals("")){
+				decode = new String(
+						Base64.decode(encoded1, Base64.DEFAULT),
+						"ISO-8859-1");
+			}		
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		map.put("d", encoded1);
+		return map;
+		
+	}
+	
+	
+	
+private boolean dealResult(String result){
+		
+		boolean success=JsonResolveUtils.resolveuserResult(result);
+		
+		System.out.println("结果    " +success);
+		
+		return success;
+	}
     private void loadActivity(){
     	
     	Intent intent = new Intent(WelcomeActivity.this,
@@ -310,19 +380,6 @@ public class WelcomeActivity extends BaseActivity {
 		WelcomeActivity.this.finish();
     }
 
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
-    
-    private void delayedLoadActivity(int delayMillis) {
-        mHideHandler.removeCallbacks(mLoadRunnable);
-        mHideHandler.postDelayed(mLoadRunnable, delayMillis);
-    }
 
 	@Override
 	protected void initViews() {
@@ -340,5 +397,83 @@ public class WelcomeActivity extends BaseActivity {
 	protected void init() {
 		account = MyPreference.getInstance(mContext).getLoginName();
 		password = MyPreference.getInstance(mContext).getPassword();	
+	}
+	
+	
+	
+	private void setupJazziness(TransitionEffect effect) {
+		mJazzy = (JazzyViewPager) findViewById(R.id.jazzy_pager);
+		mJazzy.setTransitionEffect(effect);
+		mJazzy.setAdapter(new MainAdapter());
+		mJazzy.setPageMargin(20);
+		mJazzy.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				if(arg0==4){
+					
+					but_start.setVisibility(View.VISIBLE);
+					final ScaleAnimation scaleAnimation=new ScaleAnimation(0.000001f, 1f, 0.000001f, 1f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+			        scaleAnimation.setDuration(1000);
+			        scaleAnimation.setStartOffset(500);
+			        but_start.startAnimation(scaleAnimation);
+					but_start.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							Intent intent =new Intent(WelcomeActivity.this,LoginActivity.class);						
+							startActivity(intent);
+							MyPreference.getInstance(mContext).setIsFirst(false);
+							finish();
+							
+						}
+					});
+				}
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				
+			}
+		});
+	}
+	
+	private int [] imageArray = new int []{R.drawable.welcome_a,R.drawable.welcome_b,R.drawable.welcome_c,R.drawable.welcome_d,R.drawable.welcome_e};
+	private class MainAdapter extends PagerAdapter {
+		
+		@Override
+		public Object instantiateItem(ViewGroup container, final int position) {
+			
+			View v =View.inflate(WelcomeActivity.this, R.layout.item_welcome, null);			
+			ImageView iv =(ImageView) v.findViewById(R.id.iv_welcome);
+			iv.setBackgroundResource(imageArray[position]);
+			but_start = (Button) v.findViewById(R.id.but_start);
+			
+			
+			container.addView(v);
+			mJazzy.setObjectForPosition(v, position);
+			return v;
+		}
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object obj) {
+			container.removeView(mJazzy.findViewFromObject(position));
+		}
+		@Override
+		public int getCount() {
+			return 5;
+		}
+		@Override
+		public boolean isViewFromObject(View view, Object obj) {
+			if (view instanceof OutlineContainer) {
+				return ((OutlineContainer) view).getChildAt(0) == obj;
+			} else {
+				return view == obj;
+			}
+		}		
 	}
 }

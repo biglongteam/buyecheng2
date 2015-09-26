@@ -238,6 +238,7 @@ public class HttpRequest {
         } catch (Exception e) {
            e.printStackTrace();
        }
+      System.out.println(stringBuffer.toString());
        return stringBuffer;
     }
     
@@ -323,6 +324,10 @@ public class HttpRequest {
        } catch (Exception e) {
                // TODO Auto-generated catch block
                e.printStackTrace();
+       }
+       
+       if(sessionid==null){
+    	   sessionid=String.valueOf(BaseApplication.sessionCreateTime);
        }
         
        return sessionid;

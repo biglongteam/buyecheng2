@@ -1,7 +1,7 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
-    
+    <color name="holo_blue">#FF33E5B5</color>
      <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="red">#ffff0000</color>
@@ -146,4 +146,13 @@
 	
 	<color name="item_contact_normal">#383438</color>
 	<color name="module_contacts_devide_line">#282629</color>
+	
+	
+	
+	
+	<!-- 订单 支付 相关 -->
+    <color name="main_primary">#ff333333</color>
+    <color name="tabbar_item_text_normal">#ff666666</color>
+    <color name="text_font_purple">#6049a1</color>
+    
 </resources>

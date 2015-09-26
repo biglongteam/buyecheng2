@@ -2,9 +2,11 @@ package com.hangzhou.tonight.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -171,5 +173,11 @@ public class ScreenUtils
         // params.height最后得到整个ListView完整显示需要的高度   
         listView.setLayoutParams(params);   
     } 
+	
+	public static int dpToPx(Resources res, int dp) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
+	}
+
+
 
 }
