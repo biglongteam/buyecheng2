@@ -195,12 +195,17 @@
              android:name=".im.GroupCreateActivity"
              android:screenOrientation="portrait"
             />
-         <!-- 加入群  -->
         <activity
-             android:name=".im.GroupJoinActivity"
+             android:name="com.hangzhou.tonight.wxpay.wxapi.WXEntryActivity"
              android:screenOrientation="portrait"
             />
-        
+        <activity
+             android:name="com.hangzhou.tonight.wxpay.wxapi.WXPayEntryActivity"
+             android:screenOrientation="portrait"
+            />
+         <activity
+             android:name="com.hangzhou.tonight.wxpay.PayActivity"
+            />
         
           <!-- 全屏显示图片  -->
         <activity
@@ -217,7 +222,11 @@
 		<!-- 重连接服务 -->
  		<service android:name=".service.ReConnectService"></service>
         
-        
+        <!-- 微信支付 相关 -->
+        <activity
+             android:name=".im.GroupJoinActivity"
+             android:screenOrientation="portrait"
+            />
         
         
     </application>

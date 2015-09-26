@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import u.aly.bu;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -46,6 +47,7 @@ import com.hangzhou.tonight.entity.ActivesInfo;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
+import com.hangzhou.tonight.util.IntentJumpUtils;
 import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
 import com.hangzhou.tonight.util.MyPreference;
@@ -57,6 +59,7 @@ import com.hangzhou.tonight.view.HeaderLayout.SearchState;
 import com.hangzhou.tonight.view.HeaderLayout.onMiddleImageButtonClickListener;
 import com.hangzhou.tonight.view.HeaderLayout.onSearchListener;
 import com.hangzhou.tonight.view.HeaderSpinner;
+import com.hangzhou.tonight.wxpay.wxapi.WXEntryActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -89,16 +92,18 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
 	private AbSlidingPlayView mAbSlidingPlayView;
-	private String tel;
-	private boolean isFav = false;
-	private String fav;
+	private String tel,ticket_id,order_id;
+	private String arrayFav [];
+	boolean isFav = false;
+	int num;
+	float amount,expense;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_promotion_detail);
 		mContext = this;
 		act_id = getIntent().getStringExtra("id");
-		initPopupWindow();
+		//initPopupWindow();
 		initViews();
 		initEvents();
 		init();
@@ -171,86 +176,22 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	@Override
 	protected void init() {
 		mHander = new Handler();
-		fav = MyPreference.getInstance(mContext).getUserFact();
-		/*mPeopleFragment = new PromotionListFragment(mApplication, this, this);
-		//mGroupFragment = new NearByGroupFragment(mApplication, this, this);
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.replace(R.id.nearby_layout_content, mPeopleFragment).commit();*/
-	}
-
-	private void initPopupWindow() {
-		/*mPopupWindow = new NearByPopupWindow(this);
-		mPopupWindow.setOnSubmitClickListener(new onSubmitClickListener() {
-
-			@Override
-			public void onClick() {
-				mPeopleFragment.onManualRefresh();
-			}
-		});
-		mPopupWindow.setOnDismissListener(new OnDismissListener() {
-
-			@Override
-			public void onDismiss() {
-				mHeaderSpinner.initSpinnerState(false);
-			}
-		});*/
-	}
-
-	/*public class OnSpinnerClickListener implements onSpinnerClickListener {
-
-		@Override
-		public void onClick(boolean isSelect) {
-			if (isSelect) {
-				mPopupWindow
-						.showViewTopCenter(findViewById(R.id.nearby_layout_root));
-			} else {
-				mPopupWindow.dismiss();
+		String fav = MyPreference.getInstance(mContext).getUserFact();
+		if(fav.equals("0")){
+			return;
+		}
+		arrayFav = fav.split(",");
+		if(arrayFav.length>0){
+			for(int i = 0;i<=arrayFav.length;i++){
+				if(arrayFav[i].equals(act_id)){
+					isFav = true;
+					return;
+				}
 			}
 		}
-	}*/
-
-	public class OnSearchClickListener implements onSearchListener {
-
-		@Override
-		public void onSearch(EditText et) {
-			String s = et.getText().toString().trim();
-			if (TextUtils.isEmpty(s)) {
-				showCustomToast("请输入搜索关键字");
-				et.requestFocus();
-			} else {
-				((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
-						.hideSoftInputFromWindow(PromotionDetailActivity.this
-								.getCurrentFocus().getWindowToken(),
-								InputMethodManager.HIDE_NOT_ALWAYS);
-				putAsyncTask(new AsyncTask<Void, Void, Boolean>() {
-
-					@Override
-					protected void onPreExecute() {
-						super.onPreExecute();
-						mHeaderLayout.changeSearchState(SearchState.SEARCH);
-					}
-
-					@Override
-					protected Boolean doInBackground(Void... params) {
-						try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						return false;
-					}
-
-					@Override
-					protected void onPostExecute(Boolean result) {
-						super.onPostExecute(result);
-						mHeaderLayout.changeSearchState(SearchState.INPUT);
-						showCustomToast("未找到搜索的群");
-					}
-				});
-			}
-		}
-
 	}
+
+
 
 	
 	/**
@@ -309,14 +250,28 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		ArrayList<Object> arry = new ArrayList<Object>();
 		if(flag==0){
 			arry.add(0, "getActInfo");
-		}else {
-			if(fav.equals("未收藏")){
+		}else if(flag==1) {
+			if(!isFav){
 				parms.put("state", 1);//state(1为收藏，0为取消收藏)act_id(活动ID)；state(1为收藏，0为取消收藏)
-				
 			}else {
 				parms.put("state",0);//state(1为收藏，0为取消收藏)
 			}
+			parms.put("uid", MyPreference.getInstance(mContext).getUserId());
 			arry.add(0, "setFavoriteAct");
+		}else if(flag==2){
+			/*act_id(活动ID)；
+			num(数量)；
+			amount(订单总⾦金额);
+			ticket_id(礼包ID，如不使⽤用礼包则为0)；
+			phone(⼿手机号)
+			expense(实际⽀支付*/
+			parms.put("num", num);
+			parms.put("amount", amount);
+			parms.put("ticket_id", ticket_id);
+			parms.put("expense", expense);
+			parms.put("phone", tel);
+			arry.add(0, "createOrder");
+			
 		}
 		
 		arry.add(1, 0);
@@ -376,6 +331,10 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 			
 			}
 	}
+	
+	
+
+	
 	/*public class OnSwitcherButtonClickListener implements
 			onSwitcherButtonClickListener {
 
@@ -464,13 +423,75 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
             mContext.startActivity(intent); 
 			break;
 		case R.id.bt_goumai:// 
-			//shareMsg(actInfo.getTitle(),actInfo.getTip(),actInfo.getContent(),actInfo.getImg());
+			
+			createOrder();
+			
+			
 			break;
 		default:
 			break;
 		}
 	}
 
+	/**
+	 * 
+	* @Title: createOrder 
+	* @Description: TODO(生成 订单 信息) 
+	* @param     设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	private void createOrder() {
+		
+		/*act_id(活动ID)；
+		num(数量)；
+		amount(订单总⾦金额);
+		ticket_id(礼包ID，如不使⽤用礼包则为0)；
+		expense(实际⽀支付*/
+		
+		
+			new AsyncTask<Void, Void, String>() {
+
+				@Override
+				protected void onPreExecute() {
+					super.onPreExecute();
+					showLoadingDialog("正在生成订单,请稍后...");
+				}
+
+				@Override
+				protected String doInBackground(Void... params) {
+					Map<String, String> param =setParams(currentPage,1);
+					
+					return HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER,
+							param, "UTF-8");
+				}
+
+				//[{"act_id":"46","address":"杭州市下城区再行路298号","des":"290元享价值总价值460元的雪花纯生啤酒套餐","endtime":"1451491200","img":"[\"0_0%E9%97%A8%E5%A4%B4.jpg\",\"0_1%E6%A0%BC%E5%B1%80.jpg\",\"0_2%E7%89%B9%E5%86%99.jpg\",\"0_3%E9%85%92%E6%B0%B4.jpg\",\"0_4%E5%A5%97%E9%A4%90.jpg\",\"0_5%E4%BA%BA%E7%89%A9.jpg\"]","lat":"30.312652","lon":"120.177033","mark":"0.0","name":"豪斯酒吧","price":"0.00","sales_num":"0","starttime":"1439827200","title":"畅销套餐","value":"0.00"}
+				@Override
+				protected void onPostExecute(String result) {
+					super.onPostExecute(result);
+					dismissLoadingDialog();
+					com.alibaba.fastjson.JSONObject object = JSON.parseObject(result);
+					order_id = object.getString("order_id");
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("actInfo", actInfo);
+					IntentJumpUtils.nextActivity(WXEntryActivity.class, PromotionDetailActivity.this, bundle);
+					//{"actInfo":{"act_id":"35","address":"杭州市江干区天城路88号","content":"3-4人畅爽套餐    1份     980元\n啤酒无限畅饮\n18:00到凌晨2:00，欢唱8小时\n门店价格：2480","des":"啤酒无限畅饮","endtime":"1470844800","img":"[\"0_0QQ%E6%88%AA%E5%9B%BE20150813101248.png\",\"0_1QQ%E6%88%AA%E5%9B%BE20150813101056.png\",\"0_2QQ%E6%88%AA%E5%9B%BE20150813101145.png\",\"0_3QQ%E6%88%AA%E5%9B%BE20150813101200.png\",\"0_4QQ%E6%88%AA%E5%9B%BE20150813101209.png\",\"0_7QQ%E6%88%AA%E5%9B%BE20150813101238.png\"]","lat":"30.293052","lon":"120.20591","name":"皇冠娱乐会所","phone":"15257128999","price":"0.00","review_num":"0","sales_num":"0","starttime":"1439395200","tip":"每张糯米券限20人使用，超出收费标准：超出收费标准：按照商家为标准，如有疑问请咨询商家\n每次消费不限使用糯米券张数\n包厢安排为：包厢安排为：小1包厢：3-4人，小2包厢：5-8人，中包厢：15-20人，大包厢；15-20人","title":"价值2480元15-20人欢唱套餐","value":"0.00"},"reviews":[],"s":1}
+				}
+				
+			}.execute();
+			
+		}
+		
+	
+	
+	/**
+	* @Title: setFavoriteAct 
+	* @Description: TODO(收藏  活动) 
+	* @param     设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
 	private void setFavoriteAct() {
 		new AsyncTask<Void, Void, String>() {
 
@@ -495,12 +516,11 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 				super.onPostExecute(result);
 				dismissLoadingDialog();
 				com.alibaba.fastjson.JSONObject object = JSON.parseObject(result);
-				
-				if(fav.equals("未收藏")){
-					showCustomToast(act_id);
-					MyPreference.getInstance(mContext).setUserFact("已收藏");
+				if(isFav){
+					showCustomToast("收藏成功");
+					// MyPreference.getInstance(mContext).setUserFact("已收藏");
 				}else {
-					MyPreference.getInstance(mContext).setUserFact("未收藏");
+					//MyPreference.getInstance(mContext).setUserFact("未收藏");
 					showCustomToast("取消收藏");
 				}
 				//{"actInfo":{"act_id":"35","address":"杭州市江干区天城路88号","content":"3-4人畅爽套餐    1份     980元\n啤酒无限畅饮\n18:00到凌晨2:00，欢唱8小时\n门店价格：2480","des":"啤酒无限畅饮","endtime":"1470844800","img":"[\"0_0QQ%E6%88%AA%E5%9B%BE20150813101248.png\",\"0_1QQ%E6%88%AA%E5%9B%BE20150813101056.png\",\"0_2QQ%E6%88%AA%E5%9B%BE20150813101145.png\",\"0_3QQ%E6%88%AA%E5%9B%BE20150813101200.png\",\"0_4QQ%E6%88%AA%E5%9B%BE20150813101209.png\",\"0_7QQ%E6%88%AA%E5%9B%BE20150813101238.png\"]","lat":"30.293052","lon":"120.20591","name":"皇冠娱乐会所","phone":"15257128999","price":"0.00","review_num":"0","sales_num":"0","starttime":"1439395200","tip":"每张糯米券限20人使用，超出收费标准：超出收费标准：按照商家为标准，如有疑问请咨询商家\n每次消费不限使用糯米券张数\n包厢安排为：包厢安排为：小1包厢：3-4人，小2包厢：5-8人，中包厢：15-20人，大包厢；15-20人","title":"价值2480元15-20人欢唱套餐","value":"0.00"},"reviews":[],"s":1}
