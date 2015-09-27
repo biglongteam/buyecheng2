@@ -68,7 +68,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			DataModel model = listData.get(position);
-			Notice notice = inviteNotices.get(position);
+			//Notice notice = inviteNotices.get(position);
 			ViewHolder hodler = null;
 			if(convertView == null){
 				convertView = View.inflate(getActivity(), R.layout.item_message_fragment_validate_message, null);

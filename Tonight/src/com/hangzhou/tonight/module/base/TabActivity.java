@@ -63,9 +63,9 @@ public abstract class TabActivity extends CustomFragmentActivity {
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT,Gravity.CENTER);
 			params.weight = 1.0f;
 			rb.setLayoutParams(params);
+			rb.setGravity(Gravity.CENTER);
 			rb.setId(i);
 			rb.setText(list.get(i).title);
-			rb.setGravity(Gravity.CENTER);
 			//分割线
 			if(i != len - 1){
 				View view = new View(this);

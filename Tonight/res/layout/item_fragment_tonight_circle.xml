@@ -31,7 +31,6 @@
 	            android:id="@+id/tonight_circle_name" 
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="张三"
 	            android:textColor="#FFE64087"
 	            android:textSize="18sp"
 	            android:layout_marginRight="8dp"
@@ -40,8 +39,9 @@
 	            android:id="@+id/tonight_circle_age"  
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="23"
-	            android:textColor="#FFE64087"
+	            android:textColor="@color/white"
+	            android:paddingLeft="3dp"
+	            android:paddingRight="3dp"
 	            android:textSize="12sp"
 	            />
 	    </LinearLayout>
