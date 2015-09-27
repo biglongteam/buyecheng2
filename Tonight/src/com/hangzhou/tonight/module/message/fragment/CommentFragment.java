@@ -32,7 +32,7 @@ public class CommentFragment extends BEmptyListviewFragment {
 			DataModel m = new DataModel();
 			m.username = str;
 			m.content = content;
-			listData.add(m);
+			//listData.add(m);
 		}
 		adapter = new EntityAdapter();
 		mListView.setAdapter(adapter);

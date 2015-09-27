@@ -22,6 +22,8 @@ import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.message.fragment.CommentFragment;
 import com.hangzhou.tonight.module.message.fragment.FriendMessageFragment;
 import com.hangzhou.tonight.module.message.fragment.GoodFragment;
+import com.hangzhou.tonight.module.message.fragment.OrderMessageFragment;
+import com.hangzhou.tonight.module.message.fragment.SystemMessageFragment;
 import com.hangzhou.tonight.module.message.fragment.ValidateMessageFragment;
 
 /**
@@ -31,7 +33,7 @@ import com.hangzhou.tonight.module.message.fragment.ValidateMessageFragment;
  */
 public class MessageMainActivity extends CustomActionActivity{
 
-	View vGood,vComment,vFriendMessage,vValidateMessage;
+	View vGood,vComment,vFriendMessage,vValidateMessage,vOrderMessage,vSystemMessage;
 	private List<Notice> inviteNotices = new ArrayList<Notice>();
 	private ContacterReceiver receiver = null;
 	private NoticeManager noticeManager;
@@ -40,6 +42,9 @@ public class MessageMainActivity extends CustomActionActivity{
 		vGood    = findViewById(R.id.message_main_good);
 		vComment = findViewById(R.id.message_main_comment);
 		vFriendMessage = findViewById(R.id.message_main_friend_message);
+		
+		vOrderMessage = findViewById(R.id.message_main_order_message);
+		vSystemMessage = findViewById(R.id.message_main_system_message);
 		vValidateMessage = findViewById(R.id.message_main_validate_message);
 	}
 	
@@ -69,6 +74,8 @@ public class MessageMainActivity extends CustomActionActivity{
 		vComment.setOnClickListener(itemClick);
 		vFriendMessage.setOnClickListener(itemClick);
 		vValidateMessage.setOnClickListener(itemClick);
+		vOrderMessage.setOnClickListener(itemClick);
+		vSystemMessage.setOnClickListener(itemClick);
 	}
 
 	@Override protected void doHandler() {
@@ -94,6 +101,10 @@ public class MessageMainActivity extends CustomActionActivity{
 				BaseSingeFragmentActivity.startActivity(getActivity(), FriendMessageFragment.class, new TbarViewModel(getResources().getString(R.string.friend_message)));
 			}else if(v == vValidateMessage){
 				BaseSingeFragmentActivity.startActivity(getActivity(), ValidateMessageFragment.class, new TbarViewModel(getResources().getString(R.string.validate_message)));
+			}else if(v == vOrderMessage){
+				BaseSingeFragmentActivity.startActivity(getActivity(), OrderMessageFragment.class, new TbarViewModel(getResources().getString(R.string.validate_message)));
+			}else if(v == vSystemMessage){
+				BaseSingeFragmentActivity.startActivity(getActivity(), SystemMessageFragment.class, new TbarViewModel(getResources().getString(R.string.validate_message)));
 			}
 		}
 	};

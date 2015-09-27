@@ -82,6 +82,7 @@
 	        android:orientation="horizontal"
 	        >
 	        <Button 
+	            android:id="@+id/validate_message_agree" 
 	            android:layout_width="0dip"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1.0"
@@ -99,6 +100,7 @@
 	            android:background="#FFE5E5E5"
 	            ></View>
 	        <Button 
+	               android:id="@+id/validate_message_refuse" 
 	            android:layout_width="0dip"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1.0"

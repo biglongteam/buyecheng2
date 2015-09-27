@@ -33,7 +33,7 @@ public class GoodFragment extends BEmptyListviewFragment {
 		for(String str : strs){
 			GoodDataModel m = new GoodDataModel();
 			m.username = str;
-			listData.add(m);
+			//listData.add(m);
 		}
 		adapter = new GoodAdapter();
 		mListView.setAdapter(adapter);
