@@ -102,9 +102,9 @@ public class MessageMainActivity extends CustomActionActivity{
 			}else if(v == vValidateMessage){
 				BaseSingeFragmentActivity.startActivity(getActivity(), ValidateMessageFragment.class, new TbarViewModel(getResources().getString(R.string.validate_message)));
 			}else if(v == vOrderMessage){
-				BaseSingeFragmentActivity.startActivity(getActivity(), OrderMessageFragment.class, new TbarViewModel(getResources().getString(R.string.validate_message)));
+				BaseSingeFragmentActivity.startActivity(getActivity(), OrderMessageFragment.class, new TbarViewModel(getResources().getString(R.string.order_message)));
 			}else if(v == vSystemMessage){
-				BaseSingeFragmentActivity.startActivity(getActivity(), SystemMessageFragment.class, new TbarViewModel(getResources().getString(R.string.validate_message)));
+				BaseSingeFragmentActivity.startActivity(getActivity(), SystemMessageFragment.class, new TbarViewModel(getResources().getString(R.string.system_message)));
 			}
 		}
 	};

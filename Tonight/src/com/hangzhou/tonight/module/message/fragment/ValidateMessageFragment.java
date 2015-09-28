@@ -46,8 +46,8 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		super.doPostData();
 		JSONObject params = null;
 			params = new JSONObject();
-			params.put("page", 0);
-			params.put("time", 0);
+			params.put("page", page);
+			params.put("time",time);
 			
 		AsyncTaskUtil.postData(getActivity(), "getApplyList", null,
 				new Callback() {
