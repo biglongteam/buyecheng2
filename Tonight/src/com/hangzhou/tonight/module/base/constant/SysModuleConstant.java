@@ -1,5 +1,7 @@
 package com.hangzhou.tonight.module.base.constant;
 
+import android.content.Context;
+
 /**
  * 系统级别-module模块-常量维护类
  * @author hank
@@ -27,4 +29,12 @@ public class SysModuleConstant {
 	
 	public static final String VALUE_EMPTY_TIP = "当前数据为可空:)";
 	
+	/**
+	 * 获取当前用户城市ID[暂放]
+	 * @param context
+	 * @return
+	 */
+	public static int getCityId(Context context){
+		return 179;
+	}
 }

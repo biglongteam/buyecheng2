@@ -3,17 +3,24 @@ package com.hangzhou.tonight.module.social.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
+import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
+import com.hangzhou.tonight.module.base.util.DateUtil;
+import com.hangzhou.tonight.module.base.util.inter.Callback;
 
 /**
- * 不夜城 - 同城
+ * 不夜城 - 同城[动态列表]
  * @author hank
  *
  */
@@ -27,27 +34,71 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 	}
 	
 	@Override protected void doHandler() {
-
 		listData = new ArrayList<DataModel>();
-		
-		String[] strs = {
-				 "蜜桃"
-				,"8090迷幻系小聚"
-				,"19:01"
-				,"已售220"};
-		for(int i=0,len = 10;i<len;i++){
-			DataModel m = new DataModel();
-			m.name	 = strs[0];
-			m.content= strs[1];
-			m.time 	 = strs[2];
-			m.age 	 = 23;
-			m.good   = 5;
-			m.comment= 6;
-			listData.add(m);
-		}
-		adapter = new CollectionAdapter();
+		adapter  = new CollectionAdapter();
 		mListView.setAdapter(adapter);
 
+	}
+	
+	/**
+	 * @return 1 同城 2 好友 3某人[个人]
+	 */
+	public int getSort(){
+		return 1;
+	}
+	
+	public String getTuid(){
+		return null;
+	}
+	
+	long page = 0,time;//sort = 1|2 时需要
+	//String tuid;//当sort为3时需要
+	boolean isAllowLoad = true;
+	@Override protected void doPostData() {
+		loadMore();
+	}
+	
+	
+	private void loadMore(){
+		if(page == 0){ time = 0;}
+		page++;
+		int sort = getSort();
+		JSONObject params = new JSONObject();
+		if(sort == 1){ params.put("city", SysModuleConstant.getCityId(getActivity())); }
+		if(sort == 3){ params.put("tuid", getTuid());}
+		params.put("page", page);
+		params.put("time", time);
+		params.put("sort", sort);
+		AsyncTaskUtil.postData(getActivity(), "getMoodList", params, new Callback() {
+			@Override public void onSuccess(JSONObject result) {
+				isAllowLoad = result.containsKey("nomore")? true : (result.getInteger("nomore") != 1);	
+				time = result.getLongValue("time");
+				listData.addAll(JSONArray.parseArray(result.getString("moods"), DataModel.class));
+				adapter.notifyDataSetChanged();
+			}
+			
+			@Override public void onFail(String msg) {
+				if(SysModuleConstant.VALUE_DEV_MODEL){
+					String[] strs = {
+							 "蜜桃"
+							,"8090迷幻系小聚"
+							,"19:01"
+							,"已售220"};
+					for(int i=0,len = 10;i<len;i++){
+						DataModel m = new DataModel();
+						m.nick	 = strs[0];
+						m.content= strs[1];
+						m.time 	 = strs[2];
+						m.birth  = "1987-01-20";
+						m.pralse_num   = 5;
+						m.reply_num= 6;
+						listData.add(m);
+					}
+					adapter.notifyDataSetChanged();
+				}
+				
+			}
+		});
 	}
 	
 	class CollectionAdapter extends BaseAdapter {
@@ -64,6 +115,7 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 			return 0;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
 			DataModel model = listData.get(position);
@@ -72,9 +124,12 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 				holder = new ViewHolder(convertView);
 			}
 			holder = (ViewHolder) convertView.getTag();
-			holder.tv_age.setText("" + model.age);
-			holder.tv_comment.setText("评论 " + model.comment);
-			holder.tv_name.setText(model.name);
+			holder.tv_age.setText(""+DateUtil.getCurrentAgeByBirthdate(model.birth));
+			holder.tv_age.setBackgroundDrawable(getResources().getDrawable(model.sex==1 ? R.drawable.shape_module_sex_male : R.drawable.shape_module_sex_female));
+			holder.tv_content.setText(model.content);
+			holder.tv_good.setText("赞 " + model.pralse_num);
+			holder.tv_comment.setText("评论 " + model.reply_num);
+			holder.tv_name.setText(model.nick);
 			return convertView;
 		}
 
@@ -88,13 +143,17 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 				tv_time 	= (TextView) view.findViewById(R.id.tonight_circle_time);
 				tv_age 		= (TextView) view.findViewById(R.id.tonight_circle_age);
 				tv_comment  = (TextView) view.findViewById(R.id.tonight_circle_comment);
+				tv_good     = (TextView) view.findViewById(R.id.tonight_circle_good);
 				view.setTag(this);
 			}
 		}
 	}
 
-	class DataModel {
-		String name, content, time, headphoto;
-		int age,good,comment;
+	public static class DataModel {
+		String mid,uid,nick, content, time,birth;
+		int pralse_num,reply_num,type,sex;
+		
+		public int getSex() { return sex; } public void setSex(int sex) { this.sex = sex; } public String getMid() { return mid; } public String getUid() { return uid; } public String getNick() { return nick; } public String getContent() { return content; } public String getTime() { return time; } public String getBirth() { return birth; } public int getPralse_num() { return pralse_num; } public int getReply_num() { return reply_num; } public int getType() { return type; } public void setMid(String mid) { this.mid = mid; } public void setUid(String uid) { this.uid = uid; } public void setNick(String nick) { this.nick = nick; } public void setContent(String content) { this.content = content; } public void setTime(String time) { this.time = time; } public void setBirth(String birth) { this.birth = birth; } public void setPralse_num(int pralse_num) { this.pralse_num = pralse_num; } public void setReply_num(int reply_num) { this.reply_num = reply_num; } public void setType(int type) { this.type = type; }
+
 	}
 }

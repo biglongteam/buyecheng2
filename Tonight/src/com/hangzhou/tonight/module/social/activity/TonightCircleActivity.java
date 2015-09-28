@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hangzhou.tonight.module.base.TabActivity;
 import com.hangzhou.tonight.module.social.fragment.TonightCircleCityWideFragment;
+import com.hangzhou.tonight.module.social.fragment.TonightCircleMyFragment;
 
 /**
  * 不夜圈
@@ -18,7 +19,7 @@ public class TonightCircleActivity extends TabActivity {
 		list.add(tabModel);
 		tabModel = new TabModel();
 		tabModel.title = "我的";
-		tabModel.fragment = new TonightCircleCityWideFragment();
+		tabModel.fragment = new TonightCircleMyFragment();
 		list.add(tabModel);
 	}
 }
