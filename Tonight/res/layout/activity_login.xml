@@ -121,7 +121,7 @@
                         android:textSize="14sp" />
 
                     <com.hangzhou.tonight.view.HandyTextView
-                        android:id="@+id/login_htv_selectcountrycode"
+                        android:id="@+id/tv_edit_pass"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"

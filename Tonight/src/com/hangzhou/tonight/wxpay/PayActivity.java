@@ -29,6 +29,7 @@ public class PayActivity extends Activity {
 	private static final String TAG = "MicroMsg.SDKSample.PayActivity";
 	
 	private IWXAPI api;
+	private String appid,partnerid,prepayid,/*package,*/noncestr,timestamp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,25 +37,7 @@ public class PayActivity extends Activity {
 		setContentView(R.layout.pay);
 		
 		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
-
-		Button payBtn = (Button) findViewById(R.id.pay_btn);
-		payBtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				new GetAccessTokenTask().execute();
-			}
-		});
-		
-		/*Button checkPayBtn = (Button) findViewById(R.id.check_pay_btn);
-		checkPayBtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-				Toast.makeText(PayActivity.this, String.valueOf(isPaySupported), Toast.LENGTH_SHORT).show();
-			}
-		});*/
+		new GetAccessTokenTask().execute();
 	}
 	
 	/**
@@ -113,8 +96,6 @@ public class PayActivity extends Activity {
 			
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
 				Toast.makeText(PayActivity.this, R.string.get_access_token_succ, Toast.LENGTH_LONG).show();
-				Log.d(TAG, "onPostExecute, accessToken = " + result.accessToken);
-				
 				GetPrepayIdTask getPrepayId = new GetPrepayIdTask(result.accessToken);
 				getPrepayId.execute();
 			} else {
@@ -145,8 +126,8 @@ public class PayActivity extends Activity {
 	private class GetPrepayIdTask extends AsyncTask<Void, Void, GetPrepayIdResult> {
 
 		private ProgressDialog dialog;
-		private String accessToken;
 		
+		private String accessToken;
 		public GetPrepayIdTask(String accessToken) {
 			this.accessToken = accessToken;
 		}
@@ -264,10 +245,8 @@ public class PayActivity extends Activity {
 				} else {
 					localRetCode = LocalRetCode.ERR_JSON;
 				}
-				
 				errCode = json.getInt("errcode");
 				errMsg = json.getString("errmsg");
-				
 			} catch (Exception e) {
 				localRetCode = LocalRetCode.ERR_JSON;
 			}
@@ -353,7 +332,6 @@ public class PayActivity extends Activity {
 			signParams.add(new BasicNameValuePair("timestamp", String.valueOf(timeStamp)));
 			signParams.add(new BasicNameValuePair("traceid", traceId));
 			json.put("app_signature", genSign(signParams));
-			
 			json.put("sign_method", "sha1");
 		} catch (Exception e) {
 			Log.e(TAG, "genProductArgs fail, ex = " + e.getMessage());

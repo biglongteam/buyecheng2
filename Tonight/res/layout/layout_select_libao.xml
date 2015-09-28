@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2F2B2F"
+    android:orientation="vertical" >
+
+     <include
+            android:id="@+id/nearby_header"
+            layout="@layout/common_title_bar" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <!-- android:background="@drawable/home_littleyellow" -->
+
+       
+    </RelativeLayout>
+            
+ 	<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+           android:id="@+id/fl_content"            
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" 
+                android:layout_gravity="center"
+                >
+
+                <ListView
+                    android:id="@+id/lv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:divider="@null"
+                    android:dividerHeight="1dp"
+                    android:listSelector="@android:color/transparent"
+                    android:scrollbars="none" >
+                </ListView>
+            </RelativeLayout>
+        </FrameLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x50"
+            android:gravity="center"
+            android:text="亲，暂无该城市服务"
+            android:textColor="#333333"
+            android:textSize="20sp" />
+        
+    </FrameLayout>
+
+</LinearLayout>
