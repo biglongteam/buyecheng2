@@ -606,12 +606,10 @@ public class PromotionActivity extends TabItemActivity implements
 			MyPreference.getInstance(this).setCity(cityName);
 			
 		 }
-		
 	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		return super.onKeyDown(keyCode, event);
 	}
 

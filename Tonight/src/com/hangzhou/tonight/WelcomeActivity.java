@@ -67,8 +67,8 @@ import com.hangzhou.tonight.view.OutlineContainer;
  */
 public class WelcomeActivity extends BaseActivity {
   
-    private String account;
-    private String password ;
+    private String account ;
+    private String password  ;
 
     private Context mContext;
     private JazzyViewPager mJazzy;
@@ -85,6 +85,11 @@ public class WelcomeActivity extends BaseActivity {
         	setupJazziness(TransitionEffect.Tablet);
         }else {
         	login();
+        	
+        	/*MyPreference.getInstance(WelcomeActivity.this).setUserId("9000043");
+        	Intent intent = new Intent(WelcomeActivity.this, MainActivity.class); 
+        	startActivity(intent);
+			finish();*/
         }
 		
     }
@@ -310,6 +315,9 @@ public class WelcomeActivity extends BaseActivity {
 	private Map<String, String> setLoginParams(){
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
+		
+		
+		
 		String psw = "sq"+password;
 		String pw = MD5Utils.md5(psw).substring(0, 27);
 		String dd = pw+"ton";
@@ -321,6 +329,9 @@ public class WelcomeActivity extends BaseActivity {
 		如密码为51tonight则为: md5(“sq51tonight”)=“16d88e6ba9fbbbf04c5ca181ba6f16f7”，之后截取32位的前27位，得“16d88e6ba9fbbbf04c5ca181ba6”，然后该字
 		符串再拼接ton之后再md5，即md5(“16d88e6ba9fbbbf04c5ca181ba6ton”)所得即为登录密码“7084f8139b3ecb942258288336f792c3”;
 		其中md5采⽤用32位⼩小写*/
+		
+		/*parms.put("id",1000195);		
+		parms.put("password", mPassword);*/
 		parms.put("id",account);		
 		parms.put("password", mPassword);
 		ArrayList<Object> arry = new ArrayList<Object>();
@@ -395,6 +406,9 @@ private boolean dealResult(String result){
 
 	@Override
 	protected void init() {
+		
+		/*account ="9000043";
+	   password = "123456" ;*/
 		account = MyPreference.getInstance(mContext).getLoginName();
 		password = MyPreference.getInstance(mContext).getPassword();	
 	}

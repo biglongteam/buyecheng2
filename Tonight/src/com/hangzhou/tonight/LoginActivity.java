@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.hangzhou.tonight.activity.EditPassActivity;
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
@@ -71,7 +73,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	private HeaderLayout mHeaderLayout;
 	private Button mLoginBtn;
-	private HandyTextView mRegisterBtn;
+	private HandyTextView mRegisterBtn,tv_edit_pass;
 	private EditText mAccountEt;
 	private EditText mPasswordEt;
 
@@ -207,6 +209,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		mPasswordEt = (EditText) findViewById(R.id.login_et_pwd);
 		mLoginBtn = (Button) findViewById(R.id.login_btn_login);
 		mRegisterBtn = (HandyTextView) findViewById(R.id.login_btn_register);
+		tv_edit_pass = (HandyTextView) findViewById(R.id.tv_edit_pass);
 		ivQq = (ImageView) findViewById(R.id.im_qq);
 		ivWeant = (ImageView) findViewById(R.id.im_wechat);
 		ivSina = (ImageView) findViewById(R.id.im_sina);
@@ -228,6 +231,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	protected void initEvents() {
 		mLoginBtn.setOnClickListener(LoginActivity.this);
 		mRegisterBtn.setOnClickListener(LoginActivity.this);
+		tv_edit_pass.setOnClickListener(LoginActivity.this);
 		ivQq.setOnClickListener(this);
 		ivWeant.setOnClickListener(this);
 		ivSina.setOnClickListener(this);
@@ -260,6 +264,22 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			Intent intent2 = new Intent(LoginActivity.this,
 					RegisterActivity.class);
 			startActivity(intent2);
+
+			/*
+			 * Intent intent2=new Intent(Intent.ACTION_SEND);
+			 * intent2.setType("image/*");
+			 * intent2.putExtra(Intent.EXTRA_SUBJECT, "分享");
+			 * intent2.putExtra(Intent.EXTRA_TEXT, "终于可以了!!!");
+			 * intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			 * startActivity(Intent.createChooser(intent2, getTitle()));
+			 */
+			// shareMsg("分享", "试试分享功能", "分享吧", "mnt/sdcard/1.jpg");
+			break;
+			
+		case R.id.tv_edit_pass:
+			Intent intent3 = new Intent(LoginActivity.this,
+					EditPassActivity.class);
+			startActivity(intent3);
 
 			/*
 			 * Intent intent2=new Intent(Intent.ACTION_SEND);

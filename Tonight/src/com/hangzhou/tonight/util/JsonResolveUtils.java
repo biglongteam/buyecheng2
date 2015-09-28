@@ -48,7 +48,7 @@ public static boolean resolveuserResult(String json){
 	
 	if (json != null) {
 		try {
-			JSONObject object = new JSONObject(json);
+ 			JSONObject object = new JSONObject(json);
 				int state = Integer.valueOf(object.getString("s"));
 				if(state==0){
 					return false;
@@ -60,7 +60,6 @@ public static boolean resolveuserResult(String json){
 			e.printStackTrace();
 		}
 	}
-		
 		return false;
 		
 	}

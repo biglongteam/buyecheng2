@@ -424,8 +424,10 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 			break;
 		case R.id.bt_goumai:// 
 			
-			createOrder();
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("actInfo", actInfo);
 			
+			IntentJumpUtils.nextActivity(OrderPromotionActivity.class, this, bundle);
 			
 			break;
 		default:

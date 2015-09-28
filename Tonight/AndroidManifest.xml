@@ -97,8 +97,32 @@
             android:label="@string/title_activity_main" >
         </activity>
         
+          <activity
+            android:name="com.hangzhou.tonight.activity.EditPassActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+          
+            <activity
+            android:name="com.hangzhou.tonight.activity.OrderPromotionActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+            
+             <activity
+            android:name="com.hangzhou.tonight.activity.PayTypeActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+        
+        
            <activity
             android:name="com.hangzhou.tonight.activity.SelectCityActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+           <activity
+            android:name="com.hangzhou.tonight.activity.SelectLibaoActivity"
             android:label="@string/title_activity_main" >
         </activity>
         

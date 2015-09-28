@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/x180"
+    android:orientation="horizontal"
+    android:background="#2F2B2F"
+    android:padding="@dimen/x10"
+   >
+
+    <Button
+        android:id="@+id/img_header"
+        android:layout_width="@dimen/x150"
+        android:layout_height="@dimen/x150"
+          />
+    <!-- android:background="@drawable/userhome_pic" -->
+<View
+     android:layout_width="@dimen/x3"
+        android:layout_height="@dimen/x200"
+        android:background="#474047"
+       />
+    
+    <LinearLayout
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x180"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/tv_libao_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="蜜桃酒吧"
+                android:textStyle="bold"
+                android:textColor="#D1397F"
+                android:textSize="@dimen/x40" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x10"
+            android:layout_marginTop="@dimen/x40"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_centerVertical="true"
+                android:text="有效期 :"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_libao_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                 android:layout_centerVertical="true"
+                android:text="服务320次"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/x30" />
+
+            <TextView
+                android:id="@+id/tv_driver_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/textView1"
+                 android:layout_centerVertical="true"
+                android:text="2"
+                android:textColor="#E04A10"
+                android:textSize="@dimen/x50" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    
+    
+    
+      <Button
+                android:id="@+id/bt_yuyue"
+                android:layout_width="@dimen/x200"
+                android:layout_height="@dimen/x90"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_marginBottom="@dimen/x50"
+                android:layout_marginTop="@dimen/x40"
+                android:background="@drawable/bg_red_yuyue"
+                android:text="预 约"
+                android:visibility="gone"
+                android:textSize="@dimen/x35" />
+      
+      
+
+</LinearLayout>
