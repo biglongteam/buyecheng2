@@ -187,6 +187,7 @@
         <activity android:name="com.hangzhou.tonight.module.individual.activity.MyAccountActivity" android:label="@string/individual_my_account"></activity>
         <!-- 消息模块 -->
         <activity android:name="com.hangzhou.tonight.module.message.activity.MessageMainActivity" android:label="@string/message"></activity>
+		 <activity android:name="com.hangzhou.tonight.module.message.activity.ValidateMessageActivity" android:label="@string/message"></activity>
 		<!-- 个人信息 -->
         <activity android:name="com.hangzhou.tonight.module.social.activity.FindActivity" android:label="@string/find"></activity>
         <!-- 社交模块 -->

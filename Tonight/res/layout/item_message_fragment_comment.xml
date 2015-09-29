@@ -25,6 +25,7 @@
 	        android:textColor="#FFE64087"
 	        />
 	    <TextView 
+	        android:id="@+id/message_comment_your"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/comment_your"

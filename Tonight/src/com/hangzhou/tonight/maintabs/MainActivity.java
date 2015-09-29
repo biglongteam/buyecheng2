@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
@@ -86,6 +88,16 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 		}
 
 	};
+	
+	Handler myHandler = new Handler() {  
+        public void handleMessage(Message msg) {   
+             super.handleMessage(msg);   
+             loginConfig = BaseApplication.getInstance().getLoginConfig();
+			LoginTask2 loginTask = new LoginTask2(MainActivity.this, loginConfig);
+			loginTask.execute();	
+        }   
+   };
+	
 
 	
 	@Override
@@ -115,10 +127,9 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 			public void run() {
 				XmppConnectionManager.getInstance().init();
 				BaseApplication application=BaseApplication.getInstance();	
-				application.startService();					
-			    loginConfig = application.getLoginConfig();
-				LoginTask2 loginTask = new LoginTask2(MainActivity.this, loginConfig);
-				loginTask.execute();			
+				application.startService();		
+				myHandler.sendEmptyMessage(0);
+			   		
 			}
 		}).start();
 	}
@@ -310,7 +321,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 	@Override
 	protected void onPause() {
 		super.onPause();
-		unbindXMPPService();
+		//unbindXMPPService();
 	}
 	
 	@Override

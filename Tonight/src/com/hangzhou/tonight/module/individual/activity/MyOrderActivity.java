@@ -15,11 +15,19 @@ public class MyOrderActivity extends TabActivity {
 
 	@Override public void onCreateTabs(List<TabModel> list) {
 		TabModel tabModel = new TabModel();
-		tabModel.title = "已支付";
+		tabModel.title = "全部";
+		tabModel.fragment = new MyOrderUnPayFragment();
+		list.add(tabModel);
+		tabModel = new TabModel();
+		tabModel.title = "待付款";
+		tabModel.fragment = new MyOrderUnPayFragment();
+		list.add(tabModel);
+		tabModel = new TabModel();
+		tabModel.title = "待评价";
 		tabModel.fragment = new MyOrderFragment();
 		list.add(tabModel);
 		tabModel = new TabModel();
-		tabModel.title = "未支付";
+		tabModel.title = "待消费";
 		tabModel.fragment = new MyOrderUnPayFragment();
 		list.add(tabModel);
 	}

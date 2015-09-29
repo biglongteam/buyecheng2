@@ -307,18 +307,6 @@ public class HttpRequest {
                    }
 
                }
-
-                
-               // 取得sessionid. 
-             /*  String cookieval = con.getHeaderField("set-cookie"); 
-               sessionid = BaseApplication.sessionCreateTime+""; 
-                
-               if(cookieval != null) { 
-                   sessionid = cookieval.substring(0, cookieval.indexOf(";")); 
-               } */
-                
-                
-          //BaseApplication.sessionId=sessionid;
                 
                con.disconnect();
        } catch (Exception e) {

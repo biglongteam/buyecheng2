@@ -81,6 +81,11 @@ public class WelcomeActivity extends BaseActivity {
         init();
         mContext = this;
         openTonight();
+        
+       
+        
+        
+        
         if(MyPreference.getInstance(mContext).getIsFirst()){
         	setupJazziness(TransitionEffect.Tablet);
         }else {
@@ -303,7 +308,14 @@ public class WelcomeActivity extends BaseActivity {
 					startActivity(intent);
 					finish();
 				}else{
-					showCustomToast("账号或密码错误,请检查是否输入正确");
+					//showCustomToast("账号或密码错误,请检查是否输入正确");
+					Intent intent =  new Intent(WelcomeActivity.this,
+			    				LoginActivity.class);			    	
+			    	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					// intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			    	startActivity(intent);
+					WelcomeActivity.this.finish();
 				}
 			}
 		}.execute();

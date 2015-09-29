@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="个人动态" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="个人签名" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -175,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="昵称" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -221,7 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="生日" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -266,7 +266,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="用户ID" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -315,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="性别" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -361,7 +361,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="职业" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -407,7 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="星座" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >
@@ -454,7 +454,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="注册时间" 
-				android:layout_marginRight="80dp"
+				android:layout_marginRight="@dimen/individual_information_margin_right"
 				android:textSize="15sp"
 				android:textColor="@color/white"               
                 >

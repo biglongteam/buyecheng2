@@ -93,7 +93,7 @@ public class OrderMessageFragment extends BEmptyListviewFragment {
 			}
 			
 			@Override public void onFail(String msg) {
-				if(SysModuleConstant.VALUE_DEV_MODEL){
+				/*if(SysModuleConstant.VALUE_DEV_MODEL){
 					listData.clear();
 					String[] strs = { "00001" ,"交易成功，订单生效"};
 					for(int i=0,len = 1;i<len;i++){
@@ -103,7 +103,7 @@ public class OrderMessageFragment extends BEmptyListviewFragment {
 						listData.add(m);
 					}
 					adapter.notifyDataSetChanged();
-				}
+				}*/
 			}
 		});
 	}

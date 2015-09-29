@@ -97,7 +97,7 @@ public class SystemMessageFragment extends BEmptyListviewFragment {
 			}
 			
 			@Override public void onFail(String msg) {
-				if(SysModuleConstant.VALUE_DEV_MODEL){
+				/*if(SysModuleConstant.VALUE_DEV_MODEL){
 					listData.clear();
 					String[] strs = { "2012-01-10" ,"8090迷幻系小聚迷幻系小聚迷幻系小聚迷幻系小聚迷幻系小聚迷幻系小聚迷幻系小聚"};
 					for(int i=0,len = 1;i<len;i++){
@@ -107,7 +107,7 @@ public class SystemMessageFragment extends BEmptyListviewFragment {
 						listData.add(m);
 					}
 					adapter.notifyDataSetChanged();
-				}
+				}*/
 			}
 		});
 	}
