@@ -42,7 +42,6 @@ import com.hangzhou.tonight.util.RC4Utils;
  */
 public class EditPassActivity extends BaseActivity implements OnClickListener{
 
-	private TextView tvBack;
 	private EditText etPhone,etPass,etRePass,etYzm;
 	private Button btHuoquyzm,btDone;
 	
@@ -57,7 +56,7 @@ public class EditPassActivity extends BaseActivity implements OnClickListener{
 	private String praised;
 	private String groups;
 	private String friends;
-	
+	private TextView tvBack,tvTitle;
 	String phoneNum,pwd,repwd,code;
 	private String mPassword;
 	@Override
@@ -71,6 +70,8 @@ public class EditPassActivity extends BaseActivity implements OnClickListener{
 	@Override
 	protected void initViews() {
 		tvBack = (TextView) findViewById(R.id.tv_header_back);
+		tvTitle = (TextView) findViewById(R.id.tv_title);
+		tvTitle.setText("修改密码");
 		etPhone = (EditText) findViewById(R.id.et_register_account);
 		etPass = (EditText) findViewById(R.id.et_register_pwd);
 		etRePass = (EditText) findViewById(R.id.et_re_pwd);

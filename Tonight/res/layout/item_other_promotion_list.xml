@@ -32,8 +32,8 @@
                 android:layout_height="wrap_content"
                 android:text="蜜桃酒吧"
                 android:textStyle="bold"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/x35" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="15sp" />
         </LinearLayout>
 
         
@@ -52,8 +52,8 @@
                 android:layout_weight="3.68"
                 android:lines="2"
                 android:text="坚持锻炼是人生最好的生活方式。。坚持锻炼是人生最好的生活方式。。。坚持锻炼是人生最好的生活方式。。。。"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/x30" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -69,8 +69,8 @@
                 android:layout_height="wrap_content"
                 android:text="金水东路12号"
                 android:singleLine="true"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/x25" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_merchant_nums"
@@ -78,8 +78,8 @@
                 android:layout_height="wrap_content"
                 android:text="333元"
                 android:layout_alignParentRight="true"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/x28" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -1,11 +1,14 @@
 package com.hangzhou.tonight.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,13 +30,18 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-public class MerchantListAdapter extends BaseObjectListAdapter {
+public class MerchantListAdapter extends BaseAdapter {
 
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
-	public MerchantListAdapter(BaseApplication application, Context context,
-			List<? extends Entity> datas) {
-		super(application, context, datas);
+	private Context mContext ;
+	private List<MerchantEntity> mList;
+	private LayoutInflater  mInflater;
+	public MerchantListAdapter( Context mContext,
+			List<MerchantEntity> mList) {
+		this.mContext = mContext;
+		this.mList = mList;
+		mInflater = LayoutInflater.from(mContext);
 		imageLoader = ImageLoader.getInstance();
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.kc_picture)// 正在加载
@@ -47,6 +55,27 @@ public class MerchantListAdapter extends BaseObjectListAdapter {
 		
 	}
 
+	
+	
+	public void addAndRefreshListView(List<MerchantEntity> lists) {
+		if(mList==null){
+			this.mList=new ArrayList<MerchantEntity>();
+		}
+		this.mList .addAll(lists);
+		notifyDataSetChanged();
+
+	}
+	
+	public void refreshListView(List<MerchantEntity> lists) {
+		if(this.mList==null){
+			this.mList=new ArrayList<MerchantEntity>();
+		}else{
+			this.mList.clear();
+		}
+		this.mList .addAll(lists);
+		notifyDataSetChanged();
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -103,5 +132,27 @@ public class MerchantListAdapter extends BaseObjectListAdapter {
 		TextView mTvdistance;
 		TextView mTvAddress;
 		TextView mTvcharge;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return mList.size();
+	}
+
+
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return mList.get(position);
+	}
+
+
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
 	}
 }

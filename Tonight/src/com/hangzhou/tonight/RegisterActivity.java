@@ -33,6 +33,7 @@ import com.hangzhou.tonight.util.MD5Utils;
 import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
+import com.hangzhou.tonight.util.ShowUtils;
 
 /**
  * 
@@ -74,6 +75,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		etPass = (EditText) findViewById(R.id.et_register_pwd);
 		etRePass = (EditText) findViewById(R.id.et_re_pwd);
 		etYzm = (EditText) findViewById(R.id.et_yzm);
+		ShowUtils.dimssHint(etPhone);
+		ShowUtils.dimssHint(etPass);
+		ShowUtils.dimssHint(etRePass);
+		ShowUtils.dimssHint(etYzm);
+		
+		
 		btHuoquyzm = (Button) findViewById(R.id.bt_huoqu_yzm);
 		btDone = (Button) findViewById(R.id.bt_jinru);
 	}

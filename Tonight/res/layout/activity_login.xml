@@ -29,24 +29,20 @@
                     android:gravity="center"
                     android:orientation="vertical" >
 
-                    <TextView
-                        android:layout_width="fill_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="40dip"
                         android:gravity="center"
-                        android:text="不 夜 程"
-                        android:textColor="#FF3023AE"
-                        android:shadowDy="2"
-                        android:shadowDx="1"
-                        android:shadowRadius="2"
-                       android:shadowColor="#FFC86DD7"
-                        android:textSize="22sp" />
+                        android:src="@drawable/ic_launcher" />
                     
 
                      <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:focusable="true"  
+    				android:focusableInTouchMode="true"
                     android:paddingTop="@dimen/x30"
                     android:orientation="vertical" >
                     <EditText
@@ -116,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dip"
                         android:clickable="true"
-                        android:text="还没有账号快速注册  >"
+                        android:text="快速注册  >"
                         android:textColor="#ffffff"
                         android:textSize="14sp" />
 
@@ -124,7 +120,7 @@
                         android:id="@+id/tv_edit_pass"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dip"
+                        android:layout_marginTop="15dip"
                         android:clickable="true"
                         android:textColor="#ffffff"
                         android:text="忘记密码  >"

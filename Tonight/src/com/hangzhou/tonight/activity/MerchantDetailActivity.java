@@ -12,6 +12,7 @@ import u.aly.bu;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -93,8 +94,8 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	private ListView lvacts,lvpinglun;
 	private PinglunListAdapter pinglunAdapter;
 	private OtherActsListAdapter otherActsListAdapter;
-	private RelativeLayout re_fuwu1,re_fuwu2;
-	
+	private RelativeLayout re_fuwu1,re_fuwu2,rl_fuwu3;
+	private TextView promontion_phone;
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
 	private AbSlidingPlayView mAbSlidingPlayView;
@@ -140,6 +141,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	protected void initViews() {
 		tvBack = (TextView) findViewById(R.id.tv_header_back);
 		tvTitle = (TextView) findViewById(R.id.tv_title);
+		promontion_phone = (TextView) findViewById(R.id.promontion_phone);
 		
 		//设置 scrollView 定位到顶部
 		LinearLayout ll_promotion_detail = (LinearLayout) findViewById(R.id.ll_merchant_detail);
@@ -150,6 +152,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		lvpinglun = (ListView) findViewById(R.id.lv_pinglun);
 		re_fuwu1 = (RelativeLayout) findViewById(R.id.rl_fuwu1);
 		re_fuwu2 = (RelativeLayout) findViewById(R.id.rl_fuwu2);
+		rl_fuwu3 = (RelativeLayout) findViewById(R.id.rl_fuwu3);
 	}
 
 	@Override
@@ -157,6 +160,8 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		tvBack.setOnClickListener(this);
 		re_fuwu1.setOnClickListener(this);
 		re_fuwu2.setOnClickListener(this);
+		rl_fuwu3.setOnClickListener(this);
+		promontion_phone.setOnClickListener(this);
 		lvacts.setOnItemClickListener(new ItemtClickListener());
 	}
 
@@ -292,6 +297,23 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 			Bundle bundle = new Bundle();
 			bundle.putString("id",seller_id);
 			IntentJumpUtils.nextActivity(BrDayServerActivity.class, MerchantDetailActivity.this,bundle);
+			break;
+		case R.id.promontion_phone:
+		/*	String tel = promontion_phone.getText().toString();
+			if(tel!=null){
+				Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"+tel));    
+	            mContext.startActivity(intent); 
+			}else {
+				showCustomToast("电话号码为空");
+				return;
+			}*/
+			
+			break;
+			
+		case R.id.rl_fuwu3:
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("id",seller_id);
+			IntentJumpUtils.nextActivity(BrDayServerActivity.class, MerchantDetailActivity.this,bundle1);
 			break;
 		case R.id.rl_fuwu2:
 			Bundle bundle2 = new Bundle();

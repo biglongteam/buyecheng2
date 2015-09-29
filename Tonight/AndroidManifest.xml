@@ -252,7 +252,10 @@
              android:name=".im.GroupJoinActivity"
              android:screenOrientation="portrait"
             />
-        
+         <meta-data            
+             android:name="UMENG_APPKEY"          
+             android:value="55ed4cb967e58e53ee0023e2" >    
+         </meta-data>
         
     </application>
 

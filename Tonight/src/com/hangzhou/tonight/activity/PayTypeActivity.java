@@ -31,6 +31,8 @@ import com.hangzhou.tonight.entity.MerchantInfo;
 import com.hangzhou.tonight.entity.OtherActsEntity;
 import com.hangzhou.tonight.entity.ReviewsEntity;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
+import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
+import com.hangzhou.tonight.module.base.util.inter.Callback;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.IntentJumpUtils;
@@ -151,7 +153,65 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 		* @throws
 		 */
 	private void submitOrder() {
-		new AsyncTask<Void, Void, String>() {
+		
+		JSONObject params = new JSONObject();
+		params.put("order_id", order_id);
+		params.put("type", type);
+		if(!ticket_id.equals("0")){
+			params.put("wallet_money", wallet_money+"");
+			params.put("title", act_name+"-"+ticket_name);
+		}else {
+			params.put("wallet_money", "0");
+			params.put("title", act_name);
+		}
+		params.put("pay_money", pay_money+"");
+		AsyncTaskUtil.postData(mContext, "prePayOrder", params, new Callback() {
+			@Override public void onSuccess(JSONObject result) {
+				
+				String s = result.getString("s"); 
+				if(s.equals("0")){
+					String e = result.getString("e");
+					showCustomToast(e);
+					return;
+				}
+				try {
+					
+					Bundle bundle = new Bundle();
+					if(type==1){//跳转到支付宝
+						
+					}else if(type==2){//跳转到微信 
+						/*String partnerid = 
+						bundle.putString("partnerid", partnerid);
+						bundle.putString("prepayid", prepayid);
+						bundle.putString("package", package);
+						bundle.putString("noncestr", noncestr);
+						bundle.putString("timestamp", timestamp);
+						IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);*/
+					}else if(type==3){//跳转到银联
+						
+					}
+					/*⽀支付宝⽀支付时返回info(调⽤用⽀支付请求所需参
+数)；
+微信⽀支付时返回appid，partnerid，
+prepayid，package，noncestr，timestamp，
+sign；参数说明参考微信⽀支付api⽂文档
+银⾏行卡⽀支付时返回oid_partner，sign_type，
+busi_partner，dt_order，notify_url，
+no_order，name_goods，info_order，
+risk_item，valid_order，money_order，
+sign；具体参考连连⽀支付相关demo
+仅礼包或者余额⽀支付时，如成功则返回
+wallet_pay=1
+					*/
+					//IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);
+				} catch (Exception e) {
+				}
+				
+			}
+			@Override public void onFail(String msg) {}
+		});
+		
+		/*new AsyncTask<Void, Void, String>() {
 
 			@Override
 			protected void onPreExecute() {
@@ -185,17 +245,17 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 					if(type==1){//跳转到支付宝
 						
 					}else if(type==2){//跳转到微信 
-						/*String partnerid = 
+						String partnerid = 
 						bundle.putString("partnerid", partnerid);
 						bundle.putString("prepayid", prepayid);
 						bundle.putString("package", package);
 						bundle.putString("noncestr", noncestr);
-						bundle.putString("timestamp", timestamp);*/
+						bundle.putString("timestamp", timestamp);
 						IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);
 					}else if(type==3){//跳转到银联
 						
 					}
-					/*⽀支付宝⽀支付时返回info(调⽤用⽀支付请求所需参
+					⽀支付宝⽀支付时返回info(调⽤用⽀支付请求所需参
 数)；
 微信⽀支付时返回appid，partnerid，
 prepayid，package，noncestr，timestamp，
@@ -206,42 +266,42 @@ no_order，name_goods，info_order，
 risk_item，valid_order，money_order，
 sign；具体参考连连⽀支付相关demo
 仅礼包或者余额⽀支付时，如成功则返回
-wallet_pay=1*/
+wallet_pay=1
 					
 					//IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);
 				} catch (Exception e) {
 				}
 			}
 		}.execute();
-		
+		*/
 	}
 
 
 private Map<String, String> setParams(){
 		
 		Map<String, String> map = new HashMap<String, String>();
-		Map<String, Object> parms = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		
 		/*order_id(订单ID)；
 		type(1:⽀支付宝 2：微信⽀支付 3：银⾏行卡)；
 		wallet_money(使⽤用钱包的⾦金额数)；
 		pay_money(使⽤用⽀支付的⾦金额数)；
 		title(订单名称，订单名称=活动名+“ — ”+代⾦金券名)*/
-		parms.put("order_id", order_id);
-		parms.put("type", type);
+		params.put("order_id", order_id);
+		params.put("type", type);
 		if(!ticket_id.equals("0")){
-			parms.put("wallet_money", wallet_money+"");
-			parms.put("title", act_name+"-"+ticket_name);
+			params.put("wallet_money", wallet_money+"");
+			params.put("title", act_name+"-"+ticket_name);
 		}else {
-			parms.put("ticket_id", "0");
-			parms.put("title", act_name);
+			params.put("wallet_money", "0");
+			params.put("title", act_name);
 		}
-		parms.put("pay_money", pay_money+"");
+		params.put("pay_money", pay_money+"");
 		
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "prePayOrder");
 		arry.add(1, MyPreference.getInstance(mContext).getUserId());
-		arry.add(2, parms);
+		arry.add(2, params);
 		String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",com.alibaba.fastjson.JSONArray.toJSONString(arry)/*JsonUtils.list2json(arry)*/);
 		String encoded1 = "";
 		try {
@@ -269,7 +329,6 @@ private Map<String, String> setParams(){
 	@Override
 	protected void init() {
 		tvTotalPrice.setText(pay_money+"");
-		
 		
 	}
 

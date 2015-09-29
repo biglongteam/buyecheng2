@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
 
 
 
+
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +37,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alipay.android.app.util.Utils;
 import com.hangzhou.tonight.activity.EditPassActivity;
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.maintabs.MainActivity;
@@ -50,6 +54,7 @@ import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.PreferenceUtils;
 import com.hangzhou.tonight.util.RC4Utils;
+import com.hangzhou.tonight.util.ShowUtils;
 import com.hangzhou.tonight.util.T;
 import com.hangzhou.tonight.view.HandyTextView;
 import com.hangzhou.tonight.view.HeaderLayout;
@@ -63,6 +68,7 @@ import com.umeng.socialize.controller.listener.SocializeListeners.UMDataListener
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 public class LoginActivity extends BaseActivity implements OnClickListener,
@@ -207,6 +213,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		
 		mAccountEt = (EditText) findViewById(R.id.login_et_account);
 		mPasswordEt = (EditText) findViewById(R.id.login_et_pwd);
+		ShowUtils.dimssHint(mAccountEt);
+		ShowUtils.dimssHint(mPasswordEt);
 		mLoginBtn = (Button) findViewById(R.id.login_btn_login);
 		mRegisterBtn = (HandyTextView) findViewById(R.id.login_btn_register);
 		tv_edit_pass = (HandyTextView) findViewById(R.id.tv_edit_pass);
@@ -301,8 +309,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			/*login(SHARE_MEDIA.QQ,3);*/
 			break;
 		case R.id.im_wechat:
-			Toast.makeText(this, "暂未开通", 1000).show();
-			/*login(SHARE_MEDIA.WEIXIN,1);*/
+			//Toast.makeText(this, "暂未开通", 1000).show();
+			login(SHARE_MEDIA.WEIXIN,1);
 			break;
 
 		default:
@@ -328,6 +336,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
             }
             @Override
             public void onComplete(Bundle value, SHARE_MEDIA platform) {
+            	
+            	Toast.makeText(LoginActivity.this, "授权成功",Toast.LENGTH_SHORT).show();
             	
                 if (value != null && !TextUtils.isEmpty(value.getString("uid"))) {
                     if(i==3){
@@ -811,5 +821,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				mPassword);
 
 	}
+	
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+	    /**使用SSO授权必须添加如下代码 */  
+	    UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode);
+	    if(ssoHandler != null){
+	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+	    }
+	}
+	
 
 }

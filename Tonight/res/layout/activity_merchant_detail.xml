@@ -92,7 +92,7 @@
                     android:textSize="@dimen/x38" />
 
                 <TextView
-                    android:id="@+id/promontion_time"
+                    android:id="@+id/promontion_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tv_plan_tip"
@@ -304,6 +304,44 @@
                         android:src="@drawable/right_arrow" />
                 </RelativeLayout>
 
+                <View 
+                    android:background="#231E23" 
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x2"
+                    />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x110"
+                    android:layout_marginTop="@dimen/x3"
+                    android:id="@+id/rl_fuwu3"
+                    android:gravity="center_vertical"
+                    android:background="#383438">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:lineSpacingExtra="@dimen/x10"
+                        android:lineSpacingMultiplier="1.2"
+                        android:maxLines="10"
+                        android:paddingLeft="@dimen/x45"
+                        android:scrollHorizontally="false"
+                        android:text="VIP服务"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/x15"
+                        android:src="@drawable/right_arrow" />
+                </RelativeLayout>
+                
+                <View 
+                    android:background="#231E23" 
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x2"
+                    />
                 
             </LinearLayout>
 
