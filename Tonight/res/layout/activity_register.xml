@@ -33,6 +33,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/x30"
+                    android:focusable="true"  
+    				android:focusableInTouchMode="true"
                     android:gravity="center"
                     android:orientation="vertical" >
 
@@ -43,6 +45,7 @@
                         android:layout_marginBottom="8dip"
                         android:gravity="center"
                         android:background="@null"
+                        android:drawableLeft="@drawable/user"
                         android:hint="请输入手机号码"
                         android:inputType="phone"
                         android:textSize="15sp"
@@ -73,6 +76,7 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="请输入密码"
+                         android:drawableLeft="@drawable/password"
                         android:textSize="15sp"
                         android:textColor="@color/white"
                         android:imeOptions="actionDone"
@@ -100,6 +104,7 @@
                         android:layout_marginBottom="8dip"
                         android:gravity="center"
                         android:background="@null"
+                         android:drawableLeft="@drawable/password"
                         android:hint="请确认密码"
                         android:textSize="15sp"
                         android:textColor="@color/white"

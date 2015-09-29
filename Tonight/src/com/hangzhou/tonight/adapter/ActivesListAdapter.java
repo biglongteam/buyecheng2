@@ -1,40 +1,37 @@
 package com.hangzhou.tonight.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.hangzhou.tonight.R;
-import com.hangzhou.tonight.base.BaseApplication;
-import com.hangzhou.tonight.base.BaseObjectListAdapter;
 import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
-import com.hangzhou.tonight.entity.Entity;
-import com.hangzhou.tonight.entity.NearByPeople;
 import com.hangzhou.tonight.util.MyPreference;
-import com.hangzhou.tonight.util.PhotoUtils;
 import com.hangzhou.tonight.util.ScreenUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-public class ActivesListAdapter extends BaseObjectListAdapter {
+public class ActivesListAdapter extends  BaseAdapter {
 
-	
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
-	public ActivesListAdapter(BaseApplication application, Context context,
-			List<? extends Entity> datas) {
-		super(application, context, datas);
-		
+	private Context mContext ;
+	private List<ActivesEntity> mList;
+	private LayoutInflater  mInflater;
+	public ActivesListAdapter( Context mContext,
+			List<ActivesEntity> mList) {
+		this.mContext = mContext;
+		this.mList = mList;
+		mInflater = LayoutInflater.from(mContext);
 		imageLoader = ImageLoader.getInstance();
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.kc_picture)// 正在加载
@@ -45,6 +42,7 @@ public class ActivesListAdapter extends BaseObjectListAdapter {
 				.imageScaleType(ImageScaleType.EXACTLY) // default 推荐.imageScaleType(ImageScaleType.EXACTLY) 节省内存
 				.considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
+		
 	}
 
 	@Override
@@ -100,5 +98,46 @@ public class ActivesListAdapter extends BaseObjectListAdapter {
 		TextView mTvdescribe;
 		TextView mTvdistance;
 		TextView mTvcharge;
+	}
+	
+	public void addAndRefreshListView(List<ActivesEntity> lists) {
+		if(mList==null){
+			this.mList=new ArrayList<ActivesEntity>();
+		}
+		this.mList .addAll(lists);
+		notifyDataSetChanged();
+
+	}
+	
+	public void refreshListView(List<ActivesEntity> lists) {
+		if(this.mList==null){
+			this.mList=new ArrayList<ActivesEntity>();
+		}else{
+			this.mList.clear();
+		}
+		this.mList .addAll(lists);
+		notifyDataSetChanged();
+	}
+	
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return mList.size();
+	}
+
+
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return mList.get(position);
+	}
+
+
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
 	}
 }

@@ -53,6 +53,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow.OnDismissListener;
@@ -60,6 +61,7 @@ import android.widget.PopupWindow.OnDismissListener;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.adapter.ActivesListAdapter;
+import com.hangzhou.tonight.adapter.MerchantListAdapter;
 import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.City;
@@ -100,7 +102,7 @@ public class PromotionActivity extends TabItemActivity implements
 	private Handler mHander;
 
 	RelativeLayout index_head;
-	
+	private boolean flagLoadMore = false;
 	private ImageView title_search;
 	private TextView tvCity,tvTitle;
 	private int currentPage = 1,// 当期页码
@@ -424,18 +426,26 @@ public class PromotionActivity extends TabItemActivity implements
 					jsonObject = new JSONObject(result);
 					JSONArray jsonArray = jsonObject.getJSONArray("acts");
 					mActives = resolveUtils(jsonArray);
+					
+					if(mAdapter==null){
+						mAdapter = new ActivesListAdapter(mContext,mActives);
+						xListView.setAdapter(mAdapter);
+						mAdapter.notifyDataSetChanged();
+					}else{
+						if(flagLoadMore){
+							mAdapter.addAndRefreshListView(mActives);
+							if(mActives.size()==0){
+								Toast.makeText(mContext, "没有更多数据...", 1000).show();
+							}
+						}else{
+							mAdapter.refreshListView(mActives);
+						}
+					}
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
-				//JSONArray array = new JSONArray(result);
-
-				// mActives =
-				// JSON.parseArray(jsonArray.toString(),ActivesEntity.class);
-				mAdapter = new ActivesListAdapter(mApplication, mContext,mActives);
-				xListView.setAdapter(mAdapter);
-				//mAdapter.notifyDataSetChanged();
 			}
 		}.execute();
 
@@ -615,7 +625,7 @@ public class PromotionActivity extends TabItemActivity implements
 
 	protected void loadMore() {
 		currentPage++;// 每次 点击加载更多，请求页码 +1
-		// flagLoadMore = true;
+		flagLoadMore = true;
 		getDataList(currentPage,cityId);
 	}
 
@@ -628,7 +638,7 @@ public class PromotionActivity extends TabItemActivity implements
 						SimpleDateFormat formatter = new SimpleDateFormat(
 								"yyyy-MM-dd H:mm:ss");
 						String dateString = formatter.format(currentTime);
-						// flagLoadMore = false;
+						flagLoadMore = false;
 						currentPage = 1;
 						getDataList(currentPage,cityId);
 						xListView.stopRefresh();

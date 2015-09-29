@@ -95,6 +95,7 @@ OnClickListener, IXListViewListener{
 	private TextView tvCity,et_key;
 	private MerchantListAdapter mAdapter;
 	public List<MerchantEntity> mActives = new ArrayList<MerchantEntity>();
+	public List<MerchantEntity> mActiveMore = new ArrayList<MerchantEntity>();
 
 	private PopupWindow mPopupWindow;
 	LinearLayout sortlist;
@@ -109,6 +110,7 @@ OnClickListener, IXListViewListener{
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
 	private AbSlidingPlayView mAbSlidingPlayView;
+	private boolean flagLoadMore = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -339,17 +341,24 @@ OnClickListener, IXListViewListener{
 					jsonObject = new JSONObject(result);
 					JSONArray jsonArray = jsonObject.getJSONArray("sellers");
 					mActives = resolveUtils(jsonArray);
+					if(mAdapter==null){
+						mAdapter = new MerchantListAdapter(mContext,mActives);
+						xListView.setAdapter(mAdapter);
+						mAdapter.notifyDataSetChanged();
+					}else{
+						if(flagLoadMore){
+							mAdapter.addAndRefreshListView(mActives);
+							if(mActives.size()==0){
+								Toast.makeText(mContext, "没有更多数据...", 1000).show();
+							}
+						}else{
+							mAdapter.refreshListView(mActives);
+						}
+					}
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-				//JSONArray array = new JSONArray(result);
-				// mActives =
-				// JSON.parseArray(jsonArray.toString(),ActivesEntity.class);
-				mAdapter = new MerchantListAdapter(mApplication, mContext,mActives);
-				xListView.setAdapter(mAdapter);
-				//mAdapter.notifyDataSetChanged();
 			}
 		}.execute();
 
@@ -468,13 +477,17 @@ OnClickListener, IXListViewListener{
 		case R.id.tv_city:
 			Bundle bundle = new Bundle();
 			bundle.putInt("code", 1002);
-			//IntentJumpUtils.nextActivity(SelectCityActivity.class, MerchantsHomeListActivity.this,bundle, 1002);
+			IntentJumpUtils.nextActivity(SelectCityActivity.class, MerchantsHomeListActivity.this,bundle, 1002);
 			break;
 		case R.id.title_search:
+			if(mPopupWindow!=null&&mPopupWindow.isShowing()){
+				return;
+			}
 			key = et_key.getText().toString();
 			if(!key.equals("")){
 				getDataList(currentPage,cityId,key,type,sort);
 			}else{
+				
 				mPopupWindow = new PopupWindow(sortlist, 450, LayoutParams.WRAP_CONTENT);
 				mPopupWindow.showAsDropDown(index_head, ScreenUtils.getScreenWidth(mContext)/5, 200);
 			}
@@ -544,7 +557,7 @@ OnClickListener, IXListViewListener{
 	
 	protected void loadMore() {
 		currentPage++;// 每次 点击加载更多，请求页码 +1
-		// flagLoadMore = true;
+		flagLoadMore = true;
 		getDataList(currentPage,cityId,key,type,sort);
 	}
 
@@ -557,7 +570,7 @@ OnClickListener, IXListViewListener{
 						SimpleDateFormat formatter = new SimpleDateFormat(
 								"yyyy-MM-dd H:mm:ss");
 						String dateString = formatter.format(currentTime);
-						// flagLoadMore = false;
+						flagLoadMore = false;
 						currentPage = 1;
 						getDataList(currentPage,cityId,key,type,sort);
 						xListView.stopRefresh();

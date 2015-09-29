@@ -141,10 +141,10 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 	 * coursePrice 对应单价 
 	 */
 	
-	private void calculateCourseTotalPrice(float courseCount,float zekou) {
+	private void calculateCourseTotalPrice(float courseCount,float coursePrice) {
 		
 		//tvCoursePrice.setText(coursePrice+"元/ 小时");
-		totalPrice = (float) (courseCount*zekou);
+		totalPrice = (float) (courseCount*coursePrice);
 		tvTotalPrice.setText(totalPrice + "元");
 		tvPricezhekou.setText(totalPrice - ticket + "元");
 		//tvAllPrice.setText(totalPrice + "元");
@@ -169,7 +169,7 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 				tvCounter.setText(count + "");
 				//ivCounterSub.setClickable(false);
 			}
-			calculateCourseTotalPrice(count,zekou);
+			calculateCourseTotalPrice(count,totalPrice);
 		}
 		
 		//增加 课时
@@ -184,7 +184,7 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 				tvCounter.setText(count + "");
 				//ivCounterSub.setClickable(false);
 			}
-			calculateCourseTotalPrice(count,zekou);
+			calculateCourseTotalPrice(count,totalPrice);
 		}
 		
 		// 将新的数量更新到购票车的数据库表中

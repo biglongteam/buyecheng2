@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import u.aly.bu;
 import android.content.Context;
@@ -36,11 +38,11 @@ import android.widget.TextView;
 import com.ab.view.listener.AbOnItemClickListener;
 import com.ab.view.sliding.AbSlidingPlayView;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
-import com.hangzhou.tonight.adapter.ActivesListAdapter;
-import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.ActivesInfo;
@@ -94,9 +96,12 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	private AbSlidingPlayView mAbSlidingPlayView;
 	private String tel,ticket_id,order_id;
 	private String arrayFav [];
+	//private ActivesDetail detail;
+	private String intro;
 	boolean isFav = false;
 	int num;
 	float amount,expense;
+	private String detail;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -209,6 +214,8 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	private void getDataDetail() {
 		new AsyncTask<Void, Void, String>() {
 
+			
+
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
@@ -234,11 +241,17 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 				
 				//{"actInfo":{"act_id":"35","address":"杭州市江干区天城路88号","content":"3-4人畅爽套餐    1份     980元\n啤酒无限畅饮\n18:00到凌晨2:00，欢唱8小时\n门店价格：2480","des":"啤酒无限畅饮","endtime":"1470844800","img":"[\"0_0QQ%E6%88%AA%E5%9B%BE20150813101248.png\",\"0_1QQ%E6%88%AA%E5%9B%BE20150813101056.png\",\"0_2QQ%E6%88%AA%E5%9B%BE20150813101145.png\",\"0_3QQ%E6%88%AA%E5%9B%BE20150813101200.png\",\"0_4QQ%E6%88%AA%E5%9B%BE20150813101209.png\",\"0_7QQ%E6%88%AA%E5%9B%BE20150813101238.png\"]","lat":"30.293052","lon":"120.20591","name":"皇冠娱乐会所","phone":"15257128999","price":"0.00","review_num":"0","sales_num":"0","starttime":"1439395200","tip":"每张糯米券限20人使用，超出收费标准：超出收费标准：按照商家为标准，如有疑问请咨询商家\n每次消费不限使用糯米券张数\n包厢安排为：包厢安排为：小1包厢：3-4人，小2包厢：5-8人，中包厢：15-20人，大包厢；15-20人","title":"价值2480元15-20人欢唱套餐","value":"0.00"},"reviews":[],"s":1}
 				JSONObject jsonObject = object.getJSONObject("actInfo"); 
+				String jsons = jsonObject.getString("content"); 
+				//JSONObject jj = new JSONObject(jsons);
+				/*JsonObject jj = new 
+				JSONArray jsonarr = jsons.getJSONArray("detail");*/
+				//detail = JSON.parseObject(jsonObject.toString(), ActivesDetail.class);
+				
+				
+				intro = jsonObject.getString("intro");
 				actInfo = JSON.parseObject(jsonObject.toString(), ActivesInfo.class);
 				initData();
 			}
-
-			
 		}.execute();
 	}
 
@@ -316,7 +329,8 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		tv_act_title.setText(actInfo.getTitle());
 		tv_act_time.setText(actInfo.getStarttime());
 		tv_act_address.setText(actInfo.getAddress());
-		tv_neirong1.setText(actInfo.getContent());
+		//{"detail":[],"intro":["1111"]}
+		tv_neirong1.setText(detail+"/n"+intro);
 		tv_xuzhi1.setText(actInfo.getTip());
 		tv_charge.setText("￥"+actInfo.getPrice());
 		String imgs = actInfo.getImg();
@@ -333,32 +347,6 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	}
 	
 	
-
-	
-	/*public class OnSwitcherButtonClickListener implements
-			onSwitcherButtonClickListener {
-
-		@Override
-		public void onClick(SwitcherButtonState state) {
-			FragmentTransaction ft = getSupportFragmentManager()
-					.beginTransaction();
-			ft.setCustomAnimations(R.anim.fragment_fadein,
-					R.anim.fragment_fadeout);
-			switch (state) {
-			case LEFT:
-				mHeaderLayout.init(HeaderStyle.TITLE_NEARBY_PEOPLE);
-				ft.replace(R.id.nearby_layout_content, mPeopleFragment)
-						.commit();
-				break;
-
-			case RIGHT:
-				mHeaderLayout.init(HeaderStyle.TITLE_NEARBY_GROUP);
-				ft.replace(R.id.nearby_layout_content, mGroupFragment).commit();
-				break;
-			}
-		}
-
-	}*/
 
 	/**
 	 * 分享功能
@@ -382,21 +370,6 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		sendIntent.putExtra(Intent.EXTRA_TEXT, msgTitle);
 		sendIntent.setType("text/plain");
 		startActivity(sendIntent);
-		/*Intent intent = new Intent(Intent.ACTION_SEND);
-		if (imgPath == null || imgPath.equals("")) {
-			intent.setType("text/plain"); // 纯文本
-		} else {
-			File f = new File(imgPath);
-			if (f != null && f.exists() && f.isFile()) {
-				intent.setType("image/jpg");
-				Uri u = Uri.fromFile(f);
-				intent.putExtra(Intent.EXTRA_STREAM, u);
-			}
-		}
-		intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
-		intent.putExtra(Intent.EXTRA_TEXT, msgText);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(Intent.createChooser(intent, activityTitle));*/
 	}
 
 	@Override
@@ -413,14 +386,15 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 			shareMsg(actInfo.getTitle(),actInfo.getTip(),actInfo.getContent(),actInfo.getImg());
 			break;
 		case R.id.bt_lianxi://
+			tel = actInfo.getPhone();
 			if(tel!=null){
-				tel = actInfo.getPhone();
+				Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"+tel));    
+	            mContext.startActivity(intent);
 			}else {
 				showCustomToast("电话号码为空");
 				return;
 			}
-			Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel://"+tel));    
-            mContext.startActivity(intent); 
+			 
 			break;
 		case R.id.bt_goumai:// 
 			
