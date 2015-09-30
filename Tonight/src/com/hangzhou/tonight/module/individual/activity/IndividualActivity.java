@@ -56,6 +56,9 @@ public class IndividualActivity extends CustomActionActivity {
 		User user = UserInfoDto.getUser(getActivity());
 		tvNick.setText(user.nick);
 		tvAccount.setText(String.format(getResources().getString(R.string.label_account), user.phone));
+	
+		//TODO  角色是经理 则显示  个人角色和等级在哪里获取?
+		//mMycommission.setVisibility(View.GONE);
 	}
 
 	OnClickListener itemViewClick = new OnClickListener() {

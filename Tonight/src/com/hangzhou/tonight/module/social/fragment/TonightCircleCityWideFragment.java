@@ -3,9 +3,12 @@ package com.hangzhou.tonight.module.social.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +16,11 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
+import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
@@ -30,7 +36,17 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 	List<DataModel> listData = null;
 	
 	@Override protected void doListeners() {
-		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+			DataModel m;
+			@Override public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				m = listData.get(position);
+				BaseSingeFragmentActivity.startActivity(getActivity(), TonightCircleDetailFragment.class, new TbarViewModel(m.nick), new OnIntentCreateListener() {
+					@Override public void onCreate(Intent intent) {
+						intent.putExtra("mid", m.mid);
+					}
+				});
+			}
+		});
 	}
 	
 	@Override protected void doHandler() {
@@ -71,6 +87,9 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 		params.put("sort", sort);
 		AsyncTaskUtil.postData(getActivity(), "getMoodList", params, new Callback() {
 			@Override public void onSuccess(JSONObject result) {
+				if(result==null||result.equals("")){
+					return;
+				}
 				isAllowLoad = result.containsKey("nomore")? true : (result.getInteger("nomore") != 1);	
 				time = result.getLongValue("time");
 				listData.addAll(JSONArray.parseArray(result.getString("moods"), DataModel.class));

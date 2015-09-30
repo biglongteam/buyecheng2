@@ -228,11 +228,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	protected void init() {
 		/*mAccount=MyPreference.getInstance(LoginActivity.this).getLoginName();
 		mPassword=MyPreference.getInstance(LoginActivity.this).getPassword();;
+		mAccount="1000003";
+		mPassword="9d2b201382a3a8cf1342c1be422594d5";
 		if (!TextUtils.isEmpty(mAccount))
 			mAccountEt.setText(mAccount);
 		if (!TextUtils.isEmpty(mPassword))
 			mPasswordEt.setText(mPassword);*/
-
 	}
 
 	@Override
@@ -668,8 +669,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		Map<String, Object> parms = new HashMap<String, Object>();
 		mAccount = mAccountEt.getText().toString().trim();
 		//mPassword = mPasswordEt.getText().toString().trim();
-		//mAccount="1000003";
-		//mPassword="9d2b201382a3a8cf1342c1be422594d5";
+		/*mAccount="1000003";
+		mPassword="9d2b201382a3a8cf1342c1be422594d5";*/
 		String psw = "sq"+mPasswordEt.getText().toString().trim();
 		String pw = MD5Utils.md5(psw).substring(0, 27);
 		String dd = pw+"ton";
@@ -677,7 +678,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		
 		//parms.put("id", 1000003);
 		//parms.put("password", "9d2b201382a3a8cf1342c1be422594d5");
-		
 		
 		/*登录密码= md5(substr(md5("sq".$password), 0,27).”ton”);
 		如密码为51tonight则为: md5(“sq51tonight”)=“16d88e6ba9fbbbf04c5ca181ba6f16f7”，之后截取32位的前27位，得“16d88e6ba9fbbbf04c5ca181ba6”，然后该字

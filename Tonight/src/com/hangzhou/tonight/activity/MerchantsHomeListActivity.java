@@ -376,7 +376,11 @@ OnClickListener, IXListViewListener{
 
 				String imgs = object.getString("img");
 				String []imgArray =  imgs.split(",");
-				String img = imgArray[0].substring(2, imgArray[0].length()-1);
+				String img="";
+				if(imgArray[0]!=null&&imgArray[0].length()>3){
+					img = imgArray[0].substring(2, imgArray[0].length()-1);
+				}
+				
 				/*String img = null;
 				try {
 					img = URLEncoder.encode(imgStr, "utf-8");
@@ -384,7 +388,7 @@ OnClickListener, IXListViewListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}*/
-				String value = object.getString("value");
+				String value = object.getString("price");
 				String price =  object.getString("price");
 				String seller_id = object.getString("seller_id");
 				String name = object.getString("name");

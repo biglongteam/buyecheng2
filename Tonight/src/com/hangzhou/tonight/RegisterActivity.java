@@ -209,7 +209,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 					
 					MyPreference.getInstance(RegisterActivity.this).setUserId(uid);
 					MyPreference.getInstance(RegisterActivity.this).setTelNumber(phone);
-					MyPreference.getInstance(RegisterActivity.this).setPassword(etPass.getText().toString());
+					MyPreference.getInstance(RegisterActivity.this).setPassword(mPassword);
 					MyPreference.getInstance(RegisterActivity.this).setLoginName(phoneNum);;
 					MyPreference.getInstance(RegisterActivity.this).setUserSex(sex);
 					MyPreference.getInstance(RegisterActivity.this).setUserName(nick);

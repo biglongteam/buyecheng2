@@ -235,7 +235,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 					@Override
 					public void onGlobalLayout() {
 
-						if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+						/*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 							getViewTreeObserver().removeGlobalOnLayoutListener(
 									this);
 						} else {
@@ -244,7 +244,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 						}
 
 						currentPosition = pager.getCurrentItem();
-						scrollToChild(currentPosition, 0);
+						scrollToChild(currentPosition, 0);*/
 					}
 				});
 

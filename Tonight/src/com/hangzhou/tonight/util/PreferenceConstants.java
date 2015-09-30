@@ -10,7 +10,7 @@ public class PreferenceConstants {
 	public static final String GMAIL_SERVER = "talk.google.com";
 	
 	//http://115.29.246.139/ton/tongate.php
-	public static final String TONIGHT_SERVER = "http://115.29.246.139/"+ "ton/tongate.php";
+	public static final String TONIGHT_SERVER = "http://115.29.246.139/"+ "ton/tongateway.php";
 	public final static int PORT_WERVER = 5222;
 	public final static String ISNEEDLOG = "isneedlog";
 	public final static String REPORT_CRASH = "reportcrash";

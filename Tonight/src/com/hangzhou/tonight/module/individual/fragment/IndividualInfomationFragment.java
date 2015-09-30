@@ -44,7 +44,7 @@ public class IndividualInfomationFragment extends BFragment {
 	ImageView ivHeadAdd;
 	Button bAddfriend;
 	
-	JSONObject orginJson;
+	JSONObject orginJson = new JSONObject();
 	Map<String,ComponentModel> map = new HashMap<String,ComponentModel>();
 	boolean isFriend = false;
 	

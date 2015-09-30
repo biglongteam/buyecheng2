@@ -47,7 +47,7 @@
     <string name="change_password">修改密码</string>
     <!-- individual 个人模块 -->
     <string name="label_account">账户 : %1$s</string>
-    <string name="individual_my_account">我的账户</string>
+    <string name="individual_my_account">我的钱包</string>
 	<string name="individual_my_order">我的订单</string>
 	<string name="individual_my_collection">我的收藏</string>
 	<string name="individual_my_commission">我的佣金</string>

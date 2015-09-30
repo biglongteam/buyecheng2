@@ -209,11 +209,7 @@
 	    <activity android:name=".im.ContacterMainActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
 	     <activity android:name=".im.RoomChatActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
 		
-        <!-- 会议室成员列表  -->
-        <activity
-             android:name=".im.RoomMemberActivity"
-             android:screenOrientation="portrait"
-            />
+      
         
         <!-- 创建群  -->
         <activity

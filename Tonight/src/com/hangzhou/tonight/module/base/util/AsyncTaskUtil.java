@@ -7,7 +7,6 @@ import java.util.Map;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Base64;
 
 import com.hangzhou.tonight.module.base.dto.UserInfoDto;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
@@ -19,7 +18,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.dialog.FlippingLoadingDialog;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
-import com.hangzhou.tonight.util.JsonUtils;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 
@@ -49,12 +47,28 @@ public class AsyncTaskUtil {
 		return uid;
 	}
 	
+	public static void upload(){}
+	
+	public static void download(){}
+	
 	public static void postData(Context context,String method,JSONObject params,Callback callback){
 		postData(context, method, params, callback, true);
 	}
 	
 	public static void postData(final Context context,String method,JSONObject params,final Callback callback,final boolean showDef){
 		if(params == null){ params = new JSONObject();}
+		//汉字处理
+		Object obj = null;
+		for(String key : params.keySet()){
+			obj = params.get(key);
+			if(obj instanceof String){//复杂数据结构暂不处理
+				String value = (String) obj;
+				if(StringUtil.isContainChinese(value)){
+					params.put(key, UnicodeUtil.gbEncoding(value));
+				}
+			}
+		}
+		
 		RequestModel model = new RequestModel();
 		model.methodName = method;
 		model.params = params;
@@ -94,25 +108,6 @@ public class AsyncTaskUtil {
 			if(null != encoded){
 				param.put("d", encoded);
 			}
-			//TODO COPY 20150923
-			/*String data0 = RC4Utils.RC4(password,JsonUtils.list2json(array));
-			String encoded1 = "";
-			try {
-				encoded1 = new String(Base64Utils.encode(data0.getBytes(PreferenceConstants.ISO88591), 0, data0.length()));
-			} catch (UnsupportedEncodingException e) {
-				//e.printStackTrace();
-			}
-			String decode = "";
-			try {
-				if(!encoded1.equals("")){
-					decode = new String(Base64.decode(encoded1, Base64.DEFAULT),PreferenceConstants.ISO88591);
-				}		
-			} catch (UnsupportedEncodingException e) {
-				//e.printStackTrace();
-			}
-			RC4Utils.RC4(password, decode);
-			param.put("d", encoded1);*/
-			
 			
 			CallbackModel model = new CallbackModel();
 			try{

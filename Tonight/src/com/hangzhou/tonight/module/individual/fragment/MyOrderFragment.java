@@ -101,7 +101,10 @@ public class MyOrderFragment extends Fragment {
 			}
 		});
 		
-		AsyncTaskUtil.postData(getActivity(), "getOrderList", null, new Callback() {
+		JSONObject params = new JSONObject();
+		params.put("type", 1);
+		
+		AsyncTaskUtil.postData(getActivity(), "getOrderList", params, new Callback() {
 			
 			@Override public void onSuccess(JSONObject result) {
 				List<OrderModel> list = JSONArray.parseArray(result.getString("orders"), OrderModel.class);

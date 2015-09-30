@@ -3,6 +3,9 @@ package com.hangzhou.tonight.module.message.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,12 +21,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.manager.NoticeManager;
 import com.hangzhou.tonight.model.Notice;
-import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
 import com.hangzhou.tonight.module.message.activity.ValidateMessageActivity;
-import com.hangzhou.tonight.util.MyPreference;
 
 /**
  * 验证消息[listview实现,但需去除分割线,且设置高度,去除点击效果]
@@ -135,11 +136,13 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			DataModel model = listData.get(position);
+
 			int state=Integer.parseInt(model.getState());
 			int type=Integer.parseInt(model.getType());
 			String msg=model.getMsg();
 			String goupName=model.getTitle();
 			//String state=model.getState();
+
 			//Notice notice = inviteNotices.get(position);
 			ViewHolder hodler = null;
 			if (convertView == null) {

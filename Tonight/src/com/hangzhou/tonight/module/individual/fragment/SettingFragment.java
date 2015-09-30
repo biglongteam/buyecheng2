@@ -2,8 +2,10 @@ package com.hangzhou.tonight.module.individual.fragment;
 
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.util.MyPreference;
 
 import android.view.View;
@@ -51,6 +53,8 @@ public class SettingFragment extends BFragment {
 				ActivityHelper.startActivity(getActivity(), LoginActivity.class);
 				getActivity().finish();
 				//TODO 需要清空栈
+			}else if(v == vChangePwd){
+				BaseSingeFragmentActivity.startActivity(getActivity(), ChangePwdFragment.class, new TbarViewModel("修改密码"));
 			}
 		}	
 	};

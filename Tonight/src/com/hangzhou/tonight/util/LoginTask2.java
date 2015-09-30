@@ -130,7 +130,8 @@ public class LoginTask2 extends AsyncTask<String, Integer, Integer> {
 				connection.login(username, password); // 登录
 				System.out.println("-----3");
 			//}	
-			 OfflineMsgManager.getInstance(activitySupport).dealOfflineMsg(connection);//处理离线消息
+			//TODO HANK 隐藏 error
+			// OfflineMsgManager.getInstance(activitySupport).dealOfflineMsg(connection);//处理离线消息
 			connection.sendPacket(new Presence(Presence.Type.available));
 			if (loginConfig.isNovisible()) {// 隐身登录
 				Presence presence = new Presence(Presence.Type.unavailable);

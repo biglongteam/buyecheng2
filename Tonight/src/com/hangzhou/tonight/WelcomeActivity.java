@@ -330,10 +330,10 @@ public class WelcomeActivity extends BaseActivity {
 		
 		
 		
-		String psw = "sq"+password;
+		/*String psw = "sq"+password;
 		String pw = MD5Utils.md5(psw).substring(0, 27);
 		String dd = pw+"ton";
-		String mPassword = MD5Utils.md5(dd);
+		String mPassword = MD5Utils.md5(dd);*/
 		
 		//parms.put("id", 1000003);
 		//parms.put("password", "9d2b201382a3a8cf1342c1be422594d5");
@@ -345,7 +345,7 @@ public class WelcomeActivity extends BaseActivity {
 		/*parms.put("id",1000195);		
 		parms.put("password", mPassword);*/
 		parms.put("id",account);		
-		parms.put("password", mPassword);
+		parms.put("password", password);
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "userLogin");
 		arry.add(1, 0);
