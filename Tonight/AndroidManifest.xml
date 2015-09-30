@@ -231,7 +231,9 @@
          <activity
              android:name="com.hangzhou.tonight.wxpay.PayActivity"
             />
-        
+         <activity
+             android:name="com.hangzhou.tonight.alipay.AliPayActivity"
+            />
           <!-- 全屏显示图片  -->
         <activity
              android:name=".im.ImageShower"

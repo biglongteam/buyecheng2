@@ -26,6 +26,7 @@ import com.google.gson.JsonArray;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.adapter.OtherActsListAdapter;
 import com.hangzhou.tonight.adapter.PinglunListAdapter;
+import com.hangzhou.tonight.alipay.AliPayActivity;
 import com.hangzhou.tonight.entity.ActivesInfo;
 import com.hangzhou.tonight.entity.MerchantInfo;
 import com.hangzhou.tonight.entity.OtherActsEntity;
@@ -162,31 +163,36 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 			params.put("title", act_name+"-"+ticket_name);
 		}else {
 			params.put("wallet_money", "0");
-			params.put("title", act_name);
+			params.put("title", "ceshi");
 		}
 		params.put("pay_money", pay_money+"");
 		AsyncTaskUtil.postData(mContext, "prePayOrder", params, new Callback() {
 			@Override public void onSuccess(JSONObject result) {
 				
-				String s = result.getString("s"); 
-				if(s.equals("0")){
-					String e = result.getString("e");
-					showCustomToast(e);
-					return;
-				}
 				try {
 					
 					Bundle bundle = new Bundle();
 					if(type==1){//跳转到支付宝
-						
+						String info = result.getString("info");
+						bundle.putString("info", info);
+						IntentJumpUtils.nextActivity(AliPayActivity.class, PayTypeActivity.this, bundle);
 					}else if(type==2){//跳转到微信 
-						/*String partnerid = 
+						
+						String appid = result.getString("appid");
+						String noncestr = result.getString("appid");
+						String packagestr = result.getString("package");;
+						String partnerid = result.getString("partnerid");
+						String prepayid = result.getString("prepayid");
+					    String sign = result.getString("sign");
+					    int timestamp = result.getInteger("timestamp");
+						bundle.putString("appid", appid);
 						bundle.putString("partnerid", partnerid);
 						bundle.putString("prepayid", prepayid);
-						bundle.putString("package", package);
+						bundle.putString("package", packagestr);
 						bundle.putString("noncestr", noncestr);
-						bundle.putString("timestamp", timestamp);
-						IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);*/
+						bundle.putString("sign", sign);
+						bundle.putInt("timestamp", timestamp);
+						IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);
 					}else if(type==3){//跳转到银联
 						
 					}

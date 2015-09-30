@@ -21,48 +21,48 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
         
-        
 
         <com.ab.view.sliding.AbSlidingPlayView
             android:id="@+id/mAbSlidingPlayView"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/x300"
+            android:layout_height="@dimen/x510"
             android:layout_below="@id/nearby_header" >
         </com.ab.view.sliding.AbSlidingPlayView>
         
-        
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-60dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/tv_charge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/x16"
-                android:background="@drawable/bg_promention_price"
-                android:shadowColor="#ff0000ff"
-                android:shadowDy="3"
-                android:gravity="center"
-                android:text="120元/小时"
-                android:paddingLeft="@dimen/x15"
-                android:paddingRight="@dimen/x15"
-                android:paddingTop="@dimen/x5"
-                android:paddingBottom="@dimen/x5"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mAbSlidingPlayView"
-            android:background="@color/white"
-             >
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-110dp"
+            android:gravity="right" >
 
+        <TextView
+            android:id="@+id/tv_charge"
+            android:layout_width="@dimen/x160"
+            android:layout_height="@dimen/x90"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="70dp"
+            android:background="@drawable/bg_promention_price"
+            android:gravity="center"
+            android:paddingBottom="@dimen/x5"
+            android:paddingLeft="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            android:paddingTop="@dimen/x5"
+            android:shadowColor="#ff0000ff"
+            android:shadowDy="3"
+            android:text="￥4000"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        </LinearLayout>
+
+         <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-37dp"
+             >
+             
+ 
             <RelativeLayout
                 android:id="@+id/rl_fav"
                 android:layout_width="wrap_content"
@@ -79,17 +79,9 @@
                     android:paddingTop="@dimen/x5"
                     android:gravity="center"
                     android:text="收藏"
-                    android:textColor="#D5D5D5"
+                    android:textColor="#FF4A4A4A"
                     android:textSize="16sp" />
             </RelativeLayout>
-
-            
-            
-            <View 
-                android:layout_width="@dimen/x3"
-                android:layout_height="@dimen/x85"
-                android:background="#B9B9B9"
-                />
             
             <RelativeLayout
                 android:id="@+id/rl_share"
@@ -97,14 +89,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center" >
-
-                <!--
-                     <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/favorite" />
-                -->
 
                 <TextView
                     android:id="@+id/tv_share"
@@ -116,10 +100,10 @@
                     android:paddingTop="@dimen/x5"
                     android:gravity="center"
                     android:text="分享"
-                    android:textColor="#D5D5D5"
+                    android:textColor="#FF4A4A4A"
                     android:textSize="16sp" />
             </RelativeLayout>
-        </LinearLayout>
+        </LinearLayout>  
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -150,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/x15"
                 android:text="夜色派对 ："
-                android:textColor="#72324F"
+                android:textColor="#FFE64087"
                 android:textSize="18sp" />
             </LinearLayout>
 
@@ -161,7 +145,8 @@
                 android:paddingLeft="@dimen/x15"
                 android:paddingTop="@dimen/x15"
                 android:text="活动介绍"
-                android:textSize="@dimen/x38" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_act_title"
@@ -172,6 +157,7 @@
                 android:lineSpacingExtra="@dimen/x10"
                 android:lineSpacingMultiplier="1.2"
                 android:maxLines="10"
+                android:textColor="#FFFFFFFF"
                 android:paddingLeft="@dimen/x45"
                 android:scrollHorizontally="false"
                 android:text="北京市昌平区沙阳路13号gdffsd"
@@ -184,7 +170,8 @@
                 android:paddingLeft="@dimen/x15"
                 android:paddingTop="@dimen/x15"
                 android:text="活动时间"
-                android:textSize="@dimen/x38" />
+               android:textColor="#FFFFFFFF"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_act_time"
@@ -198,6 +185,7 @@
                 android:paddingLeft="@dimen/x45"
                 android:scrollHorizontally="false"
                 android:text="2015-4-4 —— 2015-6-8"
+                android:textColor="#FFFFFFFF"
                 android:textSize="15sp" />
 
             <TextView
@@ -207,7 +195,8 @@
                 android:paddingLeft="@dimen/x15"
                 android:paddingTop="@dimen/x15"
                 android:text="活动地址"
-                android:textSize="@dimen/x38" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_act_address"
@@ -221,6 +210,7 @@
                 android:paddingLeft="@dimen/x45"
                 android:scrollHorizontally="false"
                 android:text="瑞达路科学大道交叉口向北100m"
+                android:textColor="#FFFFFFFF"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -264,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/x15"
                 android:text="活动内容 ："
-                android:textColor="#72324F"
+                android:textColor="#FFE64087"
                 android:textSize="18sp" />
             </LinearLayout>
 
@@ -368,7 +358,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/x15"
                 android:text="购买须知 ："
-                android:textColor="#72324F"
+                android:textColor="#FFE64087"
                 android:textSize="18sp" />
             </LinearLayout>
 
