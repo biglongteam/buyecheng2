@@ -35,8 +35,8 @@ import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
-import com.ab.view.listener.AbOnItemClickListener;
 import com.ab.view.sliding.AbSlidingPlayView;
+import com.ab.view.sliding.AbSlidingPlayView.AbOnItemClickListener;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -116,7 +116,7 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		
 		
 		mAbSlidingPlayView = (AbSlidingPlayView) findViewById(R.id.mAbSlidingPlayView);
-		//mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
+		mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
 		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
 		
 

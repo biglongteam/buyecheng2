@@ -34,8 +34,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 
-import com.ab.view.listener.AbOnItemClickListener;
 import com.ab.view.sliding.AbSlidingPlayView;
+import com.ab.view.sliding.AbSlidingPlayView.AbOnItemClickListener;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.LoginActivity;
@@ -114,7 +114,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		
 		
 		mAbSlidingPlayView = (AbSlidingPlayView) findViewById(R.id.mAbSlidingPlayView);
-		//mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
+		mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
 		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
 		
 

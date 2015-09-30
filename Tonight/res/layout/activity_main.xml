@@ -29,10 +29,11 @@
 
         <include
             android:id="@+id/tab1"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             layout="@layout/custom_tab" />
+
     </RelativeLayout>
 
 </TabHost>

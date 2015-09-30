@@ -23,7 +23,7 @@
             <com.ab.view.sliding.AbSlidingPlayView
                 android:id="@+id/mAbSlidingPlayView"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/x280"
+                android:layout_height="@dimen/x430"
                 android:layout_below="@id/nearby_header" >
             </com.ab.view.sliding.AbSlidingPlayView>
 

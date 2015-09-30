@@ -37,8 +37,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.ab.view.listener.AbOnItemClickListener;
 import com.ab.view.sliding.AbSlidingPlayView;
+import com.ab.view.sliding.AbSlidingPlayView.AbOnItemClickListener;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.adapter.ActivesListAdapter;
 import com.hangzhou.tonight.adapter.MerchantListAdapter;
@@ -135,7 +135,7 @@ OnClickListener, IXListViewListener{
 		xListView = (XListView) findViewById(R.id.merchant_list);
 		xListView.addHeaderView(mPlayViews);
 		mAbSlidingPlayView = (AbSlidingPlayView) findViewById(R.id.mAbSlidingPlayView);
-		//mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
+		mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
 		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
 		sortlist = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.sort_list, null);
 		btRq = (Button) sortlist.findViewById(R.id.bt_rq);

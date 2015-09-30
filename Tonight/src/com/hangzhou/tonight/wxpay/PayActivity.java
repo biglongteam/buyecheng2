@@ -29,15 +29,21 @@ public class PayActivity extends Activity {
 	private static final String TAG = "MicroMsg.SDKSample.PayActivity";
 	
 	private IWXAPI api;
-	private String appid,partnerid,prepayid,/*package,*/noncestr,timestamp;
-	
+	private String appid,partnerid,prepayid,packageValue,nonceStr;
+	int timestamp;
+	/**/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay);
-		
+		appid = getIntent().getStringExtra("appid");
+		partnerid = getIntent().getStringExtra("partnerid");
+		prepayid = getIntent().getStringExtra("prepayid");
+		packageValue = getIntent().getStringExtra("package");
+		nonceStr = getIntent().getStringExtra("noncestr");
+		timestamp = getIntent().getIntExtra("timestamp",0);
 		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
-		new GetAccessTokenTask().execute();
+		new GetAccessTokenTask().execute();//获取accessToken,accessToken值第二步要用; 
 	}
 	
 	/**
@@ -47,31 +53,13 @@ public class PayActivity extends Activity {
 	 */
 	private static final String PARTNER_KEY = "8934e7d15453e97507ef794cf7b0519d";
 	
-	private String genPackage(List<NameValuePair> params) {
-		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 0; i < params.size(); i++) {
-			sb.append(params.get(i).getName());
-			sb.append('=');
-			sb.append(params.get(i).getValue());
-			sb.append('&');
-		}
-		sb.append("key=");
-		sb.append(PARTNER_KEY); // 注意：不能hardcode在客户端，建议genPackage这个过程都由服务器端完成
-		
-		// 进行md5摘要前，params内容为原始内容，未经过url encode处理
-		String packageSign = MD5.getMessageDigest(sb.toString().getBytes()).toUpperCase();
-		
-		return URLEncodedUtils.format(params, "utf-8") + "&sign=" + packageSign;
-	}
 	
 	 /**
      * 微信开放平台和商户约定的密钥
      * 
      * 注意：不能hardcode在客户端，建议genSign这个过程由服务器端完成
      */
-	private static final String APP_SECRET = "db426a9829e4b49a0dcac7b4162da6b6"; // wxd930ea5d5a258f4f 对应的密钥
-	
+	private static final String APP_SECRET = "396caedd6352a115a83de18ef48045ab"; // wxd930ea5d5a258f4f 对应的密钥
 	/**
      * 微信开放平台和商户约定的支付密钥
      * 
@@ -79,6 +67,15 @@ public class PayActivity extends Activity {
      */
 	private static final String APP_KEY = "L8LrMqqeGRxST5reouB0K66CaYAWpqhAVsq7ggKkxHCOastWksvuX1uvmvQclxaHoYd3ElNBrNO2DHnnzgfVG9Qs473M3DTOZug5er46FhuGofumV8H2FVR9qkjSlC5K"; // wxd930ea5d5a258f4f 对应的支付密钥
 	
+	
+	/**
+	 * 第一步,获取accessToken,accessToken值第二步要用;
+	* @ClassName: GetAccessTokenTask 
+	* @Description: TODO(第一步,获取accessToken,accessToken值第二步要用;) 
+	* @author yanchao 
+	* @date 2015年9月30日 下午3:24:58 
+	*
+	 */
 	private class GetAccessTokenTask extends AsyncTask<Void, Void, GetAccessTokenResult> {
 
 		private ProgressDialog dialog;
@@ -95,9 +92,10 @@ public class PayActivity extends Activity {
 			}
 			
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
-				Toast.makeText(PayActivity.this, R.string.get_access_token_succ, Toast.LENGTH_LONG).show();
+				sendPayReq();
+				/*Toast.makeText(PayActivity.this, R.string.get_access_token_succ, Toast.LENGTH_LONG).show();
 				GetPrepayIdTask getPrepayId = new GetPrepayIdTask(result.accessToken);
-				getPrepayId.execute();
+				getPrepayId.execute();*/
 			} else {
 				Toast.makeText(PayActivity.this, getString(R.string.get_access_token_fail, result.localRetCode.name()), Toast.LENGTH_LONG).show();
 			}
@@ -108,7 +106,7 @@ public class PayActivity extends Activity {
 			GetAccessTokenResult result = new GetAccessTokenResult();
 
 			String url = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",
-					Constants.APP_ID, APP_SECRET);
+					appid, APP_SECRET);
 			Log.d(TAG, "get access token, url = " + url);
 			
 			byte[] buf = Util.httpGet(url);
@@ -122,11 +120,16 @@ public class PayActivity extends Activity {
 			return result;
 		}
 	}
-	
+	/**
+	* @ClassName: GetPrepayIdTask 
+	* @Description: TODO(第二步,根据第一步的accesstoken值,将 组装的商品参数Post给微信服务器) 
+	* @author yanchao 
+	* @date 2015年9月30日 下午2:54:26 
+	*
+	 */
 	private class GetPrepayIdTask extends AsyncTask<Void, Void, GetPrepayIdResult> {
 
 		private ProgressDialog dialog;
-		
 		private String accessToken;
 		public GetPrepayIdTask(String accessToken) {
 			this.accessToken = accessToken;
@@ -145,7 +148,7 @@ public class PayActivity extends Activity {
 			
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
 				Toast.makeText(PayActivity.this, R.string.get_prepayid_succ, Toast.LENGTH_LONG).show();
-				sendPayReq(result);
+				//sendPayReq(result);
 			} else {
 				Toast.makeText(PayActivity.this, getString(R.string.get_prepayid_fail, result.localRetCode.name()), Toast.LENGTH_LONG).show();
 			}
@@ -179,7 +182,7 @@ public class PayActivity extends Activity {
 			return result;
 		}
 	}
-
+	
 	private static enum LocalRetCode {
 		ERR_OK, ERR_HTTP, ERR_JSON, ERR_OTHER
 	}
@@ -253,10 +256,10 @@ public class PayActivity extends Activity {
 		}
 	}
 	
-	private String genNonceStr() {
+	/*private String genNonceStr() {
 		Random random = new Random();
 		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
-	}
+	}*/
 	
 	private long genTimeStamp() {
 		return System.currentTimeMillis() / 1000;
@@ -277,7 +280,6 @@ public class PayActivity extends Activity {
 	}
 	
 	private long timeStamp;
-	private String nonceStr, packageValue; 
 	
 	private String genSign(List<NameValuePair> params) {
 		StringBuilder sb = new StringBuilder();
@@ -294,9 +296,9 @@ public class PayActivity extends Activity {
 		sb.append(params.get(i).getValue());
 		
 		String sha1 = Util.sha1(sb.toString());
-		Log.d(TAG, "genSign, sha1 = " + sha1);
 		return sha1;
 	}
+	
 	
 	private String genProductArgs() {
 		JSONObject json = new JSONObject();
@@ -305,7 +307,6 @@ public class PayActivity extends Activity {
 			json.put("appid", Constants.APP_ID);
 			String traceId = getTraceId();  // traceId 由开发者自定义，可用于订单的查询与跟踪，建议根据支付用户信息生成此id
 			json.put("traceid", traceId);
-			nonceStr = genNonceStr();
 			json.put("noncestr", nonceStr);
 			
 			List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
@@ -318,10 +319,8 @@ public class PayActivity extends Activity {
 			packageParams.add(new BasicNameValuePair("partner", "1900000109"));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip", "196.168.1.1"));
 			packageParams.add(new BasicNameValuePair("total_fee", "1"));
-			packageValue = genPackage(packageParams);
 			
 			json.put("package", packageValue);
-			timeStamp = genTimeStamp();
 			json.put("timestamp", timeStamp);
 			
 			List<NameValuePair> signParams = new LinkedList<NameValuePair>();
@@ -341,15 +340,36 @@ public class PayActivity extends Activity {
 		return json.toString();
 	}
 	
-	private void sendPayReq(GetPrepayIdResult result) {
+	private void sendPayReq() {
+		
+		
+		    /*PayReq req = new PayReq();
+	        req.appId = app_wx_appid;
+	        req.partnerId = app_tx_parent_key;
+	        req.prepayId = result.prepayId;
+	        req.nonceStr = appSign.getNoncestr();
+	        req.timeStamp = appSign.getTimestamp();
+	        req.packageValue = "Sign=" + appSign.getPackageSign();
+	         
+	        List<namevaluepair> signParams = new LinkedList<namevaluepair>();
+	        signParams.add(new BasicNameValuePair("appid", req.appId));
+	        signParams.add(new BasicNameValuePair("appkey", app_wx_pay_key));
+	        signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
+	        signParams.add(new BasicNameValuePair("package", req.packageValue));
+	        signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
+	        signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
+	        signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
+	        req.sign = WeixinUtil.genSign(signParams);
+	        wxRequest.sendReq(req);*/
+		
 		
 		PayReq req = new PayReq();
-		req.appId = Constants.APP_ID;
-		req.partnerId = Constants.PARTNER_ID;
-		req.prepayId = result.prepayId;
+		req.appId = appid;
+		req.partnerId = partnerid;
+		req.prepayId = prepayid;
 		req.nonceStr = nonceStr;
 		req.timeStamp = String.valueOf(timeStamp);
-		req.packageValue = "Sign=" + packageValue;
+		req.packageValue = packageValue;
 		
 		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 		signParams.add(new BasicNameValuePair("appid", req.appId));
