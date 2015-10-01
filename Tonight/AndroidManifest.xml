@@ -249,6 +249,29 @@
 		<!-- 重连接服务 -->
  		<service android:name=".service.ReConnectService"></service>
         
+ 		
+ 		
+ 		  <!-- LLYT SDK START -->
+ 		  
+ 		  <activity
+             android:name="com.hangzhou.tonight.lianlianpay.activity.StandActivity"
+             android:screenOrientation="portrait"
+            />
+ 		  
+        <activity
+            android:name="com.yintong.secure.activity.BaseActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+
+        <service
+            android:name="com.yintong.secure.service.PayService"
+           >
+        </service>
+ 		
+ 		
         <!-- 微信支付 相关 -->
         <activity
              android:name=".im.GroupJoinActivity"
@@ -258,6 +281,52 @@
              android:name="UMENG_APPKEY"          
              android:value="55ed4cb967e58e53ee0023e2" >    
          </meta-data>
+         
+         
+         
+           <!-- 微信回调activity -->
+       <!--  <activity
+            android:name="com.hangzhou.tonight.wxpay.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+
+
+
+
+        <!-- 腾讯SSO授权的Activity注册 -->
+        <!-- 1103176396 -->
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="K1NDOFhaztPcCAkl" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         
     </application>
 
