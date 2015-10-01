@@ -31,6 +31,7 @@ import com.hangzhou.tonight.entity.ActivesInfo;
 import com.hangzhou.tonight.entity.MerchantInfo;
 import com.hangzhou.tonight.entity.OtherActsEntity;
 import com.hangzhou.tonight.entity.ReviewsEntity;
+import com.hangzhou.tonight.lianlianpay.activity.StandActivity;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
@@ -194,6 +195,40 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 						bundle.putInt("timestamp", timestamp);
 						IntentJumpUtils.nextActivity(PayActivity.class, PayTypeActivity.this, bundle);
 					}else if(type==3){//跳转到银联
+						
+						/*银⾏行卡⽀支付时返回oid_partner，sign_type，
+						busi_partner，dt_order，notify_url，
+						no_order，name_goods，info_order，
+						risk_item，valid_order，money_order，
+						sign*/
+						
+						String oid_partner = result.getString("oid_partner");
+						String sign_type = result.getString("sign_type");
+						String busi_partner = result.getString("busi_partner");;
+						String dt_order = result.getString("dt_order");
+						String notify_url = result.getString("notify_url");
+					    String no_order = result.getString("no_order");
+					    String name_goods = result.getString("name_goods");
+					    String info_order = result.getString("info_order");
+					    String risk_item = result.getString("risk_item");
+					    String valid_order = result.getString("valid_order");
+					    String money_order = result.getString("money_order");
+					    String sign = result.getString("sign");
+					    
+					    
+					    bundle.putString("oid_partner", oid_partner);
+						bundle.putString("sign_type", sign_type);
+						bundle.putString("busi_partner", busi_partner);
+						bundle.putString("dt_order", dt_order);
+						bundle.putString("notify_url", notify_url);
+						bundle.putString("money_order", money_order);
+						bundle.putString("valid_order", valid_order);
+						bundle.putString("risk_item", risk_item);
+						bundle.putString("info_order", info_order);
+						bundle.putString("name_goods", name_goods);
+						bundle.putString("no_order", no_order);
+						bundle.putString("sign", sign);
+						IntentJumpUtils.nextActivity(StandActivity.class, PayTypeActivity.this, bundle);
 						
 					}
 					/*⽀支付宝⽀支付时返回info(调⽤用⽀支付请求所需参
