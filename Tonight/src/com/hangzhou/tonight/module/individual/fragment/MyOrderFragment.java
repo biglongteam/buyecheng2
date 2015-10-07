@@ -13,16 +13,20 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
+import com.hangzhou.tonight.module.base.helper.PicTextHelper;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.ViewUtil;
+import com.hangzhou.tonight.module.base.util.ViewUtil.OnDoPicTextListener;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +43,10 @@ public class MyOrderFragment extends Fragment {
 	private ModelAdapter mAdapter;
 	
 	SwipeMenuListView swipeListview;
-	/*** 已支付、未支付 */
-	public static final int STATE_PAID = 9,STATE_NOT_PAID = 1;
+	/*** 全部、待付款,未消费,待评价*/
+	public static final int STATE_ALL = 1,STATE_UNPAY = 2,STATE_UNBUY = 3,STATE_UNCOMMON = 4;
 	
-	public int PAY_STATE = STATE_PAID;
+	public int PAY_STATE = STATE_ALL;
 	
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_individual_myorder, container, false);
@@ -50,6 +54,8 @@ public class MyOrderFragment extends Fragment {
 	
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());  
+
 		swipeListview = (SwipeMenuListView) getView().findViewById(R.id.empty_swipe_listview);
 		
 		mOrderList = new ArrayList<OrderModel>();
@@ -100,15 +106,14 @@ public class MyOrderFragment extends Fragment {
 				}
 			}
 		});
-		
 		JSONObject params = new JSONObject();
-		params.put("type", 1);
+		params.put("type", PAY_STATE);
 		
 		AsyncTaskUtil.postData(getActivity(), "getOrderList", params, new Callback() {
 			
 			@Override public void onSuccess(JSONObject result) {
-				List<OrderModel> list = JSONArray.parseArray(result.getString("orders"), OrderModel.class);
-				filterData(list);
+				List<OrderModel> list = JSONArray.parseArray(result.getJSONArray("orders").toJSONString(), OrderModel.class);
+				//filterData(list);
 				mOrderList.addAll(list);
 				mAdapter.notifyDataSetChanged();
 			}
@@ -119,37 +124,37 @@ public class MyOrderFragment extends Fragment {
 					List<OrderModel> list = new ArrayList<OrderModel>();
 					OrderModel om = new OrderModel();
 					om.order_id = 76534;
-					om.state = STATE_NOT_PAID;
+					om.state = STATE_ALL;
 					om.title = "蜜桃酒吧迷情派对活动，100元单人代金券， 仅限活动当日使用…蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用…";
 					list.add(om);
 					
 					om = new OrderModel();
 					om.order_id = 789531;
-					om.state = STATE_PAID;
+					om.state = STATE_ALL;
 					om.title = "蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用…蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用";
 					list.add(om);
 					
 					om = new OrderModel();
 					om.order_id = 78951;
-					om.state = STATE_NOT_PAID;
+					om.state = STATE_ALL;
 					om.title = "蜜桃酒吧迷情派对活动，300元单人代金券， 仅限活动当日使用…蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用";
 					list.add(om);
 					
 					om = new OrderModel();
 					om.order_id = 789111;
-					om.state = STATE_PAID;
+					om.state = STATE_ALL;
 					om.title = "蜜桃酒吧迷情派对活动，400元单人代金券， 仅限活动当日使用…蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用";
 					list.add(om);
 					
 					om = new OrderModel();
 					om.order_id = 909531;
-					om.state = STATE_PAID;
+					om.state = STATE_ALL;
 					om.title = "蜜桃酒吧迷情派对活动，500元单人代金券， 仅限活动当日使用…蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用";
 					list.add(om);
 					
 					om = new OrderModel();
 					om.order_id = 8119531;
-					om.state = STATE_NOT_PAID;
+					om.state = STATE_ALL;
 					om.title = "蜜桃酒吧迷情派对活动，600元单人代金券， 仅限活动当日使用…蜜桃酒吧迷情派对活动，200元单人代金券， 仅限活动当日使用";
 					list.add(om);
 					
@@ -159,14 +164,14 @@ public class MyOrderFragment extends Fragment {
 					mAdapter.notifyDataSetChanged();
 				}
 			}
-		},STATE_PAID == PAY_STATE);
+		},STATE_ALL == PAY_STATE);
 	}
 	
 	private void filterData(List<OrderModel> data){
 		Iterator<OrderModel> it = data.iterator();
 		while(it.hasNext()){
 			OrderModel om = it.next();
-			if(om.state != PAY_STATE){ it.remove();}
+			if(om.state != PAY_STATE ){ it.remove();}
 		}
 	}
 	
@@ -191,8 +196,15 @@ public class MyOrderFragment extends Fragment {
 			}
 			ViewHolder holder = (ViewHolder) convertView.getTag();
 			OrderModel item = mOrderList.get(position);
-			holder.tv_title.setText(String.format(getResources().getString(R.string.order_message_ordernum), item.order_id));
+			holder.tv_title.setText(String.format(getResources().getString(R.string.order_message_ordernum), item.order_id + ""));
 			holder.tv_content.setText(item.title);
+			
+			/*String content = ViewUtil.getPicTextMutil(item.title, item.img, true,new OnDoPicTextListener() {
+				@Override public String onDoImg(String img) {
+					return AsyncTaskUtil.IMG_BASE_PATH + "/act/" + img;
+				}
+			});*/
+			//holder.tv_content.setText( Html.fromHtml(content,new PicTextHelper(),null));
 			
 			return convertView;
 		}
@@ -210,8 +222,10 @@ public class MyOrderFragment extends Fragment {
 	}
 	
 	public static class OrderModel{
-		int state;
-		long order_id;
-		String title;//活动标题
+		int state,order_id,num;
+		String img,title;//活动标题
+		double price;
+		public int getState() { return state; } public int getOrder_id() { return order_id; } public int getNum() { return num; } public String getImg() { return img; } public String getTitle() { return title; } public double getPrice() { return price; } public void setState(int state) { this.state = state; } public void setOrder_id(int order_id) { this.order_id = order_id; } public void setNum(int num) { this.num = num; } public void setImg(String img) { this.img = img; } public void setTitle(String title) { this.title = title; } public void setPrice(double price) { this.price = price; }
+
 	}
 }

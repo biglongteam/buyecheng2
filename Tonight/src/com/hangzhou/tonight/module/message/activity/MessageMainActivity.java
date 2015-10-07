@@ -50,8 +50,7 @@ public class MessageMainActivity extends CustomActionActivity{
 	}
 	
 	
-	@Override
-	protected void onResume() {
+	@Override protected void onResume() {
 		super.onResume();
 		
 		// 注册广播接收器
@@ -63,8 +62,7 @@ public class MessageMainActivity extends CustomActionActivity{
 		
 	}
 	
-	@Override
-	protected void onPause() {
+	@Override protected void onPause() {
 		// 卸载广播接收器
 		unregisterReceiver(receiver);
 		super.onPause();
@@ -84,13 +82,10 @@ public class MessageMainActivity extends CustomActionActivity{
 		init();
 	}
 	
-	
 	private void init() {
 		receiver = new ContacterReceiver();
 		noticeManager = NoticeManager.getInstance(getActivity());
 	}
-	
-	
 	
 	OnClickListener itemClick = new OnClickListener() {
 		@Override public void onClick(View v) {

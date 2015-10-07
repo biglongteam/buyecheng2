@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hangzhou.tonight.module.base.TabActivity;
 import com.hangzhou.tonight.module.individual.fragment.MyOrderFragment;
+import com.hangzhou.tonight.module.individual.fragment.MyOrderUnBuyFragment;
+import com.hangzhou.tonight.module.individual.fragment.MyOrderUnCommonFragment;
 import com.hangzhou.tonight.module.individual.fragment.MyOrderUnPayFragment;
 
 /**
@@ -16,7 +18,7 @@ public class MyOrderActivity extends TabActivity {
 	@Override public void onCreateTabs(List<TabModel> list) {
 		TabModel tabModel = new TabModel();
 		tabModel.title = "全部";
-		tabModel.fragment = new MyOrderUnPayFragment();
+		tabModel.fragment = new MyOrderFragment();
 		list.add(tabModel);
 		tabModel = new TabModel();
 		tabModel.title = "待付款";
@@ -24,11 +26,11 @@ public class MyOrderActivity extends TabActivity {
 		list.add(tabModel);
 		tabModel = new TabModel();
 		tabModel.title = "待评价";
-		tabModel.fragment = new MyOrderFragment();
+		tabModel.fragment = new MyOrderUnCommonFragment();
 		list.add(tabModel);
 		tabModel = new TabModel();
 		tabModel.title = "待消费";
-		tabModel.fragment = new MyOrderUnPayFragment();
+		tabModel.fragment = new MyOrderUnBuyFragment();
 		list.add(tabModel);
 	}
 	

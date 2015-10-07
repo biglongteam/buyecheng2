@@ -303,11 +303,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			
 		case R.id.im_sina:
 			Toast.makeText(this, "暂未开通", 1000).show();
-			login(SHARE_MEDIA.SINA,2);
+			/*login(SHARE_MEDIA.SINA,2);*/
 			break;
 		case R.id.im_qq:
 			Toast.makeText(this, "暂未开通", 1000).show();
-			login(SHARE_MEDIA.QQ,3);
+			/*login(SHARE_MEDIA.QQ,3);*/
 			break;
 		case R.id.im_wechat:
 			//Toast.makeText(this, "暂未开通", 1000).show();

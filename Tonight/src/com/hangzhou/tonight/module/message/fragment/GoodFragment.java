@@ -54,10 +54,15 @@ public class GoodFragment extends BEmptyListviewFragment {
 		AsyncTaskUtil.postData(getActivity(), "getSelfPraise", params, new Callback() {
 			
 			@Override public void onSuccess(JSONObject result) {
-				List<GoodDataModel> list = JSONArray.parseArray(result.getString("praises"), GoodDataModel.class);
-				if(list.size() > 0){ page++;}
-				listData.addAll(list);
-				adapter.notifyDataSetChanged();
+				try {
+					List<GoodDataModel> list = JSONArray.parseArray(result.getString("praises"), GoodDataModel.class);
+					if(list.size() > 0){ page++;}
+					listData.addAll(list);
+					adapter.notifyDataSetChanged();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 			}
 			
 			@Override public void onFail(String msg) {

@@ -11,6 +11,7 @@ import com.hangzhou.tonight.module.base.dto.UserInfoDto;
 import com.hangzhou.tonight.module.base.dto.UserInfoDto.User;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
+import com.hangzhou.tonight.module.individual.fragment.ApplyExtensionFragment;
 import com.hangzhou.tonight.module.individual.fragment.IndividualInfomationFragment;
 import com.hangzhou.tonight.module.individual.fragment.InvitationCodeFragment;
 import com.hangzhou.tonight.module.individual.fragment.MyCollectionFragment;
@@ -76,7 +77,10 @@ public class IndividualActivity extends CustomActionActivity {
 			}else if(v == vInfoContainer){
 				BaseSingeFragmentActivity.startActivity(getActivity(), IndividualInfomationFragment.class, new TbarViewModel(getResources().getString(R.string.individual)));
 			}else if(v == mMycommission){
-				BaseSingeFragmentActivity.startActivity(getActivity(), MyCommissionFragment.class, new TbarViewModel(getResources().getString(R.string.individual_my_commission)));
+				
+				//TODO 如果未申请为 普通营销或者升级为销售经理等角色 
+				BaseSingeFragmentActivity.startActivity(getActivity(), ApplyExtensionFragment.class, new TbarViewModel("申请推广"));
+				//BaseSingeFragmentActivity.startActivity(getActivity(), MyCommissionFragment.class, new TbarViewModel(getResources().getString(R.string.individual_my_commission)));
 			}
 		}
 	};

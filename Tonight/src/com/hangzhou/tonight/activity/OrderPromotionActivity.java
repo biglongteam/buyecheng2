@@ -64,7 +64,7 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 	String act_id,phone,expense,ticket_id = "0",ticket_name;
 	private ActivesInfo actInfo;
 	int  count = 1;
-	float amount = 200,totalPrice = 200,coursePrice,zekou;
+	float amount = 200,totalPrice = 200,coursePrice,zekou,unitPrice;
 	private int ticket = 0;
 	private TextView tvBack,tvTitle;
 	
@@ -141,10 +141,15 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 	 * coursePrice 对应单价 
 	 */
 	
-	private void calculateCourseTotalPrice(float courseCount,float coursePrice) {
+	private void calculateCourseTotalPrice(float courseCount,float coursePrice,int addOrReduceType) {
 		
 		//tvCoursePrice.setText(coursePrice+"元/ 小时");
-		totalPrice = (float) (courseCount*coursePrice);
+		if(addOrReduceType==OPERATION_TYPE_SUB){
+			totalPrice = (float) (coursePrice*courseCount);
+		}else{
+			totalPrice = (float) (courseCount*coursePrice);
+		}
+		
 		tvTotalPrice.setText(totalPrice + "元");
 		tvPricezhekou.setText(totalPrice - ticket + "元");
 		//tvAllPrice.setText(totalPrice + "元");
@@ -159,6 +164,8 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 			
 		//减少 课时
 		if(addOrReduceType==OPERATION_TYPE_SUB){
+			
+			
 			if (Integer.valueOf(tvCounter.getText().toString()) > 1) {
 				int numReduce = Integer.valueOf(tvCounter.getText().toString())-1;
 						
@@ -169,7 +176,8 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 				tvCounter.setText(count + "");
 				//ivCounterSub.setClickable(false);
 			}
-			calculateCourseTotalPrice(count,totalPrice);
+			
+			calculateCourseTotalPrice(count,unitPrice,addOrReduceType);
 		}
 		
 		//增加 课时
@@ -184,7 +192,7 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 				tvCounter.setText(count + "");
 				//ivCounterSub.setClickable(false);
 			}
-			calculateCourseTotalPrice(count,totalPrice);
+			calculateCourseTotalPrice(count,unitPrice,addOrReduceType);
 		}
 		
 		// 将新的数量更新到购票车的数据库表中
@@ -254,6 +262,7 @@ public class OrderPromotionActivity extends TabItemActivity implements OnClickLi
 					}
 					bundle.putInt("wallet_money", ticket);
 					bundle.putFloat("pay_money", totalPrice-ticket);
+					bundle.putFloat("ticket_price", totalPrice);
 					
 					IntentJumpUtils.nextActivity(PayTypeActivity.class, OrderPromotionActivity.this, bundle);
 				} catch (Exception e) {
@@ -318,17 +327,18 @@ private Map<String, String> setParams(){
 	protected void init() {
 		String price = actInfo.getPrice();
 		if(price!=null){
-			totalPrice = Float.parseFloat(price);
-			tvTotalPrice.setText(totalPrice+"");
+			unitPrice = Float.parseFloat(price);
+			totalPrice=unitPrice;
+			tvTotalPrice.setText(totalPrice+"元");
 		}else {
-			tvTotalPrice.setText("0");
+			tvTotalPrice.setText("0元");
 		}
 		
 		phone = actInfo.getPhone();
 		if(ticket>0){
-			tvPricezhekou.setText(Integer.parseInt(actInfo.getPrice())-ticket);
+			tvPricezhekou.setText(Integer.parseInt(actInfo.getPrice())-ticket+"元");
 		}else{
-			tvPricezhekou.setText(actInfo.getPrice());
+			tvPricezhekou.setText(actInfo.getPrice()+"元");
 		}
 		
 		tvPhone.setText(actInfo.getPhone());

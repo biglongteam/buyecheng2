@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- 申请推广 -->
+	<TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        >
+        <TableRow
+            android:id="@+id/information_dynamic_container" 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="昵称" 
+				android:layout_marginRight="@dimen/individual_information_margin_right"
+				android:textSize="18sp"
+				android:textColor="@color/white"    
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/apply_exteriion_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:background="@null"
+                android:gravity="right"
+                android:layout_weight="1.0"
+                />
+        </TableRow>
+        <View android:layout_marginTop="10dp"
+			  android:layout_marginBottom="10dp"   
+			  android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+   		
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="性别" 
+				android:layout_marginRight="@dimen/individual_information_margin_right"
+				android:textSize="18sp"
+				android:textColor="@color/white"    
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/apply_exteriion_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:background="@null"
+                android:gravity="right"
+                />
+        </TableRow>
+        <View android:layout_marginTop="10dp"
+			  android:layout_marginBottom="10dp"   
+			  android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+   		
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="手机" 
+				android:layout_marginRight="@dimen/individual_information_margin_right"
+				android:textSize="18sp"
+				android:textColor="@color/white"    
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/apply_exteriion_phonenum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:background="@null"
+                android:gravity="right"
+                android:layout_weight="1.0"
+                />
+        </TableRow>
+        <View android:layout_marginTop="10dp"
+			  android:layout_marginBottom="10dp"   
+			  android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+   		
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="真实姓名" 
+				android:layout_marginRight="@dimen/individual_information_margin_right"
+				android:textSize="18sp"
+				android:textColor="@color/white"    
+                >
+            </TextView>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:hint="保证与身份证姓名一致"
+                android:textSize="18sp"
+                android:background="@null"
+                android:gravity="right"
+                android:layout_weight="1.0"
+                />
+        </TableRow>
+        <View android:layout_marginTop="10dp"
+			  android:layout_marginBottom="10dp"   
+			  android:layout_width="match_parent" android:layout_height="0.5dip"  android:background="@color/divider_commission"/>
+   		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:text="添加身份证正反面" 
+			android:textSize="18sp"
+			android:textColor="@color/white"               
+		 />
+   		<LinearLayout 
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content"
+   		    android:orientation="horizontal"
+   		    android:layout_marginTop="10dp"
+   		    >
+   		    <ImageView
+   		        android:layout_width="60dp"
+   		        android:layout_height="60dp"
+   		        android:src="@drawable/head_add"
+   		        android:contentDescription="@null"
+   		        />
+   		</LinearLayout>
+    </TableLayout>	
+	<Button
+        android:id="@+id/apply_extension_submit" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="申请"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/selector_individual_apply"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginLeft="54dp"
+        />
+</LinearLayout>

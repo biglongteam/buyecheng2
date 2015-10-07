@@ -21,4 +21,22 @@ public class StringUtil {
 		if (m.find()) { return true; }
 		return false;
 	}
+	
+	/**
+	 * 一维数组转二维数组
+	 * @return
+	 */
+	public static String[][] array2TArray(Object[] objs,int index){
+		int cell = index,row = (int)Math.ceil(Double.valueOf(objs.length) / index);
+		String[][] strs = new String[row][cell];
+		int pos = -1;
+		for(int i=0,len = row;i<len;i++){
+			for(int j=0,lenJ = cell;j<lenJ;j++){
+				pos++;
+				if(pos == objs.length){ break;}
+				strs[i][j] = (String)objs[pos];
+			}
+		}
+		return strs;
+	}
 }

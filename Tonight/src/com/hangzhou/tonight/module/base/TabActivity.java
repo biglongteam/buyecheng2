@@ -100,7 +100,7 @@ public abstract class TabActivity extends CustomFragmentActivity {
 		}
 	};
 
-	private void setTab(int position){
+	protected void setTab(int position){
 		currentIndex = position;
 		//因为添加了分割线,所以当position 需要改
 		position = position*2;

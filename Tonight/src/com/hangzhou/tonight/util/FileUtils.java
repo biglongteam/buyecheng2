@@ -3,6 +3,8 @@ package com.hangzhou.tonight.util;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import android.net.Uri;
@@ -172,5 +174,32 @@ public class FileUtils {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * 获取文件后缀名
+	 * @param pathname
+	 * @return
+	 */
+	public static String getExtName(String pathname){
+		String[] pns = pathname.split("\\.");
+		if(pns.length > 0){
+			return pns[pns.length - 1];
+		}
+		return null;
+	}
+	
+	static Map<String,Boolean> extMap = new HashMap<String,Boolean>();
+	static void initExtMap(){
+		String[] exts = {"jpg","jpeg","txt","gif","png"};
+		for(String ext : exts){
+			extMap.put(ext, true);
+		}
+	}
+	public static String getExtName(String pathname,String defaultname){
+		if(extMap.isEmpty()){ initExtMap();}
+		String name = getExtName(pathname);
+		name = name == null ? defaultname : name;
+		if(extMap.containsKey(name)){ return name;}
+		return defaultname;
+	}
 }

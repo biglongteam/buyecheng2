@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
+import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
@@ -83,7 +84,7 @@ public class GroupCityWideFragment extends BEmptyListviewFragment {
 		JSONObject params = new JSONObject();
 		params.put("sort", 1);
 		params.put("page", page);
-		params.put("city_id", 179);
+		params.put("city_id", SysModuleConstant.getCityId(getActivity()));
 		AsyncTaskUtil.postData(getActivity(), "getGroupList", params, new Callback() {
 			
 			@Override public void onSuccess(JSONObject result) {

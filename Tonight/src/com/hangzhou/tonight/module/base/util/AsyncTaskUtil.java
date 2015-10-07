@@ -22,6 +22,13 @@ import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 
 public class AsyncTaskUtil {
+	
+	public static final String BASE_PATH = PreferenceConstants.TONIGHT_SERVER;
+	/**
+	 * 图片访问路径
+	 */
+	public static final String IMG_BASE_PATH = "http://tonimg.51tonight.com";
+	
 	private static String password = "mdwi5uh2p41nd4ae23qy4";
 	private static FlippingLoadingDialog dialog;
 	private static Long uid = null;
@@ -111,7 +118,7 @@ public class AsyncTaskUtil {
 			
 			CallbackModel model = new CallbackModel();
 			try{
-				String result = HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER, param,PreferenceConstants.ENCODE);
+				String result = HttpRequest.submitPostData(BASE_PATH, param,PreferenceConstants.ENCODE);
 				JSONObject res= JSON.parseObject(result);
 				boolean success = res.getIntValue("s") == 1;
 				model.success = success;

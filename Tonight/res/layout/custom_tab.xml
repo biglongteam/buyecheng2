@@ -125,8 +125,8 @@
         <ImageView
             android:id="@+id/tab_act"
             android:layout_width="66dip"
-            android:layout_height="74dp"
-            android:layout_gravity="center"
+            android:layout_height="65dp"
+            android:layout_gravity="bottom|center"
             android:scaleType="fitXY"
             android:src="@drawable/tab_ask" />
         
@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="2.0dip"
+            android:layout_marginBottom="10.0dip"
             android:text="活动"
             android:textSize="12sp" />
     </FrameLayout>

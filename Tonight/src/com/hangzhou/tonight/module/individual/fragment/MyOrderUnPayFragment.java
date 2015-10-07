@@ -11,7 +11,7 @@ public class MyOrderUnPayFragment extends MyOrderFragment {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		PAY_STATE = STATE_NOT_PAID;
+		PAY_STATE = STATE_UNPAY;
 		super.onActivityCreated(savedInstanceState);
 	}
 	

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.StrictMode;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,9 +21,11 @@ import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
+import com.hangzhou.tonight.module.base.helper.PicTextHelper;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
+import com.hangzhou.tonight.module.base.util.ViewUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
 
 /**
@@ -50,6 +53,8 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 	}
 	
 	@Override protected void doHandler() {
+		//TODO 开启主线程访问
+		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());  
 		listData = new ArrayList<DataModel>();
 		adapter  = new CollectionAdapter();
 		mListView.setAdapter(adapter);
@@ -87,10 +92,13 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 		params.put("sort", sort);
 		AsyncTaskUtil.postData(getActivity(), "getMoodList", params, new Callback() {
 			@Override public void onSuccess(JSONObject result) {
+
 				if(result==null||result.equals("")){
 					return;
 				}
-				isAllowLoad = result.containsKey("nomore")? true : (result.getInteger("nomore") != 1);	
+				
+				isAllowLoad = result.containsKey("nomore")? true : (result.getIntValue("nomore") != 1);	
+
 				time = result.getLongValue("time");
 				listData.addAll(JSONArray.parseArray(result.getString("moods"), DataModel.class));
 				adapter.notifyDataSetChanged();
@@ -108,7 +116,7 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 						m.nick	 = strs[0];
 						m.content= strs[1];
 						m.time 	 = strs[2];
-						m.birth  = "1987-01-20";
+						m.birth  = "198" + i + "-01-2" + i;
 						m.pralse_num   = 5;
 						m.reply_num= 6;
 						listData.add(m);
@@ -145,10 +153,12 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 			holder = (ViewHolder) convertView.getTag();
 			holder.tv_age.setText(""+DateUtil.getCurrentAgeByBirthdate(model.birth));
 			holder.tv_age.setBackgroundDrawable(getResources().getDrawable(model.sex==1 ? R.drawable.shape_module_sex_male : R.drawable.shape_module_sex_female));
-			holder.tv_content.setText(model.content);
-			holder.tv_good.setText("赞 " + model.pralse_num);
+			
+			String content = ViewUtil.getPicTextMutil(model.content, model.url, model.type==2);
+			holder.tv_content.setText( Html.fromHtml(content,new PicTextHelper(),null));
+			holder.tv_good	 .setText("赞 " + model.pralse_num);
 			holder.tv_comment.setText("评论 " + model.reply_num);
-			holder.tv_name.setText(model.nick);
+			holder.tv_name	 .setText(model.nick);
 			return convertView;
 		}
 
@@ -169,10 +179,16 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 	}
 
 	public static class DataModel {
-		String mid,uid,nick, content, time,birth;
+		String mid,uid,nick, content, time,birth,url;
 		int pralse_num,reply_num,type,sex;
-		
+		public String getUrl() {
+			return url;
+		}
+		public void setUrl(String url) {
+			this.url = url;
+		}
 		public int getSex() { return sex; } public void setSex(int sex) { this.sex = sex; } public String getMid() { return mid; } public String getUid() { return uid; } public String getNick() { return nick; } public String getContent() { return content; } public String getTime() { return time; } public String getBirth() { return birth; } public int getPralse_num() { return pralse_num; } public int getReply_num() { return reply_num; } public int getType() { return type; } public void setMid(String mid) { this.mid = mid; } public void setUid(String uid) { this.uid = uid; } public void setNick(String nick) { this.nick = nick; } public void setContent(String content) { this.content = content; } public void setTime(String time) { this.time = time; } public void setBirth(String birth) { this.birth = birth; } public void setPralse_num(int pralse_num) { this.pralse_num = pralse_num; } public void setReply_num(int reply_num) { this.reply_num = reply_num; } public void setType(int type) { this.type = type; }
 
 	}
+	
 }

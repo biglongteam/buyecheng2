@@ -97,7 +97,12 @@ public class CommentFragment extends BEmptyListviewFragment {
 			@Override
 			public void onSuccess(JSONObject result) {
 				time = result.getLongValue("time");
-				listData.addAll(JSONArray.parseArray(result.getString("replys"), DataModel.class));
+				try {
+					listData.addAll(JSONArray.parseArray(result.getString("replys"), DataModel.class));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 			}
 			
 			@Override 
