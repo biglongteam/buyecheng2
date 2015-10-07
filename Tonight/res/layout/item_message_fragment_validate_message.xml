@@ -2,17 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:orientation="vertical" >
+    
+    <com.hangzhou.tonight.module.base.widget.TbarView
+        android:id="@id/custom_actionbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
     <!-- 验证消息 item -->
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:background="@drawable/shape_message_fragment_validate_message"
 	    android:orientation="vertical"
+	    android:paddingTop="10dp"
+       android:paddingBottom="10dp"
+       android:paddingLeft="16dp"
+       android:paddingRight="16dp"
 	    >
 	    <LinearLayout 
 	        android:layout_width="match_parent"
@@ -36,6 +42,8 @@
 	            android:layout_marginTop="18dp"
 	            >
 	            <TextView 
+	                
+	                android:id="@+id/message_message_your" 
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="请求添加你为好友"

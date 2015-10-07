@@ -35,12 +35,17 @@ public class ValidateMessageActivity extends BaseActivity {
 	 int tag; 
 	 TextView tv_username,tv_yours, tv_content;
 	 Button btn_agree,btn_refuse;
+	 private View actionbarView;
+	private TextView tvBack;
+	private TextView tvTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item_message_fragment_validate_message);
-		
+		initViews();
+		init();
+		initEvents();
 	}
 
 	
@@ -56,31 +61,48 @@ public class ValidateMessageActivity extends BaseActivity {
 
 	@Override
 	protected void initViews() {
-		this.tv_username = (TextView) findViewById(R.id.message_comment_username);
-		this.tv_yours = (TextView)findViewById(R.id.message_comment_your);
-		this.tv_content = (TextView)findViewById(R.id.message_comment_content);
+		this.tv_username = (TextView) findViewById(R.id.validate_message_username);
+		this.tv_yours = (TextView)findViewById(R.id.message_message_your);
+		this.tv_content = (TextView)findViewById(R.id.validate_message_content);
 		this.btn_agree=(Button) findViewById(R.id.validate_message_agree);
 		this.btn_refuse=(Button) findViewById(R.id.validate_message_refuse);
-		String yours=getContent(tag,goupName);
-		tv_username.setText(nick);
-		tv_yours.setText(yours);
-		tv_content.setText("“"+msg+"”");
+		
+		
+		
+		actionbarView = findViewById(R.id.custom_actionbar_container);
+		if(null != actionbarView){
+			tvBack = (TextView) actionbarView.findViewById(R.id.custom_actionbar_back);
+			tvTitle= (TextView) actionbarView.findViewById(R.id.custom_actionbar_title);
+			tvTitle.setText("验证信息");
+			tvBack.setOnClickListener(new OnClickListener() {
+				@Override public void onClick(View v) { onBackPressed(); }
+			});
+		}
+		
 	}
 
 	@Override
 	protected void init() {
         Intent intent=getIntent();
-        tag=(Integer) intent.getExtras().get("tag");
-        nick=intent.getExtras().get("nickname").toString();
-        msg=intent.getExtras().get("msg").toString();
-        uid=intent.getExtras().get("uid").toString();
-        tuid=intent.getExtras().get("tuid").toString();
+        tag=Integer.valueOf(intent.getExtras().getString("tag","1"));
+        nick=intent.getExtras().getString("nickname","").toString();
+        msg=intent.getExtras().getString("msg","").toString();
+        uid=intent.getExtras().getString("uid","").toString();
+        tuid=intent.getExtras().getString("tuid","").toString();
         if(tag==2||tag==3){
-        	  goupName=intent.getExtras().get("goupName").toString();
+        	  goupName=intent.getExtras().getString("goupName","").toString();
         	
         }else{
         	goupName="";
         }
+        
+        String yours=getContent(tag,goupName);
+		tv_username.setText(nick);
+		tv_yours.setText(yours);
+		tv_content.setText("“"+msg+"”");
+        
+        
+        
 	}
 
 	@Override

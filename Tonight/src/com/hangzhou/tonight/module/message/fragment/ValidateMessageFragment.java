@@ -71,13 +71,21 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 	@Override
 	protected void doHandler() {
 		listData = new ArrayList<DataModel>();
-		/*String[] strs = { "学习", "天天向上", "智力", "时时下降", "凌晨一点", "写东东" };
+	/*	String[] strs = { "学习", "天天向上", "智力", "时时下降", "凌晨一点", "写东东" };
+		String[] strs1 = { "学习", "天天向上", "智力", "时时下降", "凌晨一点", "写东东" };
+		String[] states={"1","9","9","9","0","1"};
+		String[] types={"1","2","3","1","2","3"};
 		String content = "今天，去了蜜桃酒吧，很不错的酒吧啊";
 		for (int i = 0, len = strs.length; i < len; i++) {
 			String str = strs[i];
+			String str1 = strs1[i];
+			String state=states[i];
+			String type=types[i];
 			DataModel m = new DataModel();
-			m.username = str;
-			m.content = content;
+			m.nick = str;
+			m.msg = content;
+			m.state=states[i];
+			m.type=types[i];
 			listData.add(m);
 		}*/
 
@@ -107,8 +115,8 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 				intent.putExtra("tuid", tuid);
 				if(type==1&&state==1){
 					startActivity(intent);
-				}else if(type==2||type==3&&state==1){
-					intent.putExtra("tuid", goupName);
+				}else if((type==2||type==3)&&state==1){
+					intent.putExtra("goup", goupName);
 					
 					startActivity(intent);
 				}
@@ -178,7 +186,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 					content="拒绝了您的好友申请";
 				}else if(state==1){
 					content="请求加您为好友";
-				}else if(state==2){
+				}else if(state==9){
 					content="通过了您的好友申请";
 				}
 			}else if(type==2){
@@ -186,7 +194,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 					content="拒绝了您的加群申请";
 				}else if(state==1){
 					content="申请加入群";
-				}else if(state==2){
+				}else if(state==9){
 					content="通过了您的加群申请";
 				}
 			}else if(type==3){
@@ -194,7 +202,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 					content="拒绝了加入群"+goupName+"的邀请";
 				}else if(state==1){
 					content="邀请您加入群"+goupName;
-				}else if(state==2){
+				}else if(state==9){
 					content="接受加入群"+goupName+"的邀请";
 				}
 			}
