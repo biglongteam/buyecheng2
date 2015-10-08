@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
-
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.RosterEntry;
@@ -19,7 +18,7 @@ import org.jivesoftware.smackx.muc.InvitationListener;
 import org.jivesoftware.smackx.muc.InvitationRejectionListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.ParticipantStatusListener;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -54,7 +53,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.hangzhou.tonight.BaseRoomActivity;
 import com.hangzhou.tonight.EimApplication;
 import com.hangzhou.tonight.R;
@@ -90,7 +88,7 @@ public class RoomChatActivity extends BaseRoomActivity implements
 	ImageView iv_record;
 	//SelectPicPopupWindow menuWindow; // 弹出框
 	private Drawable[] drawable_Anims;// ��Ͳ����
-	private ImageView titleBack;
+	private TextView titleBack;
 	private RoomChatAdapter adapter = null;
 	private List<RoomMsg> mDataArrays = new ArrayList<RoomMsg>();
 	private EmoticonsEditText messageInput = null;
@@ -134,11 +132,13 @@ public class RoomChatActivity extends BaseRoomActivity implements
 			}
 	};
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.room_chat);
+		
 		room_name=(TextView)findViewById(R.id.to_room_name);
 		con = XmppConnectionManager.getInstance().getConnection();
 		muc = XmppConnectionManager.getInstance().getMuc();
@@ -156,8 +156,9 @@ public class RoomChatActivity extends BaseRoomActivity implements
 				//handler.handleMessage(ms);
 			}
 		});
-		app = EimApplication.getInstance();
-		room_name.setText(muc.getRoom().toString());
+		//app = EimApplication.getInstance();
+	    String roomName=getIntent().getExtras().getString("roomName","");
+		room_name.setText(roomName);
 		initView();
 		init();
 	}
@@ -701,7 +702,7 @@ public class RoomChatActivity extends BaseRoomActivity implements
 	}*/
 
 	private void init() {
-		titleBack = (ImageView) findViewById(R.id.room_back);
+		titleBack = (TextView) findViewById(R.id.room_back);
 		titleBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -717,6 +718,7 @@ public class RoomChatActivity extends BaseRoomActivity implements
 		listHead = mynflater.inflate(R.layout.chatlistheader, null);
 		listHeadButton = (Button) listHead.findViewById(R.id.buttonChatHistory);
 		listHeadButton.setText("邀请好友进入聊天室");
+		listHeadButton.setVisibility(View.GONE);
 		listHeadButton.setOnClickListener(invite);
 		listView.addHeaderView(listHead);
 		listView.setAdapter(adapter);

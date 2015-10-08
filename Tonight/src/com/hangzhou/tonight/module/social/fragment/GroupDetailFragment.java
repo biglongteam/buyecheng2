@@ -3,7 +3,12 @@
  */
 package com.hangzhou.tonight.module.social.fragment;
 
+import org.jivesoftware.smackx.muc.MultiUserChat;
+
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -12,10 +17,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TableLayout.LayoutParams;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.im.GroupJoinActivity;
+import com.hangzhou.tonight.im.RoomChatActivity;
+import com.hangzhou.tonight.manager.XmppConnectionManager;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
 import com.hangzhou.tonight.util.MyPreference;
@@ -37,7 +47,8 @@ public class GroupDetailFragment extends CreateGroupFragment {
 			@Override public void onClick(View v) {
 				if(inGroup){
 					//TODO 发消息
-					ToastHelper.show(getActivity(), "发消息");
+					joinRoom();
+					//ToastHelper.show(getActivity(), "发消息");
 				}else{
 					//加入群组
 					applyInGroup();
@@ -132,4 +143,43 @@ public class GroupDetailFragment extends CreateGroupFragment {
 		etValMsg.setText(content);
 		if(!StringUtil.empty(content)){ etValMsg.setSelection(content.length()); }
 	}
+	
+	
+	public void joinRoom() {
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				String userId=MyPreference.getInstance(getActivity()).getUserId();
+				String user=userId+"@"+XmppConnectionManager.
+						getInstance().getConnection().getServiceName();
+				//String userName=MyPreference.getInstance(getActivity()).getUserName();
+				join(getActivity(), user,"123",
+						gid);
+			}
+		}).start();;
+	}
+	
+	public void join(final Context context,String user,String rpwd,String rname)
+	{
+		final MultiUserChat muc = XmppConnectionManager.getInstance().joinRoom(user, rpwd, rname);
+		getActivity().runOnUiThread(new Runnable(){
+			@Override
+			public void run() { 
+				if(null != muc){
+					XmppConnectionManager.getInstance().setMuc(muc);
+					Toast.makeText(context, "进入成功", Toast.LENGTH_SHORT).show();
+					((Activity) context).finish();
+					Intent intent = new Intent(context, RoomChatActivity.class);
+					intent.putExtra("roomName", etName.getText().toString());
+					context.startActivity(intent);
+				}
+				else{
+					Toast.makeText(context, "进入失败", Toast.LENGTH_SHORT).show();
+				}
+			}});
+	}
+	
 }

@@ -112,7 +112,7 @@ public class MessageMainActivity extends CustomActionActivity{
 		public void onReceive(Context context, Intent intent) {
 			Notice notice = (Notice) intent.getSerializableExtra("notice");
 			// String action = intent.getAction();
-			Toast.makeText(MessageMainActivity.this, "有新消息", Toast.LENGTH_LONG).show();
+			Toast.makeText(MessageMainActivity.this, "有新消息"+notice, Toast.LENGTH_LONG).show();
 		}
 	}
 	

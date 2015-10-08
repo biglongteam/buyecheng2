@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.comm.Constant;
@@ -141,7 +142,7 @@ public class IMSystemMsgService extends Service {
 					sendBroadcast(intent);
 					setNotiType(R.drawable.ic_launcher, Constant.SYS_MSG_DIS,
 							message.getBody(), MyNoticeActivity.class);
-
+					Toast.makeText(IMSystemMsgService.this, "有新消息"+notice, Toast.LENGTH_LONG).show();
 				}
 			}
 		}

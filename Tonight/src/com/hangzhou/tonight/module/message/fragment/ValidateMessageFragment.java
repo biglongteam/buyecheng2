@@ -71,7 +71,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 	@Override
 	protected void doHandler() {
 		listData = new ArrayList<DataModel>();
-	/*	String[] strs = { "学习", "天天向上", "智力", "时时下降", "凌晨一点", "写东东" };
+		String[] strs = { "学习", "天天向上", "智力", "时时下降", "凌晨一点", "写东东" };
 		String[] strs1 = { "学习", "天天向上", "智力", "时时下降", "凌晨一点", "写东东" };
 		String[] states={"1","9","9","9","0","1"};
 		String[] types={"1","2","3","1","2","3"};
@@ -87,7 +87,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 			m.state=states[i];
 			m.type=types[i];
 			listData.add(m);
-		}*/
+		}
 
 		/*noticeManager = NoticeManager.getInstance(getActivity());
 		inviteNotices = noticeManager.getNoticeListByTypeAndPage(
