@@ -35,7 +35,7 @@ public class TonightCircleActivity extends TabActivity {
 	
 	@Override protected void setTab(int position) {
 		if(tv!=null){
-			tv.setVisibility(position == 1 ? View.VISIBLE : View.GONE);
+			//tv.setVisibility(position == 1 ? View.VISIBLE : View.GONE);
 		}
 		super.setTab(position);
 	}
@@ -49,10 +49,10 @@ public class TonightCircleActivity extends TabActivity {
 		tv.setPadding(left, 0, right, 0);
 		setOnClickListener(new OnHandlerClickListener() {
 			@Override public void onClick(View handlerView) {
-				ToastHelper.show(getContext(), "0---");
+				
 			}
 		});
-		tv.setVisibility(View.GONE);
+		//tv.setVisibility(View.GONE);
 	}
 	
 	public Context getContext(){return this;}
