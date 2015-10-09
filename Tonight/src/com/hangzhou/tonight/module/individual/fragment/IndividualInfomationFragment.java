@@ -29,9 +29,12 @@ import com.hangzhou.tonight.im.ChatActivity1;
 import com.hangzhou.tonight.manager.XmppConnectionManager;
 import com.hangzhou.tonight.model.User;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.module.individual.activity.ExtSingleFragmentActivity;
+import com.hangzhou.tonight.module.social.fragment.TonightCircleMyFragment;
 import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.StringUtil;
 import com.hoo.ad.base.helper.DeviceHelper;
@@ -107,6 +110,12 @@ public class IndividualInfomationFragment extends BFragment {
 			bAddfriend.setOnClickListener(bAddfriendClick);
 		}
 		
+		vDynamic.setOnClickListener(new OnClickListener() {
+			@Override public void onClick(View v) {
+				TbarViewModel model = new TbarViewModel("个人动态");
+				ExtSingleFragmentActivity.startActivity(getActivity(), TonightCircleMyFragment.class, model);
+			}
+		});
 		
 		map.put("nick",new ComponentModel("昵称","nick", vNick, tvNick, Type.TEXT, true));
 		map.put("mood_count", new ComponentModel(null,"mood_count", vDynamic, tvDynamic, Type.DYNA, false));
@@ -182,7 +191,7 @@ public class IndividualInfomationFragment extends BFragment {
 		                cm.value = tvTemp.getText().toString();
 		                String cons = DateUtil.getConstellation(tvTemp.getText().toString(), DateUtil.pattern_df);
 		                tvConstellation.setText(cons);
-		                //doUpdate(cm);
+		                doUpdate(cm);
 		            }
 		        });
 				datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
@@ -319,7 +328,7 @@ public class IndividualInfomationFragment extends BFragment {
 	}
 	
 	@Override public void onBackPressed() {
-		if(uid == null){ doUpdate(null); }
+		//if(uid == null){ doUpdate(null); }
 		super.onBackPressed();
 	}
 	

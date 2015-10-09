@@ -49,7 +49,7 @@ public class TonightCircleActivity extends TabActivity {
 		tv.setPadding(left, 0, right, 0);
 		setOnClickListener(new OnHandlerClickListener() {
 			@Override public void onClick(View handlerView) {
-				
+				ToastHelper.show(getContext(), "添加个人动态");
 			}
 		});
 		//tv.setVisibility(View.GONE);
