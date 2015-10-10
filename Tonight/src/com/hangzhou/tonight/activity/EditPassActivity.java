@@ -165,7 +165,7 @@ public class EditPassActivity extends BaseActivity implements OnClickListener{
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
-				showLoadingDialog("注册中,请稍后...");
+				showLoadingDialog("处理中,请稍后...");
 			}
 
 			@Override

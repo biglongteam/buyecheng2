@@ -37,7 +37,6 @@
                 android:textColor="#ffffff" />
 
             <TextView
-                android:id="@+id/tv_orde_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/x20"
@@ -66,7 +65,7 @@
                 android:textColor="#ffffff" />
 
             <TextView
-                android:id="@+id/tv_pay_rice"
+                android:id="@+id/tv_totall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/x20"

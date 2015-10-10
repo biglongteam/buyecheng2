@@ -11,13 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-
-
-
-
-
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -37,10 +31,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.android.app.util.Utils;
 import com.hangzhou.tonight.activity.EditPassActivity;
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.maintabs.MainActivity;
+import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
+import com.hangzhou.tonight.module.base.util.inter.Callback;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.Base64Utils;
@@ -91,6 +88,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private URL mUrl;
 	private File mFile;
 	private Context mContext;
+	private String wb_uid;
+	private String access_token;
+	String onlyId;
+	String head_img;
+	String screen_name;
+	String sex;
 	 // 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
     private UMSocialService mController = UMServiceFactory
             .getUMSocialService("com.umeng.login");
@@ -166,7 +169,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		//设置新浪SSO handler
 		mController.getConfig().setSsoHandler(new SinaSsoHandler());
 		mController.getConfig().setSinaCallbackUrl("https://api.weibo.com/oauth2/default.html");
-
+		
 		SnsPostListener mSnsPostListener  = new SnsPostListener() {
 
 	        @Override
@@ -228,12 +231,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	protected void init() {
 		/*mAccount=MyPreference.getInstance(LoginActivity.this).getLoginName();
 		mPassword=MyPreference.getInstance(LoginActivity.this).getPassword();;
-		mAccount="1000003";
-		mPassword="9d2b201382a3a8cf1342c1be422594d5";
 		if (!TextUtils.isEmpty(mAccount))
 			mAccountEt.setText(mAccount);
 		if (!TextUtils.isEmpty(mPassword))
 			mPasswordEt.setText(mPassword);*/
+
 	}
 
 	@Override
@@ -302,12 +304,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			break;
 			
 		case R.id.im_sina:
-			Toast.makeText(this, "暂未开通", 1000).show();
-			/*login(SHARE_MEDIA.SINA,2);*/
+			//Toast.makeText(this, "暂未开通", 1000).show();
+			//login(SHARE_MEDIA.SINA,2);
+			isBind("",2);
 			break;
 		case R.id.im_qq:
-			Toast.makeText(this, "暂未开通", 1000).show();
-			/*login(SHARE_MEDIA.QQ,3);*/
+			//Toast.makeText(this, "暂未开通", 1000).show();
+			login(SHARE_MEDIA.QQ,3);
 			break;
 		case R.id.im_wechat:
 			//Toast.makeText(this, "暂未开通", 1000).show();
@@ -371,10 +374,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
      */
     private void getUserInfo(SHARE_MEDIA platform, final String openid, final int i) {
     	mController.getPlatformInfo(this, platform, new UMDataListener() {
-    		String onlyId;
-    		String head_img;
-    		String screen_name;
-    		String sex;
+    		
     	    @Override
     	    public void onStart() {
     	        Toast.makeText(LoginActivity.this, "获取平台数据开始", Toast.LENGTH_SHORT).show();
@@ -398,13 +398,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	 // isBund(String.valueOf(2),onlyId,head_img,screen_name,sex);
     	                }else if(i==2){
     	                	//新浪微博登录，获得uid wb_uid；access_token(
-    	                	
+    	                	Toast.makeText(mContext, info.toString(), 3000).show();
     	                	onlyId=info.get("uid").toString();
-    	                	head_img=info.get("profile_image_url").toString();
+    	                	access_token=info.get("access_token").toString();
+    	                	/*head_img=info.get("profile_image_url").toString();
     	                	screen_name=info.get("screen_name").toString();
-    	                	sex=info.get("gender").toString();
+    	                	sex=info.get("gender").toString();*/
     	                	isBind(onlyId,2);
-    	                	
     	                	
     	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
     	                	//isBund(String.valueOf(3),onlyId,head_img,screen_name,sex);
@@ -505,7 +505,48 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		/*
 		 * if ((!validateAccount()) || (!validatePwd())) { return; }
 		 */
+    	JSONObject params = new JSONObject();
+    	String url = "";
+    	if(type==2){
+    		params.put("wb_uid", "1900035363");
+    		params.put("access_token", "2.00fz2aEClwOvFCf71a5659fcnRyX3C");
+    		url = "loginWithWeibo";
+    	}else if(type==1){
+    		params.put("code", onlyId);
+    		url = "loginWithWeixin";
+    	}
+		
+		/*if(!ticket_id.equals("0")){
+			params.put("wallet_money", wallet_money+"");
+			params.put("title", act_name+"-"+ticket_name);
+		}else {
+			params.put("wallet_money", "0");
+			params.put("title", "ceshi");
+		}*/
+    	
+    	AsyncTaskUtil.postData(mContext, url, params, new Callback() {
 
+			@Override
+			public void onSuccess(com.alibaba.fastjson.JSONObject result) {
+				
+				showCustomToast("登录返回值："+result.toString());
+				if(result.getString("s").equals("0")){
+					Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
+					startActivity(intent);
+					finish();
+				}else{
+					showCustomToast("账号或密码错误,请检查是否输入正确");
+				}
+			}
+
+			@Override
+			public void onFail(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+    		
+    	});
+    	
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
@@ -552,16 +593,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 		new AsyncTask<Void, Void, String>() {
 
-			private String uid;
-			private String nick;
-			private String birth;
-			private String sex;
-			private String phone;
-			private String money;
-			private String favorite;
-			private String praised;
-			private String groups;
-			private String friends;
 
 			@Override
 			protected void onPreExecute() {
@@ -589,56 +620,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				System.out.println("用户登录结果：      " +result);
 				boolean success=dealResult(result);
 				if(success){
-					JSONObject object;
-					
-					
-					 /*"uid": "9000034",
-					    "favorite": [],
-					    "praised": [],
-					    "groups": [],
-					    "friends": [],
-					    "nick": "nickname",
-					    "birth": "1988-09-09",
-					    "sex": "1",
-					    "phone": "15225095589",
-					    "money": "0.00",
-					    "paypass": "0",
-					    "s": 1*/
-					try {
-						object = new JSONObject(result);
-						uid = object.getString("uid");
-						nick = object.getString("nick");
-						birth = object.getString("birth");
-						sex = object.getString("sex");
-						phone = object.getString("phone");
-						money = object.getString("money");
-						favorite = object.getString("favorite");
-						
-						praised = object.getString("praised");
-						groups = object.getString("groups");
-						friends = object.getString("friends");
-						
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-
-					MyPreference.getInstance(LoginActivity.this).setUserId(uid);
-					MyPreference.getInstance(LoginActivity.this).setPassword(mPassword);
-					MyPreference.getInstance(LoginActivity.this).setLoginName(mAccount);;
-					MyPreference.getInstance(LoginActivity.this).setTelNumber(phone);
-					MyPreference.getInstance(LoginActivity.this).setUserSex(sex);
-					MyPreference.getInstance(LoginActivity.this).setUserName(nick);
-					MyPreference.getInstance(LoginActivity.this).setUserbirth(birth);
-					
-					if(!favorite.contains(",")){
-						MyPreference.getInstance(LoginActivity.this).setUserFact("0");
-					}else{
-						MyPreference.getInstance(LoginActivity.this).setUserFact(favorite);
-					}
-					
-					MyPreference.getInstance(LoginActivity.this).setUserPraised(praised);
-					MyPreference.getInstance(LoginActivity.this).setUserGroups(groups);
-					MyPreference.getInstance(LoginActivity.this).setUserFrinds(friends);
+					JsonResolveUtils.saveLogin(result, mContext);
+					MyPreference.getInstance(mContext).setPassword(mPassword);
+					MyPreference.getInstance(mContext).setLoginName(mAccount);
 					Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
 					
 					
@@ -669,8 +653,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		Map<String, Object> parms = new HashMap<String, Object>();
 		mAccount = mAccountEt.getText().toString().trim();
 		//mPassword = mPasswordEt.getText().toString().trim();
-		/*mAccount="1000003";
-		mPassword="9d2b201382a3a8cf1342c1be422594d5";*/
+		//mAccount="1000003";
+		//mPassword="9d2b201382a3a8cf1342c1be422594d5";
 		String psw = "sq"+mPasswordEt.getText().toString().trim();
 		String pw = MD5Utils.md5(psw).substring(0, 27);
 		String dd = pw+"ton";
@@ -678,6 +662,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		
 		//parms.put("id", 1000003);
 		//parms.put("password", "9d2b201382a3a8cf1342c1be422594d5");
+		
 		
 		/*登录密码= md5(substr(md5("sq".$password), 0,27).”ton”);
 		如密码为51tonight则为: md5(“sq51tonight”)=“16d88e6ba9fbbbf04c5ca181ba6f16f7”，之后截取32位的前27位，得“16d88e6ba9fbbbf04c5ca181ba6”，然后该字

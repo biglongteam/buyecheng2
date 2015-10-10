@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.maintabs.MainActivity;
+import com.hangzhou.tonight.module.base.helper.ToastHelper;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.FileUtils;
 import com.hangzhou.tonight.util.HttpRequest;
@@ -57,13 +59,14 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	private String praised;
 	private String groups;
 	private String friends;
-	
+	private Context mCotnext;
 	String phoneNum,pwd,repwd,code;
 	private String mPassword;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		mCotnext = this;
 		initViews();
 		initEvents();
 	}
@@ -209,7 +212,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 					
 					MyPreference.getInstance(RegisterActivity.this).setUserId(uid);
 					MyPreference.getInstance(RegisterActivity.this).setTelNumber(phone);
-					MyPreference.getInstance(RegisterActivity.this).setPassword(mPassword);
+					MyPreference.getInstance(RegisterActivity.this).setPassword(etPass.getText().toString());
 					MyPreference.getInstance(RegisterActivity.this).setLoginName(phoneNum);;
 					MyPreference.getInstance(RegisterActivity.this).setUserSex(sex);
 					MyPreference.getInstance(RegisterActivity.this).setUserName(nick);
@@ -356,6 +359,22 @@ sex(1男,0⼥女)*/
 			@Override
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
+				if (result != null) {
+					try {
+			 			JSONObject object = new JSONObject(result);
+							int state = Integer.valueOf(object.getString("s"));
+							if(state==0){
+								if(object.getString("e").equals("该号码已被注册")){
+									ToastHelper.show(mCotnext, "该号码已注册");
+									return;
+								}
+							}else if(state==1){
+							}
+						
+					}catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
 				dismissLoadingDialog();
 				
 			}

@@ -32,7 +32,7 @@ public class AliPayActivity  extends Activity {
 	    			AliPay alipay = new AliPay(AliPayActivity.this, mHandler);
 	    			
 	    			//设置为沙箱模式，不设置默认为线上环境
-	    			//alipay.setSandBox(true);
+	    			alipay.setSandBox(true);
 	    			String result = alipay.pay(orderInfo);
 	    			Message msg = new Message();
 	    			msg.what = RQF_PAY;
