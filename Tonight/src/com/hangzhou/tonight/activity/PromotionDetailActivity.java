@@ -187,7 +187,7 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		}
 		arrayFav = fav.split(",");
 		if(arrayFav.length>0){
-			for(int i = 0;i<arrayFav.length;i++){
+			for(int i = 0;i<=arrayFav.length;i++){
 				if(arrayFav[i].equals(act_id)){
 					isFav = true;
 					return;
@@ -451,7 +451,7 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 					order_id = object.getString("order_id");
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("actInfo", actInfo);
-					IntentJumpUtils.nextActivity(WXEntryActivity.class, PromotionDetailActivity.this, bundle);
+				//	IntentJumpUtils.nextActivity(WXEntryActivity.class, PromotionDetailActivity.this, bundle);
 					//{"actInfo":{"act_id":"35","address":"杭州市江干区天城路88号","content":"3-4人畅爽套餐    1份     980元\n啤酒无限畅饮\n18:00到凌晨2:00，欢唱8小时\n门店价格：2480","des":"啤酒无限畅饮","endtime":"1470844800","img":"[\"0_0QQ%E6%88%AA%E5%9B%BE20150813101248.png\",\"0_1QQ%E6%88%AA%E5%9B%BE20150813101056.png\",\"0_2QQ%E6%88%AA%E5%9B%BE20150813101145.png\",\"0_3QQ%E6%88%AA%E5%9B%BE20150813101200.png\",\"0_4QQ%E6%88%AA%E5%9B%BE20150813101209.png\",\"0_7QQ%E6%88%AA%E5%9B%BE20150813101238.png\"]","lat":"30.293052","lon":"120.20591","name":"皇冠娱乐会所","phone":"15257128999","price":"0.00","review_num":"0","sales_num":"0","starttime":"1439395200","tip":"每张糯米券限20人使用，超出收费标准：超出收费标准：按照商家为标准，如有疑问请咨询商家\n每次消费不限使用糯米券张数\n包厢安排为：包厢安排为：小1包厢：3-4人，小2包厢：5-8人，中包厢：15-20人，大包厢；15-20人","title":"价值2480元15-20人欢唱套餐","value":"0.00"},"reviews":[],"s":1}
 				}
 				

@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    
     <!-- 判断堆栈中是否有本应用的权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
@@ -209,17 +211,21 @@
 	    <activity android:name=".im.ContacterMainActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
 	     <activity android:name=".im.RoomChatActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
 		
-      
+        <!-- 会议室成员列表  -->
+        <activity
+             android:name=".im.RoomMemberActivity"
+             android:screenOrientation="portrait"
+            />
         
         <!-- 创建群  -->
         <activity
              android:name=".im.GroupCreateActivity"
              android:screenOrientation="portrait"
             />
-        <activity
+       <!--  <activity
              android:name="com.hangzhou.tonight.wxpay.wxapi.WXEntryActivity"
              android:screenOrientation="portrait"
-            />
+            /> -->
         <activity
              android:name="com.hangzhou.tonight.wxpay.wxapi.WXPayEntryActivity"
              android:screenOrientation="portrait"

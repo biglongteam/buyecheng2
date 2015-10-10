@@ -8,7 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.entity.Feed;
@@ -17,6 +19,7 @@ import com.hangzhou.tonight.entity.NearByGroup;
 import com.hangzhou.tonight.entity.NearByGroups;
 import com.hangzhou.tonight.entity.NearByPeople;
 import com.hangzhou.tonight.entity.NearByPeopleProfile;
+import com.hangzhou.tonight.maintabs.MainActivity;
 
 /**
  * @fileName JsonResolveUtils.java
@@ -40,7 +43,16 @@ public class JsonResolveUtils {
 	// 状态评论
 	private static final String FEEDCOMMENT = "feedcomment.json";
 	
-	
+	private static String uid;
+	private static String nick;
+	private static String birth;
+	private static String sex;
+	private static String phone;
+	private static String money;
+	private static String favorite;
+	private static String praised;
+	private static String groups;
+	private static String friends;
 	
 	
 	
@@ -65,6 +77,57 @@ public static boolean resolveuserResult(String json){
 	}
 	
 	
+public static void saveLogin(String result,Context mContext){
+	
+	JSONObject object;
+	 /*"uid": "9000034",
+	    "favorite": [],
+	    "praised": [],
+	    "groups": [],
+	    "friends": [],
+	    "nick": "nickname",
+	    "birth": "1988-09-09",
+	    "sex": "1",
+	    "phone": "15225095589",
+	    "money": "0.00",
+	    "paypass": "0",
+	    "s": 1*/
+	try {
+		object = new JSONObject(result);
+		uid = object.getString("uid");
+		nick = object.getString("nick");
+		birth = object.getString("birth");
+		sex = object.getString("sex");
+		phone = object.getString("phone");
+		money = object.getString("money");
+		favorite = object.getString("favorite");
+		praised = object.getString("praised");
+		groups = object.getString("groups");
+		friends = object.getString("friends");
+		
+	} catch (JSONException e) {
+		e.printStackTrace();
+	}
+
+	MyPreference.getInstance(mContext).setUserId(uid);
+	MyPreference.getInstance(mContext).setTelNumber(phone);
+	MyPreference.getInstance(mContext).setUserSex(sex);
+	MyPreference.getInstance(mContext).setUserName(nick);
+	MyPreference.getInstance(mContext).setUserbirth(birth);
+	
+	if(!favorite.contains(",")){
+		MyPreference.getInstance(mContext).setUserFact("0");
+	}else{
+		MyPreference.getInstance(mContext).setUserFact(favorite);
+	}
+	
+	MyPreference.getInstance(mContext).setUserPraised(praised);
+	MyPreference.getInstance(mContext).setUserGroups(groups);
+	MyPreference.getInstance(mContext).setUserFrinds(friends);
+	Intent intent = new Intent(mContext, MainActivity.class); 
+	
+}
+
 	public static boolean resolveuserLogin(String result){
 		
 		

@@ -30,7 +30,7 @@ public class PayActivity extends Activity {
 	
 	private IWXAPI api;
 	private String appid,partnerid,prepayid,packageValue,nonceStr;
-	int timestamp;
+	long timestamp;
 	/**/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -261,14 +261,14 @@ public class PayActivity extends Activity {
 		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
 	}*/
 	
-	private long genTimeStamp() {
+	private long gentimestamp() {
 		return System.currentTimeMillis() / 1000;
 	}
 	/**
 	 * 建议 traceid 字段包含用户信息及订单信息，方便后续对订单状态的查询和跟踪
 	 */
 	private String getTraceId() {
-		return "crestxu_" + genTimeStamp(); 
+		return "crestxu_" + gentimestamp(); 
 	}
 	
 	/**
@@ -279,7 +279,6 @@ public class PayActivity extends Activity {
 		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
 	}
 	
-	private long timeStamp;
 	
 	private String genSign(List<NameValuePair> params) {
 		StringBuilder sb = new StringBuilder();
@@ -321,14 +320,14 @@ public class PayActivity extends Activity {
 			packageParams.add(new BasicNameValuePair("total_fee", "1"));
 			
 			json.put("package", packageValue);
-			json.put("timestamp", timeStamp);
+			json.put("timestamp", timestamp);
 			
 			List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 			signParams.add(new BasicNameValuePair("appid", Constants.APP_ID));
 			signParams.add(new BasicNameValuePair("appkey", APP_KEY));
 			signParams.add(new BasicNameValuePair("noncestr", nonceStr));
 			signParams.add(new BasicNameValuePair("package", packageValue));
-			signParams.add(new BasicNameValuePair("timestamp", String.valueOf(timeStamp)));
+			signParams.add(new BasicNameValuePair("timestamp", String.valueOf(timestamp)));
 			signParams.add(new BasicNameValuePair("traceid", traceId));
 			json.put("app_signature", genSign(signParams));
 			json.put("sign_method", "sha1");
@@ -348,7 +347,7 @@ public class PayActivity extends Activity {
 	        req.partnerId = app_tx_parent_key;
 	        req.prepayId = result.prepayId;
 	        req.nonceStr = appSign.getNoncestr();
-	        req.timeStamp = appSign.getTimestamp();
+	        req.timestamp = appSign.gettimestamp();
 	        req.packageValue = "Sign=" + appSign.getPackageSign();
 	         
 	        List<namevaluepair> signParams = new LinkedList<namevaluepair>();
@@ -358,7 +357,7 @@ public class PayActivity extends Activity {
 	        signParams.add(new BasicNameValuePair("package", req.packageValue));
 	        signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
 	        signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
-	        signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
+	        signParams.add(new BasicNameValuePair("timestamp", req.timestamp));
 	        req.sign = WeixinUtil.genSign(signParams);
 	        wxRequest.sendReq(req);*/
 		
@@ -368,19 +367,19 @@ public class PayActivity extends Activity {
 		req.partnerId = partnerid;
 		req.prepayId = prepayid;
 		req.nonceStr = nonceStr;
-		req.timeStamp = String.valueOf(timeStamp);
+		req.timeStamp = String.valueOf(timestamp);
 		req.packageValue = packageValue;
 		
 		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 		signParams.add(new BasicNameValuePair("appid", req.appId));
-		signParams.add(new BasicNameValuePair("appkey", APP_KEY));
+		//signParams.add(new BasicNameValuePair("appkey", APP_KEY));
 		signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
 		signParams.add(new BasicNameValuePair("package", req.packageValue));
 		signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
 		signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
 		signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
 		req.sign = genSign(signParams);
-		
+		api.registerApp(appid);
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		api.sendReq(req);
 	}

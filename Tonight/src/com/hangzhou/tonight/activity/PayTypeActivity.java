@@ -57,11 +57,11 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 
 	private Context mContext;
 	private Button bt_submit;
-	TextView tvTotalPrice,tvOrder_name,tvOrdePrice;
-	String order_id,act_name,expense,ticket_id="0",ticket_name,orderName;
+	TextView tvTotalPrice,tv_totall;
+	String order_id,act_name,expense,ticket_id="0",ticket_name="0";
 	private ActivesInfo actInfo;
 	int  type = 0,ticket;
-	float pay_money,wallet_money,ticket_price;
+	float pay_money,wallet_money;
 	private TextView tvBack,tvTitle;
 	Button rbzfb, rbwx ,rbyl;
 	@Override
@@ -79,12 +79,6 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 		}
 		ticket = getIntent().getIntExtra("ticket", 0);
 		pay_money = getIntent().getFloatExtra("pay_money", 0);
-		ticket_price = getIntent().getFloatExtra("ticket_price", 0);
-		
-		orderName= act_name;
-		if(ticket_name!=null&&ticket_name.equals("")){
-			orderName= act_name+"-"+ticket_name;
-		}
 		
 		initViews();
 		initEvents();
@@ -165,14 +159,13 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 		JSONObject params = new JSONObject();
 		params.put("order_id", order_id);
 		params.put("type", type);
-		params.put("title", orderName);
-		/*if(!ticket_id.equals("0")){
+		if(!ticket_id.equals("0")){
 			params.put("wallet_money", wallet_money+"");
-			
+			params.put("title", act_name+"-"+ticket_name);
 		}else {
 			params.put("wallet_money", "0");
-		}*/
-		params.put("wallet_money", "0");
+			params.put("title", "ceshi");
+		}
 		params.put("pay_money", pay_money+"");
 		AsyncTaskUtil.postData(mContext, "prePayOrder", params, new Callback() {
 			@Override public void onSuccess(JSONObject result) {
@@ -376,7 +369,8 @@ private Map<String, String> setParams(){
 	}
 	@Override
 	protected void init() {
-		
+		tvTotalPrice.setText(pay_money+"");
+		tv_totall.setText(pay_money+"");
 		
 	}
 
@@ -387,15 +381,11 @@ private Map<String, String> setParams(){
 		tvTitle = (TextView) findViewById(R.id.tv_title);
 		tvTitle.setText("支付订单");
 		tvTotalPrice = (TextView) findViewById(R.id.tv_money);
-		tvOrdePrice = (TextView) findViewById(R.id.tv_pay_rice);
-		tvOrder_name = (TextView) findViewById(R.id.tv_orde_name);
+		tv_totall = (TextView) findViewById(R.id.tv_totall);
 		rbzfb = (Button) findViewById(R.id.rb_zfb);
 		rbwx = (Button) findViewById(R.id.rb_wx);
 		rbyl = (Button) findViewById(R.id.rb_yl);
 		bt_submit = (Button) findViewById(R.id.bt_submit);
-		tvTotalPrice.setText(pay_money+"元");
-		tvOrder_name.setText(orderName);
-		tvOrdePrice.setText(ticket_price+"元");
 		
 	}
 
