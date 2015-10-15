@@ -187,7 +187,7 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 		}
 		arrayFav = fav.split(",");
 		if(arrayFav.length>0){
-			for(int i = 0;i<=arrayFav.length;i++){
+			for(int i = 0;i<arrayFav.length;i++){
 				if(arrayFav[i].equals(act_id)){
 					isFav = true;
 					return;

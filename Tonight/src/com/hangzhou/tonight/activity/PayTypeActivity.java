@@ -370,7 +370,7 @@ private Map<String, String> setParams(){
 	@Override
 	protected void init() {
 		tvTotalPrice.setText(pay_money+"");
-		tv_totall.setText(pay_money+"");
+		//tv_totall.setText(pay_money+"");
 		
 	}
 
@@ -381,7 +381,7 @@ private Map<String, String> setParams(){
 		tvTitle = (TextView) findViewById(R.id.tv_title);
 		tvTitle.setText("支付订单");
 		tvTotalPrice = (TextView) findViewById(R.id.tv_money);
-		tv_totall = (TextView) findViewById(R.id.tv_totall);
+		//tv_totall = (TextView) findViewById(R.id.tv_totall);
 		rbzfb = (Button) findViewById(R.id.rb_zfb);
 		rbwx = (Button) findViewById(R.id.rb_wx);
 		rbyl = (Button) findViewById(R.id.rb_yl);

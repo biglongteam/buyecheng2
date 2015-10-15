@@ -50,7 +50,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 			params.put("page", page);
 			params.put("time",time);
 			
-		AsyncTaskUtil.postData(getActivity(), "getApplyList", null,
+		AsyncTaskUtil.postData(getActivity(), "getApplyList", params,
 				new Callback() {
 
 					@Override
@@ -76,7 +76,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		String[] states={"1","9","9","9","0","1"};
 		String[] types={"1","2","3","1","2","3"};
 		String content = "今天，去了蜜桃酒吧，很不错的酒吧啊";
-		for (int i = 0, len = strs.length; i < len; i++) {
+/*		for (int i = 0, len = strs.length; i < len; i++) {
 			String str = strs[i];
 			String str1 = strs1[i];
 			String state=states[i];
@@ -87,7 +87,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 			m.state=states[i];
 			m.type=types[i];
 			listData.add(m);
-		}
+		}*/
 
 		/*noticeManager = NoticeManager.getInstance(getActivity());
 		inviteNotices = noticeManager.getNoticeListByTypeAndPage(

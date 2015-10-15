@@ -55,12 +55,13 @@ public class GoodFragment extends BEmptyListviewFragment {
 			
 			@Override public void onSuccess(JSONObject result) {
 				try {
+					time = result.getLongValue("time");
 					List<GoodDataModel> list = JSONArray.parseArray(result.getString("praises"), GoodDataModel.class);
 					if(list.size() > 0){ page++;}
 					listData.addAll(list);
 					adapter.notifyDataSetChanged();
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				
 			}
@@ -122,8 +123,42 @@ public class GoodFragment extends BEmptyListviewFragment {
 		}
 	}
 	
-	class GoodDataModel{
-		String uid,nick,type,url,mid,content,ptime,mood_state;
+	public static class GoodDataModel{
+		String uid,nick,type,url,sex,birth,mid,
+		content,ptime,time,reply_num,mood_state;
+
+		
+		public String getSex() {
+			return sex;
+		}
+
+		public void setSex(String sex) {
+			this.sex = sex;
+		}
+
+		public String getBirth() {
+			return birth;
+		}
+
+		public void setBirth(String birth) {
+			this.birth = birth;
+		}
+
+		public String getTime() {
+			return time;
+		}
+
+		public void setTime(String time) {
+			this.time = time;
+		}
+
+		public String getReply_num() {
+			return reply_num;
+		}
+
+		public void setReply_num(String reply_num) {
+			this.reply_num = reply_num;
+		}
 
 		public String getUid() {
 			return uid;

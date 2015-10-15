@@ -93,14 +93,16 @@ public class CommentFragment extends BEmptyListviewFragment {
 		page++;
 		JSONObject params = new JSONObject();
 		params.put("page", page);
+		params.put("time",time);
 		AsyncTaskUtil.postData(getActivity(), "getSelfReply", params, new Callback() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				time = result.getLongValue("time");
 				try {
 					listData.addAll(JSONArray.parseArray(result.getString("replys"), DataModel.class));
+					adapter.notifyDataSetChanged();
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				
 			}
@@ -170,10 +172,43 @@ public class CommentFragment extends BEmptyListviewFragment {
 		}
 	}
 	
-	class DataModel{
+	public static class DataModel{
 
-		String rid,uid,nick,to_uid,to_nick,msg,ptime,mid,
-		content,type,url,mood_state;
+		String rid,uid,nick,sex,birth,to_uid,to_nick,msg,ptime,mid,
+		content,type,url,reply_num,time,mood_state;
+		
+
+		public String getSex() {
+			return sex;
+		}
+
+		public void setSex(String sex) {
+			this.sex = sex;
+		}
+
+		public String getBirth() {
+			return birth;
+		}
+
+		public void setBirth(String birth) {
+			this.birth = birth;
+		}
+
+		public String getReply_num() {
+			return reply_num;
+		}
+
+		public void setReply_num(String reply_num) {
+			this.reply_num = reply_num;
+		}
+
+		public String getTime() {
+			return time;
+		}
+
+		public void setTime(String time) {
+			this.time = time;
+		}
 
 		public String getRid() {
 			return rid;
