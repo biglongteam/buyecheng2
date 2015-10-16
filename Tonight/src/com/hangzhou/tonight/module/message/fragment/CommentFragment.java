@@ -89,16 +89,21 @@ public class CommentFragment extends BEmptyListviewFragment {
 	
 	int  page = 0;
 	long time = 0;
+	boolean loadMore = true;
 	private void loadData(){
+		if(!loadMore){return;}
 		page++;
 		JSONObject params = new JSONObject();
 		params.put("page", page);
+		params.put("time", time);
 		AsyncTaskUtil.postData(getActivity(), "getSelfReply", params, new Callback() {
 			@Override
 			public void onSuccess(JSONObject result) {
+				if(result.containsKey("nomore")){ loadMore = result.getIntValue("nomore") != 1 ;}
 				time = result.getLongValue("time");
 				try {
 					listData.addAll(JSONArray.parseArray(result.getString("replys"), DataModel.class));
+					adapter.notifyDataSetChanged();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -170,7 +175,7 @@ public class CommentFragment extends BEmptyListviewFragment {
 		}
 	}
 	
-	class DataModel{
+	public static class DataModel{
 
 		String rid,uid,nick,to_uid,to_nick,msg,ptime,mid,
 		content,type,url,mood_state;

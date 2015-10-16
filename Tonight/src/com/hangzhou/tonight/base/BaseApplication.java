@@ -16,6 +16,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -23,6 +25,14 @@ import android.location.Geocoder;
 
 import android.util.Log;
 
+import com.alibaba.sdk.android.oss.OSSService;
+import com.alibaba.sdk.android.oss.OSSServiceProvider;
+import com.alibaba.sdk.android.oss.model.AccessControlList;
+import com.alibaba.sdk.android.oss.model.AuthenticationType;
+import com.alibaba.sdk.android.oss.model.ClientConfiguration;
+import com.alibaba.sdk.android.oss.model.TokenGenerator;
+import com.alibaba.sdk.android.oss.util.OSSLog;
+import com.alibaba.sdk.android.oss.util.OSSToolKit;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -204,8 +214,50 @@ public class BaseApplication extends Application {
 				.defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
 				.writeDebugLogs().build();
 		ImageLoader.getInstance().init(config);
+		
+		
+		/*----------------阿里云OSS初始化----------------*/
+		initOssServer();
 	}
 	
+	public static OSSService ossService;
+	public static String bucketName;
+	private String accessKey,screctKey;
+	private void initOssServer(){
+		    Context context = getBaseContext();
+		    try {
+				accessKey = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData.getString("com.alibaba.app.ossak");
+				screctKey = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData.getString("com.alibaba.app.osssk");
+				bucketName= context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData.getString("com.alibaba.app.ossbucketname");
+		    } catch (NameNotFoundException e) {
+				e.printStackTrace();
+			}
+            
+		    // 开启Log
+	        OSSLog.enableLog();
+
+	        ossService = OSSServiceProvider.getService();
+
+	        ossService.setApplicationContext(context);
+	        ossService.setGlobalDefaultHostId("oss-cn-hangzhou.aliyuncs.com"); // 设置region host 即 endpoint
+	        ossService.setGlobalDefaultACL(AccessControlList.PRIVATE); // 默认为private
+	        ossService.setAuthenticationType(AuthenticationType.ORIGIN_AKSK); // 设置加签类型为原始AK/SK加签
+	        ossService.setGlobalDefaultTokenGenerator(new TokenGenerator() { // 设置全局默认加签器
+	            @Override
+	            public String generateToken(String httpMethod, String md5, String type, String date,String ossHeaders, String resource) {
+	                String content = httpMethod + "\n" + md5 + "\n" + type + "\n" + date + "\n" + ossHeaders + resource;
+	                return OSSToolKit.generateToken(accessKey, screctKey, content);
+	            }
+	        });
+	        ossService.setCustomStandardTimeWithEpochSec(System.currentTimeMillis() / 1000);
+
+	        ClientConfiguration conf = new ClientConfiguration();
+	        conf.setConnectTimeout(30 * 1000); 			// 设置全局网络连接超时时间，默认30s
+	        conf.setSocketTimeout(30 * 1000); 			// 设置全局socket超时时间，默认30s
+	        conf.setMaxConcurrentTaskNum(5); 			// 替换设置最大连接数接口，设置全局最大并发任务数，默认为6
+	        conf.setIsSecurityTunnelRequired(false); 	// 是否使用https，默认为false
+	        ossService.setClientConfiguration(conf);
+	}
 	
 	public void startService() {
 		// 好友联系人服务

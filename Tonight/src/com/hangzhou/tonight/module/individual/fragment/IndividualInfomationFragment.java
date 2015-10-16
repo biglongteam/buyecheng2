@@ -1,14 +1,20 @@
 package com.hangzhou.tonight.module.individual.fragment;
 
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +34,7 @@ import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.im.ChatActivity1;
 import com.hangzhou.tonight.manager.XmppConnectionManager;
 import com.hangzhou.tonight.model.User;
+import com.hangzhou.tonight.module.base.alioss.GetAndUploadFile;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
@@ -80,8 +87,82 @@ public class IndividualInfomationFragment extends BFragment {
 	}
 
 	@Override protected void doListeners() {
-		
+		ivHeadAdd.setOnClickListener(new OnClickListener() {
+			@Override public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				intent.setType("image/*");
+				startActivityForResult(intent, 1000);
+			}
+		});
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == Activity.RESULT_OK){
+			if(requestCode == 1000){
+				 	Uri uri = data.getData();  
+		            ContentResolver cr = getActivity().getContentResolver();  
+		            try {  
+		                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));  
+		                ImageView ivHead = findView(R.id.individual_head);
+		                ivHead.setImageBitmap(centerSquareScaleBitmap(bitmap,64)); 
+		                
+		                new GetAndUploadFile(getActivity()).resumableUpload(uri.getPath(), "user/head.jpg");
+		            } catch (FileNotFoundException e) {  
+		                
+		            }  
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	};
+	
+	
+	/**
+    
+	   * @param bitmap      原图
+	   * @param edgeLength  希望得到的正方形部分的边长
+	   * @return  缩放截取正中部分后的位图。
+	   */
+	public static Bitmap centerSquareScaleBitmap(Bitmap bitmap, int edgeLength) {
+		if (null == bitmap || edgeLength <= 0) {
+			return null;
+		}
+
+		Bitmap result = bitmap;
+		int widthOrg = bitmap.getWidth();
+		int heightOrg = bitmap.getHeight();
+
+		if (widthOrg > edgeLength && heightOrg > edgeLength) {
+			// 压缩到一个最小长度是edgeLength的bitmap
+			int longerEdge = (int) (edgeLength * Math.max(widthOrg, heightOrg) / Math.min(widthOrg, heightOrg));
+			int scaledWidth = widthOrg > heightOrg ? longerEdge : edgeLength;
+			int scaledHeight = widthOrg > heightOrg ? edgeLength : longerEdge;
+			Bitmap scaledBitmap;
+
+			try {
+				scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth,
+						scaledHeight, true);
+			} catch (Exception e) {
+				return null;
+			}
+
+			// 从图中截取正中间的正方形部分。
+			int xTopLeft = (scaledWidth - edgeLength) / 2;
+			int yTopLeft = (scaledHeight - edgeLength) / 2;
+
+			try {
+				result = Bitmap.createBitmap(scaledBitmap, xTopLeft, yTopLeft,
+						edgeLength, edgeLength);
+				scaledBitmap.recycle();
+			} catch (Exception e) {
+				return null;
+			}
+		}
+
+		return result;
+	}
+	
 	OnClickListener bAddfriendClick = new OnClickListener() {
 		@Override public void onClick(View v) {
 			if(MyPreference.getInstance(getActivity()).getUserId().equals(uid)){ 
@@ -155,7 +236,7 @@ public class IndividualInfomationFragment extends BFragment {
 						if(null != iv){iv.setVisibility(View.GONE);}
 					}
 				}
-				if(json.containsKey("isfriend") && json.getInteger("isfriend")==1){
+				if(result.containsKey("isfriend") && result.getIntValue("isfriend")==1){
 					isFriend = true;
 					bAddfriend.setText("发消息");
 				}
