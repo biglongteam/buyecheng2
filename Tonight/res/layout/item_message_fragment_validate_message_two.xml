@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+     <ImageView
+        android:id="@+id/message_good_head"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/default_head"
+        />
+    
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_toRightOf="@id/message_good_head"
+	    android:layout_alignTop="@id/message_good_head"
+	    >
+	    <TextView
+	        android:id="@+id/message_comment_username" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="2dp"
+	        android:layout_marginRight="2dp"
+	        android:singleLine="true"
+	        android:ellipsize="end"
+	        android:textSize="18sp"
+	        android:textColor="#FFE64087"
+	        />
+	    <TextView 
+	        android:id="@+id/message_comment_your"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/comment_your"
+	        android:singleLine="true"
+	        android:textSize="18sp"
+	        android:textColor="@color/white"
+	        ></TextView>
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:id="@+id/validate_message_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_toRightOf="@id/message_good_head"
+	     android:layout_toEndOf="@id/message_good_head"
+	    android:layout_alignBottom="@id/message_good_head"
+	    >
+	     <Button 
+	            android:id="@+id/validate_message_agree" 
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1.0"
+	            android:text="@string/agree"
+	            android:paddingBottom="5dp"
+	            android:textSize="15sp"
+	            android:textColor="#FFE5E5E5"
+	            android:clickable="true"
+	            android:background="@drawable/selector_blank_click_shadow"
+	            />
+	        <!--  <View 
+	            android:layout_width="1dip"
+	            android:layout_height="match_parent"
+	            android:background="#FFE5E5E5"
+	            ></View>  -->
+	        <Button 
+	               android:id="@+id/validate_message_refuse" 
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1.0"
+	            android:paddingBottom="5dp"
+	            android:textSize="15sp"
+	            android:text="@string/disagree"
+	            android:textColor="#FFE5E5E5"
+	            android:clickable="true"
+	            android:background="@drawable/selector_blank_click_shadow"
+	            />
+	</LinearLayout>
+	
+	
+	
+	<TextView 
+	    android:id="@+id/message_comment_content"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:singleLine="true"
+	    android:ellipsize="end"
+	    android:layout_marginTop="16dp"
+	    android:layout_marginLeft="14dp"
+	    android:textSize="15sp"
+	    android:visibility="gone"
+	    android:textColor="#245F8A"
+	    />
+</RelativeLayout>

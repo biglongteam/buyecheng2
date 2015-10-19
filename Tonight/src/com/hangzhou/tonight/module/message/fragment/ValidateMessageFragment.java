@@ -6,14 +6,24 @@ import java.util.List;
 
 
 
+
+
+
+
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Layout;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -21,6 +31,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.manager.NoticeManager;
 import com.hangzhou.tonight.model.Notice;
+import com.hangzhou.tonight.module.base.dto.UserInfoDto;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
@@ -33,6 +44,11 @@ import com.hangzhou.tonight.module.message.activity.ValidateMessageActivity;
  */
 public class ValidateMessageFragment extends BEmptyListviewFragment {
 
+	private static final int FREND=1;
+	private static final int GROUP_APPRIES=2;
+	private static final int GROUP_INVITE=3;
+	private int tag;
+	private String user_uid;
 	List<DataModel> listData = null;
 	BaseAdapter adapter;
 	private List<Notice> inviteNotices = new ArrayList<Notice>();
@@ -92,9 +108,10 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		/*noticeManager = NoticeManager.getInstance(getActivity());
 		inviteNotices = noticeManager.getNoticeListByTypeAndPage(
 				Notice.ADD_FRIEND, Notice.All, 1, 10);*/
+		user_uid = String.valueOf(UserInfoDto.getUser(getActivity()).uid);
 		adapter = new EntityAdapter();
 		mListView.setAdapter(adapter);
-		mListView.setDivider(new ColorDrawable(Color.parseColor("#00000000")));
+		//mListView.setDivider(new ColorDrawable(Color.parseColor("#00000000")));
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -148,70 +165,167 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 			int state=Integer.parseInt(model.getState());
 			int type=Integer.parseInt(model.getType());
 			String msg=model.getMsg();
-			String goupName=model.getTitle();
+			String title=model.getTitle();
+			String apply_id=model.getApply_id();
+			String uid=model.getUid();
+			String nick=model.getNick();
 			//String state=model.getState();
 
 			//Notice notice = inviteNotices.get(position);
 			ViewHolder hodler = null;
 			if (convertView == null) {
 				convertView = View.inflate(getActivity(),
-						R.layout.item_message_fragment_comment, null);
+						R.layout.item_message_fragment_validate_message_two, null);
 				/*convertView = View.inflate(getActivity(),
 						R.layout.item_message_fragment_validate_message, null);*/
 				hodler = new ViewHolder(convertView);
 			}
-			
-			String yours=getContent(type,state,goupName);
+			//content数组，昵称，信息，头像ID.
+			String[] content=getContent(type,state,uid,apply_id,nick,title,msg);
 			
 			hodler = (ViewHolder) convertView.getTag();
-			hodler.tv_username.setText(model.getNick());
-			hodler.tv_yours.setText(yours);
-			if(!msg.equals("")){
+			hodler.tv_username.setText(content[0]);
+			hodler.tv_yours.setText(content[1]);
+			
+			//TODO 头像ID=content[2];
+			
+			
+			/*if(!msg.equals("")){
 				hodler.tv_content.setVisibility(View.VISIBLE);
 				hodler.tv_content.setText("“"+msg+"”");
 			}else{
 				hodler.tv_content.setVisibility(View.GONE);
 			}
+			*/
+			boolean isUserId=user_uid.equals(uid);
+			if(!isUserId&&type==1&&state==1){
+				hodler.layout_validate.setVisibility(View.VISIBLE);
+				hodler.agree.setVisibility(View.VISIBLE);
+				hodler.refuse.setVisibility(View.VISIBLE);
+				hodler.refuse.setClickable(true);
+			}else if(isUserId&type==3&&state==1){
+				hodler.layout_validate.setVisibility(View.VISIBLE);
+				hodler.agree.setVisibility(View.VISIBLE);
+				hodler.refuse.setVisibility(View.VISIBLE);
+				hodler.refuse.setClickable(true);
+			}else if(!isUserId&type==2&&state==1){
+				hodler.layout_validate.setVisibility(View.VISIBLE);
+				hodler.agree.setVisibility(View.VISIBLE);
+				hodler.refuse.setVisibility(View.VISIBLE);
+				hodler.refuse.setClickable(true);
+				
+			}else if(isUserId&type==3&&state!=1){
+				hodler.layout_validate.setVisibility(View.VISIBLE);
+				hodler.agree.setVisibility(View.INVISIBLE);
+				hodler.refuse.setClickable(false);
+			}else if(!isUserId&type==1&&state!=1){
+				hodler.layout_validate.setVisibility(View.VISIBLE);
+				hodler.agree.setVisibility(View.INVISIBLE);
+				hodler.refuse.setClickable(false);
+			}else if(!isUserId&type==2&&state!=1){
+				hodler.layout_validate.setVisibility(View.VISIBLE);
+				hodler.agree.setVisibility(View.INVISIBLE);
+				hodler.refuse.setClickable(false);
+			}else{
+				hodler.layout_validate.setVisibility(View.GONE);
+				hodler.refuse.setClickable(true);
+			}
+			
+			if(hodler.refuse.isClickable()){
+				hodler.refuse.setText("拒绝");
+			}else{
+				if(state==0){
+					hodler.refuse.setText("已拒绝");
+				}else if(state==9){
+					hodler.refuse.setText("已同意");
+				}
+			}
 			
 			
 			
+			hodler.agree.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+				}
+			});
+           hodler.refuse.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+				}
+			});
 			return convertView;
 		}
 		
 		
-		private String getContent(int type,int state,String goupName){
-			String content="";
-			if(type==1){
-				if(state==0){
-					content="拒绝了您的好友申请";
-				}else if(state==1){
-					content="请求加您为好友";
-				}else if(state==9){
-					content="通过了您的好友申请";
+		private String[] getContent(int type,int state,String uid,String apply_id,String nick,String title,String msg){
+			String[] content=new String[3];
+			
+			if(user_uid.equals(uid)){
+				content[0]=title;
+				content[2]=apply_id;
+				if(type==1){
+					if(state==0){
+						content[1]="拒绝了您的好友申请";
+					}else if(state==9){
+						content[1]="通过了您的好友申请";
+					}
+				}else if(type==2){
+					if(state==0){
+						content[1]="拒绝了您的加群申请";
+					}else if(state==9){
+						content[1]="通过了您的加群申请";
+					}
+				}else if(type==3){
+					content[0]=msg;
+					if(state==0){
+						content[1]="邀请您加入群"+title;
+					}else if(state==1){
+						content[1]="邀请您加入群"+title;
+					}else if(state==9){
+						content[1]="邀请您加入群"+title;
+					}
 				}
-			}else if(type==2){
-				if(state==0){
-					content="拒绝了您的加群申请";
-				}else if(state==1){
-					content="申请加入群";
-				}else if(state==9){
-					content="通过了您的加群申请";
-				}
-			}else if(type==3){
-				if(state==0){
-					content="拒绝了加入群"+goupName+"的邀请";
-				}else if(state==1){
-					content="邀请您加入群"+goupName;
-				}else if(state==9){
-					content="接受加入群"+goupName+"的邀请";
+			}else{
+				content[0]=nick;
+				content[2]=uid;
+				if(type==1){
+					if(state==0){
+						content[1]="申请加您为好友";
+					}else if(state==1){
+						content[1]="申请加您为好友";
+					}else if(state==9){
+						content[1]="申请加您为好友";
+					}
+				}else if(type==2){
+					if(state==0){
+						content[1]="申请加入群";
+					}else if(state==1){
+						content[1]="申请加入群";
+					}else if(state==9){
+						content[1]="申请加入群";
+					}
+				}else if(type==3){
+					if(state==0){
+						content[1]="拒绝了加入群"+title+"的邀请";
+					}else if(state==9){
+						content[1]="接受加入群"+title+"的邀请";
+					}
 				}
 			}
+			
+			
+		
 			return content;
 		}
 
 		class ViewHolder {
 			TextView tv_username,tv_yours, tv_content;
-
+			LinearLayout layout_validate;
+			Button agree,refuse;
 			public ViewHolder(View view) {
 				this.tv_username = (TextView) view
 						.findViewById(R.id.message_comment_username);
@@ -219,9 +333,17 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 						.findViewById(R.id.message_comment_your);
 				this.tv_content = (TextView) view
 						.findViewById(R.id.message_comment_content);
+				this.layout_validate = (LinearLayout) view
+						.findViewById(R.id.validate_message_layout);
+				this.agree = (Button) view
+						.findViewById(R.id.validate_message_agree);
+				this.refuse = (Button) view
+						.findViewById(R.id.validate_message_refuse);
 				view.setTag(this);
 			}
 		}
+		
+	
 
 		/*private void jsonContent(String content) {
 			JSONObject object;
