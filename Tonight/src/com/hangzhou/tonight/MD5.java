@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.wxpay;
+package com.hangzhou.tonight;
 
 import java.security.MessageDigest;
 

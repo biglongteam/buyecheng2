@@ -81,11 +81,6 @@ public class WelcomeActivity extends BaseActivity {
         init();
         mContext = this;
         openTonight();
-        
-       
-        
-        
-        
         if(MyPreference.getInstance(mContext).getIsFirst()){
         	setupJazziness(TransitionEffect.Tablet);
         }else {
@@ -194,8 +189,6 @@ public class WelcomeActivity extends BaseActivity {
 		
 	}
 
-	
-	
 	
 
 	private void login() {
