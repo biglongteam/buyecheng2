@@ -61,7 +61,6 @@ import com.hangzhou.tonight.view.HeaderLayout.SearchState;
 import com.hangzhou.tonight.view.HeaderLayout.onMiddleImageButtonClickListener;
 import com.hangzhou.tonight.view.HeaderLayout.onSearchListener;
 import com.hangzhou.tonight.view.HeaderSpinner;
-import com.hangzhou.tonight.wxpay.wxapi.WXEntryActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

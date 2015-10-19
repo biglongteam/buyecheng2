@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonArray;
+import com.hangzhou.tonight.PayActivity;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.adapter.OtherActsListAdapter;
 import com.hangzhou.tonight.adapter.PinglunListAdapter;
@@ -43,7 +44,6 @@ import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.ScreenUtils;
-import com.hangzhou.tonight.wxpay.PayActivity;
 
 /**
  * 
