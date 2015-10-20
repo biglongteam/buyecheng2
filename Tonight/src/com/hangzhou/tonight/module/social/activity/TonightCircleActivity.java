@@ -3,6 +3,7 @@ package com.hangzhou.tonight.module.social.activity;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.social.fragment.CreateGroupFragment;
 import com.hangzhou.tonight.module.social.fragment.TonightCircleCityWideFragment;
 import com.hangzhou.tonight.module.social.fragment.TonightCircleMyFragment;
+import com.hoo.ad.base.helper.ActivityHelper;
 
 /**
  * 不夜圈
@@ -49,7 +51,7 @@ public class TonightCircleActivity extends TabActivity {
 		tv.setPadding(left, 0, right, 0);
 		setOnClickListener(new OnHandlerClickListener() {
 			@Override public void onClick(View handlerView) {
-				ToastHelper.show(getContext(), "添加个人动态");
+				ActivityHelper.startActivity(getContext(), AddDynamicsActivity.class);
 			}
 		});
 		//tv.setVisibility(View.GONE);

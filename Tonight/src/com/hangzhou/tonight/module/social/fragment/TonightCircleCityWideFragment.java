@@ -76,6 +76,8 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 	//String tuid;//当sort为3时需要
 	boolean isAllowLoad = true;
 	@Override protected void doPostData() {
+		page = 0;
+		listData.clear();
 		loadMore();
 	}
 	

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.ViewUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.util.MyPreference;
 
 /**
  * 不夜城 - 动态详情
@@ -44,19 +46,42 @@ public class TonightCircleDetailFragment extends BFragment{
 	}
 
 	@Override protected void doListeners() {
+		tv_good.setOnClickListener(new OnClickListener() {
+			@Override public void onClick(View v) {
+				JSONObject params = new JSONObject();
+				params.put("mid", mid);
+				params.put("nick", MyPreference.getInstance(getActivity()).getUserName());
+				AsyncTaskUtil.postData(getActivity(), "praiseMood", params, new Callback() {
+					
+					@Override
+					public void onSuccess(JSONObject result) {
+						ToastHelper.show(getActivity(), "成功点赞");
+						if(result != null){
+							tv_good	 .setText("赞 " + (result.getIntValue("pralse_num") + 1));
+						}
+					}
+					@Override public void onFail(String msg) {
+						ToastHelper.show(getActivity(), "已点赞");
+					}
+				});
+				
+			}
+		});
 	}
 
+	String mid;
+	JSONObject result;
 	@Override protected void doHandler() {
-		String mid = getBundle().getString("mid");
+		mid = getBundle().getString("mid");
 		JSONObject params = new JSONObject();
 		params.put("mid", mid);
 		
 		//获取心情
 		AsyncTaskUtil.postData(getActivity(), "getMoodInfo", params, new Callback() {
 			
-			@Override public void onSuccess(JSONObject result) {
+			@Override public void onSuccess(JSONObject res) {
 				tv_age.setVisibility(View.GONE);
-				result = result.getJSONObject("moodInfo");
+				result = res.getJSONObject("moodInfo");
 				String content = ViewUtil.getPicTextMutil(result.getString("content"), result.getString("url"), result.getIntValue("type")==2);
 				tv_content.setText( Html.fromHtml(content,new PicTextHelper(),null));
 				tv_good	 .setText("赞 " + result.getIntValue("pralse_num"));
