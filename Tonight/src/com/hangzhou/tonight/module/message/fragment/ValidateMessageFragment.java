@@ -1,6 +1,8 @@
 package com.hangzhou.tonight.module.message.fragment;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -11,11 +13,15 @@ import java.util.List;
 
 
 
+import java.util.Map;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.text.Layout;
+import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -36,6 +42,11 @@ import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
 import com.hangzhou.tonight.module.message.activity.ValidateMessageActivity;
+import com.hangzhou.tonight.util.Base64Utils;
+import com.hangzhou.tonight.util.HttpRequest;
+import com.hangzhou.tonight.util.JsonUtils;
+import com.hangzhou.tonight.util.PreferenceConstants;
+import com.hangzhou.tonight.util.RC4Utils;
 
 /**
  * 验证消息[listview实现,但需去除分割线,且设置高度,去除点击效果]
@@ -49,6 +60,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 	private static final int GROUP_INVITE=3;
 	private int tag;
 	private String user_uid;
+	private String user_nick;
 	List<DataModel> listData = null;
 	BaseAdapter adapter;
 	private List<Notice> inviteNotices = new ArrayList<Notice>();
@@ -109,6 +121,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		inviteNotices = noticeManager.getNoticeListByTypeAndPage(
 				Notice.ADD_FRIEND, Notice.All, 1, 10);*/
 		user_uid = String.valueOf(UserInfoDto.getUser(getActivity()).uid);
+		user_nick = String.valueOf(UserInfoDto.getUser(getActivity()).nick);
 		adapter = new EntityAdapter();
 		mListView.setAdapter(adapter);
 		//mListView.setDivider(new ColorDrawable(Color.parseColor("#00000000")));
@@ -159,15 +172,15 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			DataModel model = listData.get(position);
 
 			int state=Integer.parseInt(model.getState());
-			int type=Integer.parseInt(model.getType());
+			final int type=Integer.parseInt(model.getType());
 			String msg=model.getMsg();
 			String title=model.getTitle();
-			String apply_id=model.getApply_id();
-			String uid=model.getUid();
+			final String apply_id=model.getApply_id();
+			final String uid=model.getUid();
 			String nick=model.getNick();
 			//String state=model.getState();
 
@@ -180,7 +193,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 						R.layout.item_message_fragment_validate_message, null);*/
 				hodler = new ViewHolder(convertView);
 			}
-			//content数组，昵称，信息，头像ID.
+			//content数组，content[0]=昵称，content[1]=信息，content[2]=头像ID.
 			String[] content=getContent(type,state,uid,apply_id,nick,title,msg);
 			
 			hodler = (ViewHolder) convertView.getTag();
@@ -197,7 +210,7 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 				hodler.tv_content.setVisibility(View.GONE);
 			}
 			*/
-			boolean isUserId=user_uid.equals(uid);
+			final boolean isUserId=user_uid.equals(uid);
 			if(!isUserId&&type==1&&state==1){
 				hodler.layout_validate.setVisibility(View.VISIBLE);
 				hodler.agree.setVisibility(View.VISIBLE);
@@ -247,14 +260,14 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 				
 				@Override
 				public void onClick(View v) {
-					
+					agree(position,isUserId,type,apply_id,uid);
 				}
 			});
            hodler.refuse.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					
+					refuse(position,isUserId,type,apply_id,uid);
 				}
 			});
 			return convertView;
@@ -343,7 +356,256 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 			}
 		}
 		
-	
+		private void agree(final int position,final boolean isUserId,final int type,final String apply_id,final String uid) {
+
+			JSONObject parms = null;
+			parms = new JSONObject();
+			String urlName="";
+			if(!isUserId&&type==1){
+				parms.put("tuid", uid);		
+				parms.put("nick", user_nick);	
+				urlName="passFriend";
+			}else if(!isUserId&&type==2){
+				parms.put("tuid", uid);		
+				parms.put("gid", apply_id);	
+				urlName="passGroupApply";
+			}else if(isUserId){
+				parms.put("gid", apply_id);		
+				parms.put("nick", user_nick);	
+				urlName="passGroupInvite";
+			}
+			
+		AsyncTaskUtil.postData(getActivity(), urlName, parms,
+				new Callback() {
+
+					@Override
+					public void onSuccess(JSONObject result) {
+						DataModel dataModel=listData.get(position);
+						dataModel.setState("9");
+						adapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public void onFail(String msg) {
+						
+					}
+				});
+			
+			
+			
+			
+			
+		/*	
+			new AsyncTask<Void, Void, String>() {
+
+				@Override
+				protected void onPreExecute() {
+					super.onPreExecute();
+				}
+
+				@Override
+				protected String doInBackground(Void... params) {
+
+					Map<String, String> param =setParams(isUserId,type,apply_id,uid);
+					return HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER,
+							param, "UTF-8");
+				}
+
+				@Override
+				protected void onPostExecute(String result) {
+					super.onPostExecute(result);
+					DataModel dataModel=listData.get(position);
+					dataModel.setState("9");
+					adapter.notifyDataSetChanged();
+				}
+			}.execute();*/
+		}
+		
+		
+		private Map<String, String> setParams(boolean isUserId,int type,String apply_id,String uid){
+			Map<String, String> map = new HashMap<String, String>();
+			Map<String, Object> parms = new HashMap<String, Object>();
+			ArrayList<Object> arry = new ArrayList<Object>();
+			
+			if(!isUserId&&type==1){
+				parms.put("tuid", uid);		
+				parms.put("nick", user_nick);	
+				arry.add(0, "passFriend");
+			}else if(!isUserId&&type==2){
+				parms.put("tuid", uid);		
+				parms.put("gid", apply_id);	
+				arry.add(0, "passGroupApply");
+			}else if(isUserId){
+				parms.put("gid", apply_id);		
+				parms.put("nick", user_nick);	
+				arry.add(0, "passGroupInvite");
+			}
+
+			
+			
+			
+			arry.add(1, user_uid);
+			arry.add(2, parms);
+			String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",
+					JsonUtils.list2json(arry));
+
+			System.out.println("RC4加密后：   " + data0);
+			
+			String encoded1 = "";
+			try {
+				encoded1 = new String(Base64Utils.encode(
+						data0.getBytes("ISO-8859-1"), 0, data0.length()));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			System.out.println("base64编码后：     " + encoded1);
+			String decode = "";
+			try {
+				if(!encoded1.equals("")){
+					decode = new String(
+							Base64.decode(encoded1, Base64.DEFAULT),
+							"ISO-8859-1");
+				}		
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println("base64解码后：" + decode);
+			String data7 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4", decode);
+			System.out.println("RC4解密后：    " +data7);
+			
+			map.put("d", encoded1);
+			
+			return map;
+			
+		}
+		
+		private void refuse(final int position,final boolean isUserId,final int type,
+				final String apply_id,final String uid) {
+
+			
+			JSONObject parms = null;
+			parms = new JSONObject();
+			String urlName="";
+			if(!isUserId&&type==1){
+				parms.put("tuid", uid);		
+				parms.put("nick", user_nick);	
+				urlName="refuseFriend";
+			}else if(!isUserId&&type==2){
+				parms.put("tuid", uid);		
+				parms.put("gid", apply_id);	
+				urlName="refuseGroupApply";
+			}else if(isUserId){
+				parms.put("gid", apply_id);		
+				parms.put("nick", user_nick);	
+				urlName="refuseGroupInvite";
+			}
+			
+		AsyncTaskUtil.postData(getActivity(), urlName, parms,
+				new Callback() {
+
+					@Override
+					public void onSuccess(JSONObject result) {
+						
+						DataModel dataModel=listData.get(position);
+						dataModel.setState("0");
+						adapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public void onFail(String msg) {
+						
+					}
+				});
+			
+			
+			
+			
+		/*	new AsyncTask<Void, Void, String>() {
+
+				@Override
+				protected void onPreExecute() {
+					super.onPreExecute();
+				}
+
+				@Override
+				protected String doInBackground(Void... params) {
+
+					Map<String, String> param =setParams2(isUserId,type,apply_id,uid);
+					return HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER,
+							param, "UTF-8");
+				}
+
+				@Override
+				protected void onPostExecute(String result) {
+					super.onPostExecute(result);
+					DataModel dataModel=listData.get(position);
+					dataModel.setState("0");
+					adapter.notifyDataSetChanged();
+				}
+			}.execute();*/
+		}
+		
+		
+		private Map<String, String> setParams2(boolean isUserId,int type,String apply_id,String uid){
+			Map<String, String> map = new HashMap<String, String>();
+			Map<String, Object> parms = new HashMap<String, Object>();
+			ArrayList<Object> arry = new ArrayList<Object>();
+			
+
+
+			if(!isUserId&&type==1){
+				parms.put("tuid", uid);		
+				parms.put("nick", user_nick);	
+				arry.add(0, "refuseFriend");
+			}else if(!isUserId&&type==2){
+				parms.put("tuid", uid);		
+				parms.put("gid", apply_id);	
+				arry.add(0, "refuseGroupApply");
+			}else if(isUserId){
+				parms.put("gid", apply_id);		
+				parms.put("nick", user_nick);	
+				arry.add(0, "refuseGroupInvite");
+			}
+			
+			
+			arry.add(1, user_uid);
+			arry.add(2, parms);
+			String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",
+					JsonUtils.list2json(arry));
+
+			System.out.println("RC4加密后：   " + data0);
+			
+			String encoded1 = "";
+			try {
+				encoded1 = new String(Base64Utils.encode(
+						data0.getBytes("ISO-8859-1"), 0, data0.length()));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			System.out.println("base64编码后：     " + encoded1);
+			String decode = "";
+			try {
+				if(!encoded1.equals("")){
+					decode = new String(
+							Base64.decode(encoded1, Base64.DEFAULT),
+							"ISO-8859-1");
+				}		
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println("base64解码后：" + decode);
+			String data7 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4", decode);
+			System.out.println("RC4解密后：    " +data7);
+			
+			map.put("d", encoded1);
+			
+			return map;
+			
+		}
 
 		/*private void jsonContent(String content) {
 			JSONObject object;
