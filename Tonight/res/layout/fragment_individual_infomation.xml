@@ -19,11 +19,13 @@
 	        android:layout_marginTop="16dp"
 	        android:layout_marginBottom="12dp"
 	        >
-	        <ImageView 
+	        <ImageView
+	            android:id="@+id/individual_head"
 	            android:layout_width="60dp"
 	            android:layout_height="60dp"
 	            android:src="@drawable/default_head"
 	            android:layout_marginRight="16dp"
+	            android:scaleType="fitCenter"
 	            />
 	        
 	        <ImageView
@@ -31,6 +33,7 @@
 	            android:layout_width="60dp"
 	            android:layout_height="60dp"
 	            android:src="@drawable/head_add"
+	            android:scaleType="fitCenter"
 	            />
 	    </LinearLayout>
 		<View 

@@ -1,14 +1,20 @@
 package com.hangzhou.tonight.module.individual.fragment;
 
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +34,15 @@ import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.im.ChatActivity1;
 import com.hangzhou.tonight.manager.XmppConnectionManager;
 import com.hangzhou.tonight.model.User;
+import com.hangzhou.tonight.module.base.alioss.GetAndUploadFile;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
+import com.hangzhou.tonight.module.base.util.ImageViewUtil;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.module.individual.activity.ExtSingleFragmentActivity;
+import com.hangzhou.tonight.module.social.fragment.TonightCircleMyFragment;
 import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.StringUtil;
 import com.hoo.ad.base.helper.DeviceHelper;
@@ -77,8 +88,38 @@ public class IndividualInfomationFragment extends BFragment {
 	}
 
 	@Override protected void doListeners() {
-		
+		ivHeadAdd.setOnClickListener(new OnClickListener() {
+			@Override public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				intent.setType("image/*");
+				startActivityForResult(intent, 1000);
+			}
+		});
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == Activity.RESULT_OK){
+			if(requestCode == 1000){
+				 	Uri uri = data.getData();  
+		            ContentResolver cr = getActivity().getContentResolver();  
+		            try {  
+		                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));  
+		                ImageView ivHead = findView(R.id.individual_head);
+		                ivHead.setImageBitmap(ImageViewUtil.centerSquareScaleBitmap(bitmap,64)); 
+		                
+		                new GetAndUploadFile(getActivity()).resumableUpload(uri.getPath(), "user/head.jpg");
+		            } catch (FileNotFoundException e) {  
+		                
+		            }  
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	};
+	
+	
+	
 	OnClickListener bAddfriendClick = new OnClickListener() {
 		@Override public void onClick(View v) {
 			if(MyPreference.getInstance(getActivity()).getUserId().equals(uid)){ 
@@ -107,6 +148,12 @@ public class IndividualInfomationFragment extends BFragment {
 			bAddfriend.setOnClickListener(bAddfriendClick);
 		}
 		
+		vDynamic.setOnClickListener(new OnClickListener() {
+			@Override public void onClick(View v) {
+				TbarViewModel model = new TbarViewModel("个人动态");
+				ExtSingleFragmentActivity.startActivity(getActivity(), TonightCircleMyFragment.class, model);
+			}
+		});
 		
 		map.put("nick",new ComponentModel("昵称","nick", vNick, tvNick, Type.TEXT, true));
 		map.put("mood_count", new ComponentModel(null,"mood_count", vDynamic, tvDynamic, Type.DYNA, false));
@@ -146,7 +193,7 @@ public class IndividualInfomationFragment extends BFragment {
 						if(null != iv){iv.setVisibility(View.GONE);}
 					}
 				}
-				if(json.containsKey("isfriend") && json.getInteger("isfriend")==1){
+				if(result.containsKey("isfriend") && result.getIntValue("isfriend")==1){
 					isFriend = true;
 					bAddfriend.setText("发消息");
 				}
@@ -182,7 +229,7 @@ public class IndividualInfomationFragment extends BFragment {
 		                cm.value = tvTemp.getText().toString();
 		                String cons = DateUtil.getConstellation(tvTemp.getText().toString(), DateUtil.pattern_df);
 		                tvConstellation.setText(cons);
-		                //doUpdate(cm);
+		                doUpdate(cm);
 		            }
 		        });
 				datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
@@ -319,7 +366,7 @@ public class IndividualInfomationFragment extends BFragment {
 	}
 	
 	@Override public void onBackPressed() {
-		if(uid == null){ doUpdate(null); }
+		//if(uid == null){ doUpdate(null); }
 		super.onBackPressed();
 	}
 	

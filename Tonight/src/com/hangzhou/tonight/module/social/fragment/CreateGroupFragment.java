@@ -1,5 +1,6 @@
 package com.hangzhou.tonight.module.social.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.constant.ActionConstant;
+import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
 import com.hangzhou.tonight.module.base.fragment.BFragment;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
@@ -59,19 +62,24 @@ public class CreateGroupFragment extends BFragment {
 		JSONObject params = new JSONObject();
 		params.put("title", etName.getText().toString());
 		params.put("intro", etProfile.getText().toString());
-		//TODO lable city photo
+		
 		params.put("label", etLabel.getText().toString());
-		params.put("city", 179);
-		params.put("photo", new String[]{});
+		params.put("city", SysModuleConstant.getCityId(getActivity()));
+		params.put("photo", new String[]{"head_1000_2"});//TODO 测试
 		AsyncTaskUtil.postData(getActivity(), "createGroup", params, new Callback() {
 			
 			@Override public void onSuccess(JSONObject result) {
 				ToastHelper.show(getActivity(), "群创建成功!");
 				tvId.setText(result.getString("gid"));
 				tvDate.setText(DateUtil.getTodayDate());
-				//TODO 邀请好友...
 				button.setText("已创建");
 				button.setEnabled(false);
+				
+				Intent intent = new Intent();
+				intent.setAction(ActionConstant.VALUE_ADD_GROUP_SUCCESS);
+				getActivity().sendBroadcast(intent);
+				//TODO 邀请好友...
+				
 			}
 			
 			@Override public void onFail(String msg) { }

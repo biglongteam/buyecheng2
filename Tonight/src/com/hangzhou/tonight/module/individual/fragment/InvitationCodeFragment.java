@@ -60,25 +60,25 @@ public class InvitationCodeFragment extends BFragment {
 
 	@Override protected void doHandler() {
 		
-		String code = PreferenceUtils.getPrefString(getActivity(), SysModuleConstant.KEY_INVITATION_CODE, null);
+		AsyncTaskUtil.postData(getActivity(), "getSelfInvitation", null, new Callback() {
+			@Override public void onSuccess(JSONObject result) {
+				String code = result.getJSONObject("info").getString("invitation");
+				doInvitationCode(code);
+			}
+			@Override public void onFail(String msg) {
+				if(SysModuleConstant.VALUE_DEV_MODEL){ doInvitationCode("XS9Q01"); }
+			}
+		});
+		/*String code = PreferenceUtils.getPrefString(getActivity(), SysModuleConstant.KEY_INVITATION_CODE, null);
 		if(null == code){
-			AsyncTaskUtil.postData(getActivity(), "getSelfInvitation", null, new Callback() {
-				@Override public void onSuccess(JSONObject result) {
-					String code = result.getJSONObject("info").getString("invitation");
-					doInvitationCode(code);
-				}
-				@Override public void onFail(String msg) {
-					if(SysModuleConstant.VALUE_DEV_MODEL){ doInvitationCode("XS9Q01"); }
-				}
-			});
 		}else{
 			doInvitationCode(code);
-		}
+		}*/
 	}
 	
 	private void doInvitationCode(String code){
 		if(code != null){
-			PreferenceUtils.setPrefString(getActivity(), SysModuleConstant.KEY_INVITATION_CODE, code);
+			//PreferenceUtils.setPrefString(getActivity(), SysModuleConstant.KEY_INVITATION_CODE, code);
 		}
 		etMyCode.setText(code);
 	}
