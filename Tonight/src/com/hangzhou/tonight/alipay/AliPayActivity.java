@@ -50,6 +50,7 @@ public class AliPayActivity  extends Activity {
 				case RQF_LOGIN: {
 					Toast.makeText(AliPayActivity.this, result.getResult(),
 							Toast.LENGTH_SHORT).show();
+					finish();
 
 				}
 					break;

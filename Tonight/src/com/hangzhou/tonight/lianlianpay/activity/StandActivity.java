@@ -48,7 +48,6 @@ public class StandActivity extends Activity implements OnClickListener {
     
     String oid_partner,sign_type,busi_partner,dt_order,notify_url,no_order,name_goods,info_order,risk_item,
     valid_order,money_order,sign;
-    
     private Context mContext;
     PayOrder order = null;
    /* 
@@ -172,8 +171,9 @@ public class StandActivity extends Activity implements OnClickListener {
                                         "agreementno", ""));
                             }
                             BaseHelper.showDialog(StandActivity.this, "提示",
-                                    "支付成功，交易状态码：" + retCode,
+                                    "支付成功",
                                     android.R.drawable.ic_dialog_alert);
+                            finish();
                         } else if (Constants.RET_CODE_PROCESS.equals(retCode)) {
                             // TODO 处理中，掉单的情形
                             String resulPay = objContent.optString("result_pay");
