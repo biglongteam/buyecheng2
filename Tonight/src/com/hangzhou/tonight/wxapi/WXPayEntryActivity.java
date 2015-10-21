@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	
-	private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
+	private static final String TAG = "com.hangzhou.tonight.wxapi.WXPayEntryActivity";
 	
     private IWXAPI api;
 	

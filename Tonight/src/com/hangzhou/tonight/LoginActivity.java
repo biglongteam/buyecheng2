@@ -347,8 +347,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
                     if(i==3){
                     	//此时是qq登录，需要从value中获得openid作为唯一标记
                     	Toast.makeText(LoginActivity.this, "授权成功...openid"+value,Toast.LENGTH_SHORT).show();
-                    	//openid = value.getString("openid");
-                    	
+                    	openid = value.getString("openid");
+                    	access_token=value.get("access_token").toString();
                     }
                    // Toast.makeText(LoginActivity.this, "授权成功",Toast.LENGTH_SHORT).show();
                     getUserInfo(platform,openid,i);
@@ -388,7 +388,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                for(String key : keys){
     	                   sb.append(key+"="+info.get(key).toString()+"\r\n");
     	                }
-    	                access_token=info.get("access_token").toString();
+    	                
     	                if(i==1){
     	                	Toast.makeText(mContext, info.toString(), 3000).show();
     	                	//微信登录，获得unionid
@@ -416,9 +416,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	onlyId=openid;
     	                	head_img=info.get("profile_image_url").toString();
     	                	screen_name=info.get("screen_name").toString();
-    	                	
     	                	Toast.makeText(mContext, "onid=="+onlyId.toString(), 3000).show();
-    	                	
     	                	sex=info.get("gender").toString();
     	                	if("男".equals(sex)){
     	                		sex="1";
@@ -541,10 +539,30 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			public void onSuccess(com.alibaba.fastjson.JSONObject result) {
 				
 				showCustomToast("登录返回值："+result.toString());
-				if(result.getString("s").equals("0")){
-					Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
-					startActivity(intent);
-					finish();
+				if(result!=null){
+					String uid = result.getString("uid");
+					String pass = result.getString("pass");
+					MyPreference.getInstance(mContext).setUserId(uid);
+					MyPreference.getInstance(mContext).setPassword(pass);
+					if(type==2){
+				String nick = result.getString("nick");
+				String phone = result.getString("phone");
+				String birth = result.getString("birth");
+				int sexNum = result.getInteger("sex");
+				if(sexNum==1){
+					String sex = "男";
+				}else{
+					String sex = "女";
+				}
+				
+				MyPreference.getInstance(mContext).setUserSex(sex);
+				MyPreference.getInstance(mContext).setUserName(nick);
+				MyPreference.getInstance(mContext).setUserbirth(birth);
+				MyPreference.getInstance(mContext).setTelNumber(phone);
+					}
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
+				startActivity(intent);
+				finish();
 				}else{
 					showCustomToast("账号或密码错误,请检查是否输入正确");
 				}

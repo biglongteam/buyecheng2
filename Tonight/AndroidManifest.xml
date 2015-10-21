@@ -290,8 +290,27 @@
              android:name="com.hangzhou.tonight.wxapi.WXPayEntryActivity"
              android:screenOrientation="portrait"
              android:exported="true"
-             android:launchMode="singleTop"
-            />
+             android:launchMode="singleTop">
+             
+              <intent-filter >
+        <action android:name ="android.intent.action.VIEW"/>
+        <category android:name= "android.intent.category.DEFAULT" />
+        <data android:scheme ="wx17271e32d3c796f0"/><!--  注意这里，似乎对程序有影响，要加上-->
+       </intent-filter >
+            </activity>
+            
+        <receiver
+    android:name= "com.hangzhou.tonight.AppRegister">
+              <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+    <intent-filter >
+        <action android:name= "com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+    </intent-filter >
+</receiver >
+        
+        
+        
          <activity
              android:name="com.hangzhou.tonight.PayActivity"
             />
