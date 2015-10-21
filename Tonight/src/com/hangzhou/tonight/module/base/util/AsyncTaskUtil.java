@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONValue;
+
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -119,7 +121,7 @@ public class AsyncTaskUtil {
 			CallbackModel model = new CallbackModel();
 			try{
 				String result = HttpRequest.submitPostData(BASE_PATH, param,PreferenceConstants.ENCODE);
-				JSONObject res= JSON.parseObject(result);
+				JSONObject res= JSON.parseObject(UnicodeUtil.decodeUnicode(result));
 				boolean success = res.getIntValue("s") == 1;
 				model.success = success;
 				if(success){
