@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.module.message.fragment;
+﻿package com.hangzhou.tonight.module.message.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import com.hangzhou.tonight.module.base.util.inter.Callback;
 public class CommentFragment extends BEmptyListviewFragment {
 
 	List<DataModel> listData = null;
-	BaseAdapter adapter;
+	BaseAdapter adapter; 
 
 	@Override 
 	protected void doListeners() {
