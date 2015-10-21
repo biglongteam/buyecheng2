@@ -1,9 +1,9 @@
-package com.hangzhou.tonight.wxpay.wxapi;
+package com.hangzhou.tonight.wxapi;
 
 
 
+import com.hangzhou.tonight.Constants;
 import com.hangzhou.tonight.R;
-import com.hangzhou.tonight.wxpay.Constants;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;

@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.wxpay.uikit;
+package com.hangzhou.tonight.uikit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.List;
 
 
 
+
 import com.hangzhou.tonight.R;
-import com.hangzhou.tonight.wxpay.Util;
+import com.hangzhou.tonight.Util;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -35,7 +35,6 @@ import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.ScreenUtils;
-import com.hangzhou.tonight.wxpay.PayActivity;
 
 /**
  * 

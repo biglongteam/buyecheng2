@@ -222,20 +222,7 @@
              android:name=".im.GroupCreateActivity"
              android:screenOrientation="portrait"
             />
-       <!--  <activity
-             android:name="com.hangzhou.tonight.wxpay.wxapi.WXEntryActivity"
-             android:screenOrientation="portrait"
-            /> -->
-        <activity
-             android:name="com.hangzhou.tonight.wxpay.wxapi.WXPayEntryActivity"
-             android:screenOrientation="portrait"
-            />
-         <activity
-             android:name="com.hangzhou.tonight.wxpay.PayActivity"
-            />
-         <activity
-             android:name="com.hangzhou.tonight.alipay.AliPayActivity"
-            />
+      
           <!-- 全屏显示图片  -->
         <activity
              android:name=".im.ImageShower"
@@ -293,6 +280,28 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" /> -->
+            
+            
+             <activity
+             android:name=".wxapi.WXEntryActivity"
+             android:screenOrientation="portrait"
+            /> 
+        <activity
+             android:name="com.hangzhou.tonight.wxapi.WXPayEntryActivity"
+             android:screenOrientation="portrait"
+             android:exported="true"
+             android:launchMode="singleTop"
+            />
+         <activity
+             android:name="com.hangzhou.tonight.PayActivity"
+            />
+         
+         
+         <activity
+             android:name="com.hangzhou.tonight.alipay.AliPayActivity"
+            />
+         
+         
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

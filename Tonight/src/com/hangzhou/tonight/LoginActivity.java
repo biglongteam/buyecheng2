@@ -167,8 +167,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		wxHandler.addToSocialSDK();
 		
 		//设置新浪SSO handler
-		mController.getConfig().setSsoHandler(new SinaSsoHandler());
-		mController.getConfig().setSinaCallbackUrl("https://api.weibo.com/oauth2/default.html");
+		mController.getConfig().setSsoHandler(new SinaSsoHandler()); 
+		mController.getConfig().setSinaCallbackUrl("https://api.weibo.com/oauth2/default.html");//
 		
 		SnsPostListener mSnsPostListener  = new SnsPostListener() {
 
@@ -305,7 +305,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			
 		case R.id.im_sina:
 			//Toast.makeText(this, "暂未开通", 1000).show();
-			//login(SHARE_MEDIA.SINA,2);
+			login(SHARE_MEDIA.SINA,2);
 			isBind("",2);
 			break;
 		case R.id.im_qq:
@@ -342,12 +342,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
             public void onComplete(Bundle value, SHARE_MEDIA platform) {
             	
             	Toast.makeText(LoginActivity.this, "授权成功",Toast.LENGTH_SHORT).show();
-            	
+            	Toast.makeText(LoginActivity.this, "openid=="+value.getString("openid"),Toast.LENGTH_SHORT).show();
                 if (value != null && !TextUtils.isEmpty(value.getString("uid"))) {
                     if(i==3){
                     	//此时是qq登录，需要从value中获得openid作为唯一标记
-                    	openid = value.getString("openid");
-                    	// Toast.makeText(LoginActivity.this, "授权成功...openid"+openid,Toast.LENGTH_SHORT).show();
+                    	Toast.makeText(LoginActivity.this, "授权成功...openid"+value,Toast.LENGTH_SHORT).show();
+                    	//openid = value.getString("openid");
+                    	
                     }
                    // Toast.makeText(LoginActivity.this, "授权成功",Toast.LENGTH_SHORT).show();
                     getUserInfo(platform,openid,i);
@@ -387,7 +388,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                for(String key : keys){
     	                   sb.append(key+"="+info.get(key).toString()+"\r\n");
     	                }
+    	                access_token=info.get("access_token").toString();
     	                if(i==1){
+    	                	Toast.makeText(mContext, info.toString(), 3000).show();
     	                	//微信登录，获得unionid
     	                	onlyId=info.get("unionid").toString();
     	                	head_img=info.get("headimgurl").toString();
@@ -400,7 +403,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	//新浪微博登录，获得uid wb_uid；access_token(
     	                	Toast.makeText(mContext, info.toString(), 3000).show();
     	                	onlyId=info.get("uid").toString();
-    	                	access_token=info.get("access_token").toString();
     	                	/*head_img=info.get("profile_image_url").toString();
     	                	screen_name=info.get("screen_name").toString();
     	                	sex=info.get("gender").toString();*/
@@ -409,10 +411,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
     	                	//isBund(String.valueOf(3),onlyId,head_img,screen_name,sex);
     	                }else{
+    	                	Toast.makeText(mContext, info.toString(), 3000).show();
     	                	//qq登录，获得openid
     	                	onlyId=openid;
     	                	head_img=info.get("profile_image_url").toString();
     	                	screen_name=info.get("screen_name").toString();
+    	                	
+    	                	Toast.makeText(mContext, "onid=="+onlyId.toString(), 3000).show();
+    	                	
     	                	sex=info.get("gender").toString();
     	                	if("男".equals(sex)){
     	                		sex="1";
@@ -508,13 +514,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	JSONObject params = new JSONObject();
     	String url = "";
     	if(type==2){
-    		params.put("wb_uid", "1900035363");
-    		params.put("access_token", "2.00fz2aEClwOvFCf71a5659fcnRyX3C");
+    		params.put("wb_uid", onlyId);
+    		params.put("access_token", access_token);
     		url = "loginWithWeibo";
     	}else if(type==1){
     		params.put("code", onlyId);
     		url = "loginWithWeixin";
     	}
+    	else if(type==3){
+    	params.put("openid", onlyId);
+    	params.put("access_token", access_token);
+    	url = "loginWithQQ";
+    	 } 
 		
 		/*if(!ticket_id.equals("0")){
 			params.put("wallet_money", wallet_money+"");
@@ -541,13 +552,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 			@Override
 			public void onFail(String msg) {
-				// TODO Auto-generated method stub
 				
 			}
     		
     	});
     	
-		new AsyncTask<Void, Void, String>() {
+		/*new AsyncTask<Void, Void, String>() {
 
 			@Override
 			protected void onPreExecute() {
@@ -567,11 +577,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
 				dismissLoadingDialog();
-				/*
+				
 				 * if (result) { Intent intent = new Intent(LoginActivity.this,
 				 * MainActivity.class); startActivity(intent); finish(); } else
 				 * { showCustomToast("账号或密码错误,请检查是否输入正确"); }
-				 */
+				 
 				System.out.println("用户登录结果：      " +result);
 				boolean success=dealResult(result);
 				if(success){
@@ -583,7 +593,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 					showCustomToast("账号或密码错误,请检查是否输入正确");
 				}
 			}
-		}.execute();
+		}.execute();*/
 	}
     
 	private void login() {

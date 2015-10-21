@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.wxpay;
+package com.hangzhou.tonight;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,10 +26,10 @@ import android.widget.Toast;
 
 public class PayActivity extends Activity {
 
-	private static final String TAG = "MicroMsg.SDKSample.PayActivity";
+	private static final String TAG = "com.hangzhou.tonight.PayActivity";
 	
 	private IWXAPI api;
-	private String appid,partnerid,prepayid,packageValue,nonceStr;
+	private String appid,partnerid,prepayid,packageValue,nonceStr,sign;
 	long timestamp;
 	/**/
 	@Override
@@ -41,31 +41,18 @@ public class PayActivity extends Activity {
 		prepayid = getIntent().getStringExtra("prepayid");
 		packageValue = getIntent().getStringExtra("package");
 		nonceStr = getIntent().getStringExtra("noncestr");
+		sign = getIntent().getStringExtra("sign");
 		timestamp = getIntent().getIntExtra("timestamp",0);
-		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+		api = WXAPIFactory.createWXAPI(this,appid);
 		new GetAccessTokenTask().execute();//获取accessToken,accessToken值第二步要用; 
 	}
-	
-	/**
-	 * 微信公众平台商户模块和商户约定的密钥
-	 * 
-	 * 注意：不能hardcode在客户端，建议genPackage这个过程由服务器端完成
-	 */
-	private static final String PARTNER_KEY = "8934e7d15453e97507ef794cf7b0519d";
 	
 	
 	 /**
      * 微信开放平台和商户约定的密钥
-     * 
      * 注意：不能hardcode在客户端，建议genSign这个过程由服务器端完成
      */
 	private static final String APP_SECRET = "396caedd6352a115a83de18ef48045ab"; // wxd930ea5d5a258f4f 对应的密钥
-	/**
-     * 微信开放平台和商户约定的支付密钥
-     * 
-     * 注意：不能hardcode在客户端，建议genSign这个过程由服务器端完成
-     */
-	private static final String APP_KEY = "L8LrMqqeGRxST5reouB0K66CaYAWpqhAVsq7ggKkxHCOastWksvuX1uvmvQclxaHoYd3ElNBrNO2DHnnzgfVG9Qs473M3DTOZug5er46FhuGofumV8H2FVR9qkjSlC5K"; // wxd930ea5d5a258f4f 对应的支付密钥
 	
 	
 	/**
@@ -90,12 +77,8 @@ public class PayActivity extends Activity {
 			if (dialog != null) {
 				dialog.dismiss();
 			}
-			
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
 				sendPayReq();
-				/*Toast.makeText(PayActivity.this, R.string.get_access_token_succ, Toast.LENGTH_LONG).show();
-				GetPrepayIdTask getPrepayId = new GetPrepayIdTask(result.accessToken);
-				getPrepayId.execute();*/
 			} else {
 				Toast.makeText(PayActivity.this, getString(R.string.get_access_token_fail, result.localRetCode.name()), Toast.LENGTH_LONG).show();
 			}
@@ -127,7 +110,7 @@ public class PayActivity extends Activity {
 	* @date 2015年9月30日 下午2:54:26 
 	*
 	 */
-	private class GetPrepayIdTask extends AsyncTask<Void, Void, GetPrepayIdResult> {
+/*	private class GetPrepayIdTask extends AsyncTask<Void, Void, GetPrepayIdResult> {
 
 		private ProgressDialog dialog;
 		private String accessToken;
@@ -182,7 +165,7 @@ public class PayActivity extends Activity {
 			return result;
 		}
 	}
-	
+	*/
 	private static enum LocalRetCode {
 		ERR_OK, ERR_HTTP, ERR_JSON, ERR_OTHER
 	}
@@ -223,83 +206,7 @@ public class PayActivity extends Activity {
 		}
 	}
 	
-	private static class GetPrepayIdResult {
-		
-		private static final String TAG = "MicroMsg.SDKSample.PayActivity.GetPrepayIdResult";
-		
-		public LocalRetCode localRetCode = LocalRetCode.ERR_OTHER;
-		public String prepayId;
-		public int errCode;
-		public String errMsg;
-		
-		public void parseFrom(String content) {
-			
-			if (content == null || content.length() <= 0) {
-				Log.e(TAG, "parseFrom fail, content is null");
-				localRetCode = LocalRetCode.ERR_JSON;
-				return;
-			}
-			
-			try {
-				JSONObject json = new JSONObject(content);
-				if (json.has("prepayid")) { // success case
-					prepayId = json.getString("prepayid");
-					localRetCode = LocalRetCode.ERR_OK;
-				} else {
-					localRetCode = LocalRetCode.ERR_JSON;
-				}
-				errCode = json.getInt("errcode");
-				errMsg = json.getString("errmsg");
-			} catch (Exception e) {
-				localRetCode = LocalRetCode.ERR_JSON;
-			}
-		}
-	}
-	
-	/*private String genNonceStr() {
-		Random random = new Random();
-		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
-	}*/
-	
-	private long gentimestamp() {
-		return System.currentTimeMillis() / 1000;
-	}
-	/**
-	 * 建议 traceid 字段包含用户信息及订单信息，方便后续对订单状态的查询和跟踪
-	 */
-	private String getTraceId() {
-		return "crestxu_" + gentimestamp(); 
-	}
-	
-	/**
-	 * 注意：商户系统内部的订单号,32个字符内、可包含字母,确保在商户系统唯一
-	 */
-	private String genOutTradNo() {
-		Random random = new Random();
-		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
-	}
-	
-	
-	private String genSign(List<NameValuePair> params) {
-		StringBuilder sb = new StringBuilder();
-		
-		int i = 0;
-		for (; i < params.size() - 1; i++) {
-			sb.append(params.get(i).getName());
-			sb.append('=');
-			sb.append(params.get(i).getValue());
-			sb.append('&');
-		}
-		sb.append(params.get(i).getName());
-		sb.append('=');
-		sb.append(params.get(i).getValue());
-		
-		String sha1 = Util.sha1(sb.toString());
-		return sha1;
-	}
-	
-	
-	private String genProductArgs() {
+	/*private String genProductArgs() {
 		JSONObject json = new JSONObject();
 		
 		try {
@@ -337,33 +244,12 @@ public class PayActivity extends Activity {
 		}
 		
 		return json.toString();
-	}
+	}*/
 	
 	private void sendPayReq() {
-		
-		
-		    /*PayReq req = new PayReq();
-	        req.appId = app_wx_appid;
-	        req.partnerId = app_tx_parent_key;
-	        req.prepayId = result.prepayId;
-	        req.nonceStr = appSign.getNoncestr();
-	        req.timestamp = appSign.gettimestamp();
-	        req.packageValue = "Sign=" + appSign.getPackageSign();
-	         
-	        List<namevaluepair> signParams = new LinkedList<namevaluepair>();
-	        signParams.add(new BasicNameValuePair("appid", req.appId));
-	        signParams.add(new BasicNameValuePair("appkey", app_wx_pay_key));
-	        signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
-	        signParams.add(new BasicNameValuePair("package", req.packageValue));
-	        signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
-	        signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
-	        signParams.add(new BasicNameValuePair("timestamp", req.timestamp));
-	        req.sign = WeixinUtil.genSign(signParams);
-	        wxRequest.sendReq(req);*/
-		
-		
 		PayReq req = new PayReq();
 		req.appId = appid;
+		req.sign = sign;
 		req.partnerId = partnerid;
 		req.prepayId = prepayid;
 		req.nonceStr = nonceStr;
@@ -378,7 +264,7 @@ public class PayActivity extends Activity {
 		signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
 		signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
 		signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
-		req.sign = genSign(signParams);
+		signParams.add(new BasicNameValuePair("sign", req.sign));
 		api.registerApp(appid);
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		api.sendReq(req);

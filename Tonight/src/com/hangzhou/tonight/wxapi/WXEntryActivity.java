@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.wxpay.wxapi;
+package com.hangzhou.tonight.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.hangzhou.tonight.Constants;
+import com.hangzhou.tonight.PayActivity;
 import com.hangzhou.tonight.R;
-import com.hangzhou.tonight.wxpay.Constants;
-import com.hangzhou.tonight.wxpay.PayActivity;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;

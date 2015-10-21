@@ -1,4 +1,4 @@
-package com.hangzhou.tonight.wxpay.uikit;
+package com.hangzhou.tonight.uikit;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -6,7 +6,10 @@ import java.io.FileOutputStream;
 
 
 
-import com.hangzhou.tonight.wxpay.MD5;
+
+
+
+import com.hangzhou.tonight.MD5;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
