@@ -191,6 +191,7 @@
 		<!-- 个人信息 -->
         <activity android:name="com.hangzhou.tonight.module.social.activity.FindActivity" android:label="@string/find"></activity>
         <activity android:name="com.hangzhou.tonight.module.individual.activity.ExtSingleFragmentActivity"></activity>
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.FeedbackActivity" android:label="@string/feedback"></activity>
         <!-- 社交模块 -->
         <activity android:name="com.hangzhou.tonight.module.social.activity.TonightCircleActivity" android:label="@string/tonight_circle"></activity>
         <activity android:name="com.hangzhou.tonight.module.social.activity.GroupActivity" android:label="@string/group"></activity>

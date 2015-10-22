@@ -45,6 +45,12 @@
     <string name="message_setting">消息设置</string>
     <string name="judge_me">评价我吧</string>
     <string name="change_password">修改密码</string>
+    <string name="vibration">震动</string>
+    <string name="voice">声音</string>
+    <!-- 设置相关 -->
+    <string name="input_your_option">请输入您的意见和建议</string>
+    <string name="input_your_contacts">请输入您的手机号/QQ号</string>
+    
     <!-- individual 个人模块 -->
     <string name="label_account">账户 : %1$s</string>
     <string name="individual_my_account">我的钱包</string>

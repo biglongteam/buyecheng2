@@ -27,6 +27,7 @@
         ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
        
     <com.hangzhou.tonight.module.base.widget.TextViewWithDevider
+        android:id="@+id/individual_setting_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/feedback"
