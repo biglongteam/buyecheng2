@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/x20"
                     android:textSize="@dimen/x35"
-                    android:text="还需支付 "
+                    android:text="还需支付： "
                     android:textColor="#ffffff" />
                 
                  <TextView

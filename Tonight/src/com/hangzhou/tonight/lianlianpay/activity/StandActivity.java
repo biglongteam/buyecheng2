@@ -184,7 +184,7 @@ public class StandActivity extends Activity implements OnClickListener {
         					bundle.putString("order_id", order_id);
         					bundle.putString("order_name", order_name);
         					bundle.putFloat("pay_money", pay_money);
-        					IntentJumpUtils.nextActivity(PayFinishActivity.class, StandActivity.this, bundle);
+        					//IntentJumpUtils.nextActivity(PayFinishActivity.class, StandActivity.this, bundle);
                             finish();
                         } else if (Constants.RET_CODE_PROCESS.equals(retCode)) {
                             // TODO 处理中，掉单的情形

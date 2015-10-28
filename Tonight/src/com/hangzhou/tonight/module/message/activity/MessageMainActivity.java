@@ -3,13 +3,18 @@ package com.hangzhou.tonight.module.message.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hangzhou.tonight.R;
@@ -38,6 +43,7 @@ public class MessageMainActivity extends CustomActionActivity{
 	private List<Notice> inviteNotices = new ArrayList<Notice>();
 	private ContacterReceiver receiver = null;
 	private NoticeManager noticeManager;
+	 private SharedPreferences sharedPreferences;
 	@Override protected void doView() {
 		setContentView(R.layout.activity_message_main);
 		vGood    = findViewById(R.id.message_main_good);
@@ -47,6 +53,28 @@ public class MessageMainActivity extends CustomActionActivity{
 		vOrderMessage = findViewById(R.id.message_main_order_message);
 		vSystemMessage = findViewById(R.id.message_main_system_message);
 		vValidateMessage = findViewById(R.id.message_main_validate_message);
+		
+		
+		if(sharedPreferences==null){
+			sharedPreferences=getSharedPreferences("notice", Activity.MODE_PRIVATE);
+		}
+		int state_add_friend=sharedPreferences.getInt("notice="+Notice.ADD_FRIEND, Notice.READ);
+		int state_system=sharedPreferences.getInt("notice="+Notice.SYS_MSG, Notice.READ);
+		int state_chat=sharedPreferences.getInt("notice="+Notice.CHAT_MSG, Notice.READ);
+		int state_parise=sharedPreferences.getInt("notice="+Notice.PARISE_MSG, Notice.READ);
+		int state_reply=sharedPreferences.getInt("notice="+Notice.REPLY_MSG, Notice.READ);
+		int state_order=sharedPreferences.getInt("notice="+Notice.ORDER_MSG, Notice.READ);
+		
+		//addPoint(vFriendMessage);
+		
+	}
+	
+	
+	private void addPoint(View view){
+		Drawable nav_up=getResources().getDrawable(R.drawable.shape_message_point);  
+		nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());  
+		TextView tvText = (TextView) view.findViewById(R.id.custom_textview);
+		tvText.setCompoundDrawables(null, null, nav_up, null);
 	}
 	
 	

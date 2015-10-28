@@ -58,13 +58,13 @@ public class AliPayActivity  extends Activity {
 				switch (msg.what) {
 				case RQF_PAY:
 				case RQF_LOGIN: {
-					Toast.makeText(AliPayActivity.this, result.getResult(),
-							Toast.LENGTH_SHORT).show();
+					/*Toast.makeText(AliPayActivity.this, result.getResult(),
+							Toast.LENGTH_SHORT).show();*/
 					Bundle bundle = new Bundle();
 					bundle.putString("order_id", order_id);
 					bundle.putString("order_name", order_name);
 					bundle.putFloat("pay_money", pay_money);
-					IntentJumpUtils.nextActivity(PayFinishActivity.class, AliPayActivity.this, bundle);
+					//IntentJumpUtils.nextActivity(PayFinishActivity.class, AliPayActivity.this, bundle);
 					finish();
 
 				}

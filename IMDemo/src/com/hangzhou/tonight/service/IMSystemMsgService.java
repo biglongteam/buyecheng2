@@ -11,12 +11,14 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Message.Type;
 import org.jivesoftware.smack.packet.Packet;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.IBinder;
@@ -45,6 +47,7 @@ public class IMSystemMsgService extends Service {
 	SoundPool sp; // 声明SoundPool的引用
 	HashMap<Integer, Integer> hm; // 声明一个HashMap来存放声音文件
 	int currStreamId;// 当前正播放的streamId
+	 private SharedPreferences sharedPreferences;
 
 	@Override
 	public void onCreate() {
@@ -84,7 +87,11 @@ public class IMSystemMsgService extends Service {
 		@Override
 		public void processPacket(Packet packetz) {
 			Message message = (Message) packetz;
-
+			if(sharedPreferences==null){
+				sharedPreferences=getSharedPreferences("notice", Activity.MODE_PRIVATE);
+			}
+			SharedPreferences.Editor editor =sharedPreferences.edit();
+			
 			if (message.getType() == Type.normal) {
 
 				NoticeManager noticeManager = NoticeManager
@@ -96,6 +103,7 @@ public class IMSystemMsgService extends Service {
 			if(tp.contains("new_reply")){
 				notice.setTitle("评论");
 				notice.setNoticeType(Notice.REPLY_MSG);
+				
 			}else if(tp.contains("new_praise")){
 				notice.setTitle("赞");
 				notice.setNoticeType(Notice.PARISE_MSG);
@@ -121,7 +129,6 @@ public class IMSystemMsgService extends Service {
 				
 				
 				
-				
 
 				//notice.setTitle("系统消息");
 				//notice.setNoticeType(Notice.SYS_MSG);
@@ -140,6 +147,10 @@ public class IMSystemMsgService extends Service {
 					notice.setId(String.valueOf(noticeId));
 					intent.putExtra("notice", notice);
 					sendBroadcast(intent);
+					//消息设置为未读状态
+					editor.putInt("notice="+notice.getNoticeType(), Notice.UNREAD);
+					editor.commit();
+					
 					setNotiType(R.drawable.ic_launcher, Constant.SYS_MSG_DIS,
 							message.getBody(), MyNoticeActivity.class);
 					Toast.makeText(IMSystemMsgService.this, "有新消息"+notice, Toast.LENGTH_LONG).show();
