@@ -52,6 +52,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 			builder.setTitle(R.string.app_tip);
 			builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
 			builder.show();
+			
+			
 		}
 	}
 }

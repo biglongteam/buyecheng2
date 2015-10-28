@@ -12,6 +12,9 @@ import u.aly.bu;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +22,9 @@ import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -28,7 +33,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -59,6 +67,7 @@ import com.hangzhou.tonight.util.JsonUtils;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.ScreenUtils;
+import com.hangzhou.tonight.view.CustomVideoView;
 import com.hangzhou.tonight.view.HeaderLayout;
 import com.hangzhou.tonight.view.HeaderLayout.HeaderStyle;
 import com.hangzhou.tonight.view.HeaderLayout.SearchState;
@@ -68,6 +77,7 @@ import com.hangzhou.tonight.view.HeaderSpinner;
 import com.hangzhou.tonight.view.HeaderSpinner.onSpinnerClickListener;
 import com.hangzhou.tonight.view.XListView;
 import com.hangzhou.tonight.view.XListView.IXListViewListener;
+import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -100,6 +110,31 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	DisplayImageOptions options;
 	private AbSlidingPlayView mAbSlidingPlayView;
 	
+	
+	private static final int MESSAGE_UPDATE_PLAY_PROGRESS = 100;
+	CustomVideoView cvv;
+	ImageView iv, iv_pause, iv_full, ivShare;
+	ProgressBar pb;
+	SeekBar seekBar;
+	SurfaceHolder sh = null;
+	String video_url;
+	private String de_img;
+	// MediaPlayer mp = null;
+	boolean isPlay;
+	private boolean isShowContol;
+	TextView describe, tv_jianjie, tv_comment, tv_totalTime, tv_progressTime;
+	LinearLayout controller_bottom;
+	Display display;
+	ImageView iv_video_bg;
+	private String videoUrl;
+	private final int MESSAGE_HIDE_CONTROL = 0;// 延时隐藏控制面板
+	private final int TOCOMMENT = 6;
+	/**
+	 * 访问网络请求成功，更新ui
+	 */
+	public final int INITVIDEODETAIL = 100011;
+
+	//VideoDetailItem videoDetailItemList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -127,8 +162,8 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 				.considerExifParams(true)
 				
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
-		mAbSlidingPlayView.startPlay();
-		mAbSlidingPlayView.setOnItemClickListener(new AbOnItemClickListener() {
+		        mAbSlidingPlayView.startPlay();
+		        mAbSlidingPlayView.setOnItemClickListener(new AbOnItemClickListener() {
 
 			@Override
 			public void onClick(int position) {
@@ -153,6 +188,23 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		re_fuwu1 = (RelativeLayout) findViewById(R.id.rl_fuwu1);
 		re_fuwu2 = (RelativeLayout) findViewById(R.id.rl_fuwu2);
 		rl_fuwu3 = (RelativeLayout) findViewById(R.id.rl_fuwu3);
+		
+		
+		
+		cvv = (CustomVideoView) findViewById(R.id.cvv);
+		controller_bottom = (LinearLayout) findViewById(R.id.controller_bottom);
+		describe = (TextView) findViewById(R.id.describe);
+		iv = (ImageView) findViewById(R.id.iv_play);
+		iv.setVisibility(View.GONE);
+		iv_pause = (ImageView) findViewById(R.id.iv_pause);
+		iv_full = (ImageView) findViewById(R.id.iv_full);
+		pb = (ProgressBar) findViewById(R.id.pb_video);
+		tv_totalTime = (TextView) findViewById(R.id.tv_totaltime);
+		tv_progressTime = (TextView) findViewById(R.id.tv_progresstime);
+		seekBar = (SeekBar) findViewById(R.id.video_seekbar);
+		iv_video_bg=(ImageView) findViewById(R.id.iv_video_bg);
+		
+		
 	}
 
 	@Override
@@ -163,6 +215,147 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		rl_fuwu3.setOnClickListener(this);
 		promontion_phone.setOnClickListener(this);
 		lvacts.setOnItemClickListener(new ItemtClickListener());
+		
+		
+		
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				handler.sendEmptyMessageDelayed(MESSAGE_HIDE_CONTROL, 5000);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				handler.removeMessages(MESSAGE_HIDE_CONTROL);
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				if (fromUser) {
+					cvv.seekTo(progress);
+					tv_progressTime.setText(formatVideoDuration(progress));
+				}
+			}
+		});
+
+		// 视频播放按钮点击监听
+		iv.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (cvv.isPlaying()) {
+					cvv.pause();
+					iv.setVisibility(View.VISIBLE);
+					ViewPropertyAnimator.animate(controller_bottom)
+							.translationY(controller_bottom.getHeight())
+							.setDuration(200);
+					iv.setVisibility(View.GONE);
+					isShowContol = false;
+				} else {
+					iv.setVisibility(View.GONE);
+					cvv.start();
+				
+				iv_video_bg.setVisibility(View.GONE);
+				cvv.setBackgroundColor(Color.TRANSPARENT);
+				seekBar.setMax(cvv.getDuration());
+				describe.setVisibility(View.GONE);
+				controller_bottom.setVisibility(View.VISIBLE);
+				tv_totalTime.setText(formatVideoDuration(cvv.getDuration()));
+				updatePlayProgress();
+				
+				}
+			}
+		});
+
+		// 视频暂停点击监听
+		iv_pause.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				if (cvv.isPlaying()) {
+					cvv.pause();
+					iv.setVisibility(View.VISIBLE);
+					ViewPropertyAnimator.animate(controller_bottom)
+							.translationY(controller_bottom.getHeight())
+							.setDuration(200);
+					isShowContol = false;
+				} else {
+					iv.setVisibility(View.GONE);
+					cvv.start();
+				}
+			}
+		});
+		// 视频全屏点击监听
+		iv_full.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				/*// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				Intent intent = new Intent(CoachDetailActivity.this,
+						VideoActivity.class);
+				intent.putExtra("video_url", video_url2);
+				startActivity(intent);*/
+
+			}
+		});
+		
+	}
+
+	Handler handler = new Handler() {
+
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case MESSAGE_UPDATE_PLAY_PROGRESS:
+				updatePlayProgress();
+				break;
+			case TOCOMMENT:
+
+				break;
+			case MESSAGE_HIDE_CONTROL:
+				ViewPropertyAnimator.animate(controller_bottom)
+						.translationY(controller_bottom.getHeight())
+						.setDuration(200);
+				// iv.setVisibility(View.VISIBLE);
+				isShowContol = false;
+				break;
+
+			default:
+				break;
+			}
+		};
+	};
+	
+	/**
+	 * 更新播放进度
+	 */
+	private void updatePlayProgress() {
+		tv_progressTime.setText(formatVideoDuration(cvv.getCurrentPosition()));
+		seekBar.setProgress(cvv.getCurrentPosition());
+		handler.sendEmptyMessageDelayed(MESSAGE_UPDATE_PLAY_PROGRESS, 1000);
+	}
+
+	public String formatVideoDuration(long duration) {
+		int HOUR = 60 * 60 * 1000;// 1小时所占的毫秒
+		int MINUTE = 60 * 1000;// 1分钟所占的毫秒
+		int SECOND = 1000;// 1秒钟
+
+		// 1.算出多少小时，然后拿剩余的时间去算分钟
+		int hour = (int) (duration / HOUR);// 得到多少小时
+		long remainTime = duration % HOUR;// 算完小时后剩余的时间
+		// 2.算分钟，然后拿剩余的时间去算秒
+		int minute = (int) (remainTime / MINUTE);// 得到多少分钟
+		remainTime = remainTime % MINUTE;// 得到算完分钟后剩余的时间
+		// 3.算秒
+		int second = (int) (remainTime / SECOND);// 得到多少秒
+
+		if (hour == 0) {
+			// 说明不足1小时,只有2:33
+			return String.format("%02d:%02d", minute, second);
+		} else {
+			return String.format("%02d:%02d:%02d", hour, minute, second);
+		}
 	}
 
 	@Override
@@ -182,6 +375,8 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	 */
 	private void getDataDetail() {
 		new AsyncTask<Void, Void, String>() {
+
+			
 
 			@Override
 			protected void onPreExecute() {
@@ -208,8 +403,14 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 				sellerInfo = JSON.parseObject(jsonObject.toString(), MerchantInfo.class);
 					final View mView = View.inflate(MerchantDetailActivity.this,R.layout.play_view_item, null);
 					ImageView mView2 = (ImageView) mView.findViewById(R.id.mPlayImage);
-					imageLoader.displayImage(sellerInfo.getReception_photo(), mView2,options);
-					mAbSlidingPlayView.addView(mView);
+					videoUrl = sellerInfo.getVideo();
+					if(videoUrl.equals("")){
+						imageLoader.displayImage(sellerInfo.getReception_photo(), mView2,options);
+						mAbSlidingPlayView.addView(mView);
+					}else {
+						mAbSlidingPlayView.setVisibility(View.GONE);
+					}
+					
 					
 				com.alibaba.fastjson.JSONArray jsonArrayacts = jsonObject.getJSONArray("acts");
 				motheracts = JSON.parseArray(jsonArrayacts.toString(),OtherActsEntity.class);
@@ -271,6 +472,46 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	}
 
 
+	
+	
+	private void playViedeo(){
+		//de_img = intent.getStringExtra("de_img");
+		//Utils.showToast(context, "收到广播了"+video_url2+":de_img:"+de_img);
+		ImageLoader.getInstance().displayImage(de_img, iv_video_bg);
+		
+		cvv.setVideoURI(Uri.parse(videoUrl));
+		/**
+		 * 自动播放的回调onPrepared
+		 */
+		
+		cvv.setOnPreparedListener(new OnPreparedListener() {
+
+			@Override
+			public void onPrepared(MediaPlayer mp) {
+				cvv.setBackgroundColor(Color.TRANSPARENT);
+				pb.setVisibility(View.GONE);
+				//Utils.showToast(CoachDetailActivity.this, "可以播放了");
+				iv.setVisibility(View.VISIBLE);
+				cvv.pause();
+				
+				
+				
+				/*iv_video_bg.setVisibility(View.GONE);
+				iv.setVisibility(View.GONE);
+				pb.setVisibility(View.GONE);
+				cvv.setBackgroundColor(Color.TRANSPARENT);
+				cvv.start();
+				seekBar.setMax(cvv.getDuration());
+				describe.setVisibility(View.GONE);
+				controller_bottom.setVisibility(View.VISIBLE);
+				tv_totalTime.setText(formatVideoDuration(cvv.getDuration()));
+				updatePlayProgress();*/
+				
+				
+			}
+		});
+		
+	}
 
 	private class ItemtClickListener implements OnItemClickListener {
 
