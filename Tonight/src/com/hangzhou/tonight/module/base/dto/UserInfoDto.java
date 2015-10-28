@@ -1,11 +1,14 @@
 package com.hangzhou.tonight.module.base.dto;
 
+import java.util.logging.Logger;
+
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
+import com.hangzhou.tonight.module.base.util.UnicodeUtil;
 import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceUtils;
 
@@ -14,7 +17,7 @@ import com.hangzhou.tonight.util.PreferenceUtils;
  * @author hank
  */
 public class UserInfoDto {
-
+	private static Logger logger = Logger.getLogger("userInfoDto");
 	/**
 	 * 保存用户信息[TODO 注意:如果登录入口不止一个的话,请登入后重新调用]
 	 * @param context
@@ -22,8 +25,8 @@ public class UserInfoDto {
 	 */
 	public static void save(Context context,String result){
 		//TODO 将用户信息保存到sp中,放到内存中极易丢失,如果为了安全考虑，可以加密、也可以在系统退出前清除[hank]
+		result = UnicodeUtil.decodeUnicode(result);
 		PreferenceUtils.setPrefString(context, SysModuleConstant.KEY_USERINFO, result);
-		
 	}
 	
 	/**
@@ -53,7 +56,7 @@ public class UserInfoDto {
 		if(u == null){ u = new User(); }
 		//JSONObject json = getUserInfo(context);
 		u.uid  = Long.parseLong(MyPreference.getInstance(context).getUserId());
-		u.nick = MyPreference.getInstance(context).getUserName();
+		u.nick = UnicodeUtil.decodeUnicode(MyPreference.getInstance(context).getUserName());
 		u.birth= MyPreference.getInstance(context).getUserBirth();
 		u.sex  = MyPreference.getInstance(context).getUserSex();
 		u.phone= MyPreference.getInstance(context).getTelNumber();

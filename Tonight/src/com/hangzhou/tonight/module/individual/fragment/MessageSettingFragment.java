@@ -23,7 +23,6 @@ public class MessageSettingFragment extends BFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		return inflater.inflate(R.layout.fragment_individual_message_setting, container, false);
 	}
 	

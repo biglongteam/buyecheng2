@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.math.RandomUtils;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -12,27 +15,42 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
+import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
 import com.hangzhou.tonight.module.base.helper.PicTextHelper;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.ViewUtil;
 import com.hangzhou.tonight.module.base.util.ViewUtil.OnDoPicTextListener;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.util.StringUtil;
+import com.hoo.ad.base.helper.DeviceHelper;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TableLayout.LayoutParams;
 
 /**
  * 我的订单,依据状态码标识 已支付Paid、未支付
@@ -48,10 +66,13 @@ public class MyOrderFragment extends Fragment {
 	
 	public int PAY_STATE = STATE_ALL;
 	
+	AlertDialog mAlertDialog;TextView tvTitle;EditText etContent;
+	
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_individual_myorder, container, false);
 	}
 	
+	@SuppressLint("InflateParams")
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());  
@@ -90,12 +111,19 @@ public class MyOrderFragment extends Fragment {
 		};
 		swipeListview.setMenuCreator(creator);
 		swipeListview.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			OrderModel om;
 			@Override public void onMenuItemClick(final int position, SwipeMenu menu, int index) {
+				om = mOrderList.get(position);
 				if(index == 0){
-					ToastHelper.show(getActivity(), "评价");//[TODO 这一块缺失]
+					TbarViewModel model = new TbarViewModel(om.title + "-评价");
+					BaseSingeFragmentActivity.startActivity(getActivity(), OrderEvaluationFragment.class, model,new OnIntentCreateListener() {
+						@Override public void onCreate(Intent intent) {
+							intent.putExtra("order_id", om.order_id);
+						}
+					});
 				}else if(index == 1){
 					JSONObject params = new JSONObject();
-					params.put("order_id", mOrderList.get(position).order_id);
+					params.put("order_id", om.order_id);
 					AsyncTaskUtil.postData(getActivity(), "delOrder", params, new Callback() {
 						@Override public void onSuccess(JSONObject result) {
 							mOrderList.remove(position);

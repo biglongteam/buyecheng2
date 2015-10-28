@@ -47,7 +47,7 @@ public class SettingFragment extends BFragment {
 	@Override
 	protected void doHandler() {
 		//vSetting.setVisibility(View.GONE);
-		vShare.setVisibility(View.GONE);
+		//vShare.setVisibility(View.GONE);
 	}
 	
 	OnClickListener clickListener = new OnClickListener() {
@@ -65,6 +65,10 @@ public class SettingFragment extends BFragment {
 			}else if(v == vSetting){
 				TbarViewModel model = new TbarViewModel(getResources().getString(R.string.message_setting));
 				BaseSingeFragmentActivity.startActivity(getActivity(), MessageSettingFragment.class, model);
+			}else if(v == vShare){
+				//TODO 测试
+				TbarViewModel model = new TbarViewModel("测试--九宫格");
+				BaseSingeFragmentActivity.startActivity(getActivity(), HtmlDemoFragment.class, model);
 			}
 		}	
 	};

@@ -59,7 +59,7 @@ public class IndividualActivity extends CustomActionActivity {
 		tvAccount.setText(String.format(getResources().getString(R.string.label_account), user.phone));
 	
 		//TODO  角色是经理 则显示  个人角色和等级在哪里获取?
-		//mMycommission.setVisibility(View.GONE);
+		mMycommission.setVisibility(View.GONE);
 	}
 
 	OnClickListener itemViewClick = new OnClickListener() {
@@ -79,7 +79,7 @@ public class IndividualActivity extends CustomActionActivity {
 			}else if(v == mMycommission){
 				
 				//TODO 如果未申请为 普通营销或者升级为销售经理等角色 
-				BaseSingeFragmentActivity.startActivity(getActivity(), ApplyExtensionFragment.class, new TbarViewModel("申请推广"));
+				//BaseSingeFragmentActivity.startActivity(getActivity(), ApplyExtensionFragment.class, new TbarViewModel("申请推广"));
 				//BaseSingeFragmentActivity.startActivity(getActivity(), MyCommissionFragment.class, new TbarViewModel(getResources().getString(R.string.individual_my_commission)));
 			}
 		}
