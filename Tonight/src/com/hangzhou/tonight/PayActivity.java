@@ -69,14 +69,14 @@ public class PayActivity extends Activity {
 		
 		@Override
 		protected void onPreExecute() {
-			dialog = ProgressDialog.show(PayActivity.this, getString(R.string.app_tip), getString(R.string.getting_access_token));
+			//dialog = ProgressDialog.show(PayActivity.this, getString(R.string.app_tip), getString(R.string.getting_access_token));
 		}
 
 		@Override
 		protected void onPostExecute(GetAccessTokenResult result) {
-			if (dialog != null) {
+			/*if (dialog != null) {
 				dialog.dismiss();
-			}
+			}*/
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
 				sendPayReq();
 			} else {
@@ -258,7 +258,6 @@ public class PayActivity extends Activity {
 		
 		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 		signParams.add(new BasicNameValuePair("appid", req.appId));
-		//signParams.add(new BasicNameValuePair("appkey", APP_KEY));
 		signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
 		signParams.add(new BasicNameValuePair("package", req.packageValue));
 		signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
@@ -268,5 +267,6 @@ public class PayActivity extends Activity {
 		api.registerApp(appid);
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		api.sendReq(req);
+		finish();
 	}
 }

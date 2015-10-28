@@ -23,6 +23,17 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
+    
+    
+    
+    <!-- 加载滚动条样式 -->
+    <style name="loading">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/progressloading</item>
+        <item name="android:indeterminateDuration">1000</item>
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+    
     <style name="ButtonBarButton" />
     
      <style name="BaseDialog" parent="@android:style/Theme.Dialog" />

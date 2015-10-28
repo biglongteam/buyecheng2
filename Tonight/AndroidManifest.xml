@@ -116,6 +116,11 @@
             android:label="@string/title_activity_main" >
         </activity>
         
+              <activity
+            android:name="com.hangzhou.tonight.activity.PayFinishActivity"
+             >
+        </activity>
+        
         
         
            <activity

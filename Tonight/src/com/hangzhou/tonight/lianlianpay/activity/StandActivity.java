@@ -6,12 +6,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.activity.PayFinishActivity;
+import com.hangzhou.tonight.alipay.AliPayActivity;
 import com.hangzhou.tonight.lianlianpay.env.EnvConstants;
 import com.hangzhou.tonight.lianlianpay.payutil.BaseHelper;
 import com.hangzhou.tonight.lianlianpay.payutil.Constants;
 import com.hangzhou.tonight.lianlianpay.payutil.Md5Algorithm;
 import com.hangzhou.tonight.lianlianpay.payutil.MobileSecurePayer;
 import com.hangzhou.tonight.lianlianpay.payutil.PayOrder;
+import com.hangzhou.tonight.util.IntentJumpUtils;
 import com.hangzhou.tonight.util.MyPreference;
 
 import android.app.Activity;
@@ -44,8 +47,8 @@ public class StandActivity extends Activity implements OnClickListener {
     // 支付验证方式 0：标准版本， 1：卡前置方式，接入时，只需要配置一种即可，Demo为说明用。可以在menu中选择支付方式。
     private int pay_type_flag = 0;
     private boolean is_preauth = false;
-
-    
+    float pay_money;
+    String order_name,order_id;
     String oid_partner,sign_type,busi_partner,dt_order,notify_url,no_order,name_goods,info_order,risk_item,
     valid_order,money_order,sign;
     private Context mContext;
@@ -67,6 +70,10 @@ public class StandActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.standpay);
         mContext = this;
+        order_id = getIntent().getStringExtra("order_id");
+        order_name = getIntent().getStringExtra("order_name");
+        pay_money = getIntent().getFloatExtra("pay_money", 0);
+        
         
         oid_partner = getIntent().getStringExtra("oid_partner");
         sign_type = getIntent().getStringExtra("sign_type");
@@ -173,6 +180,11 @@ public class StandActivity extends Activity implements OnClickListener {
                             BaseHelper.showDialog(StandActivity.this, "提示",
                                     "支付成功",
                                     android.R.drawable.ic_dialog_alert);
+                            Bundle bundle = new Bundle();
+        					bundle.putString("order_id", order_id);
+        					bundle.putString("order_name", order_name);
+        					bundle.putFloat("pay_money", pay_money);
+        					IntentJumpUtils.nextActivity(PayFinishActivity.class, StandActivity.this, bundle);
                             finish();
                         } else if (Constants.RET_CODE_PROCESS.equals(retCode)) {
                             // TODO 处理中，掉单的情形
@@ -190,6 +202,7 @@ public class StandActivity extends Activity implements OnClickListener {
                             BaseHelper.showDialog(StandActivity.this, "提示", retMsg
                                     + "，交易状态码:" + retCode,
                                     android.R.drawable.ic_dialog_alert);
+                            finish();
                         }
                     }
                         break;

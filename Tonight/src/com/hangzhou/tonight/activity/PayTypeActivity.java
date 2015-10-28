@@ -58,7 +58,7 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 	private Context mContext;
 	private Button bt_submit;
 	TextView tvTotalPrice,tv_totall;
-	String order_id,act_name,expense,ticket_id="0",ticket_name="0";
+	String order_id,order_name,act_name,expense,ticket_id="0",ticket_name="0";
 	private ActivesInfo actInfo;
 	int  type = 0,ticket;
 	float pay_money,wallet_money;
@@ -164,15 +164,25 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 			params.put("title", act_name+"-"+ticket_name);
 		}else {
 			params.put("wallet_money", "0");
-			params.put("title", "ceshi");
+			params.put("title", act_name);
 		}
 		params.put("pay_money", pay_money+"");
 		AsyncTaskUtil.postData(mContext, "prePayOrder", params, new Callback() {
 			@Override public void onSuccess(JSONObject result) {
 				
 				try {
-					
 					Bundle bundle = new Bundle();
+					bundle.putString("order_id", order_id);
+					if(!ticket_id.equals("0")){
+						order_name = act_name+"-"+ticket_name;
+					}else {
+						order_name = act_name;
+					}
+					bundle.putString("order_name", order_name);
+					bundle.putFloat("pay_money", pay_money);
+					
+					
+					
 					if(type==1){//跳转到支付宝
 						String info = result.getString("info");
 						bundle.putString("info", info);
@@ -180,7 +190,7 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 					}else if(type==2){//跳转到微信 
 						
 						String appid = result.getString("appid");
-						String noncestr = result.getString("appid");
+						String noncestr = result.getString("noncestr");
 						String packagestr = result.getString("package");;
 						String partnerid = result.getString("partnerid");
 						String prepayid = result.getString("prepayid");
