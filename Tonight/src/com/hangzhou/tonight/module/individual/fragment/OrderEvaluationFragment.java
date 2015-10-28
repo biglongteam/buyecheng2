@@ -49,10 +49,10 @@ public class OrderEvaluationFragment extends BFragment {
 					ToastHelper.show(getActivity(), "输入您要评论的内容.");return;
 				}
 				JSONObject params = new JSONObject();
-				params.put("mark", (int)(rbMark.getRating() == 0 ? 1 : rbMark.getRating()));
+				params.put("mark", (int)(rbMark.getRating() == 0f ? 1 : rbMark.getRating()));
 				params.put("content", content);
 				params.put("order_id", orderId);
-				params.put("img", new String[]{"order/0.png"});
+				params.put("img", new String[]{"order0.png"});
 				AsyncTaskUtil.postData(getActivity(), "reviewOrder", params, new Callback() {
 					@Override public void onSuccess(JSONObject result) {
 						

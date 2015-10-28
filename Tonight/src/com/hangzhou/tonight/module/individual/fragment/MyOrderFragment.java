@@ -57,14 +57,16 @@ import android.widget.TableLayout.LayoutParams;
  * @author hank
  */
 public class MyOrderFragment extends Fragment {
-	private List<OrderModel> mOrderList;
-	private ModelAdapter mAdapter;
+	protected List<OrderModel> mOrderList;
+	protected ModelAdapter mAdapter;
 	
 	SwipeMenuListView swipeListview;
 	/*** 全部、待付款,未消费,待评价*/
 	public static final int STATE_ALL = 1,STATE_UNPAY = 2,STATE_UNBUY = 3,STATE_UNCOMMON = 4;
 	
 	public int PAY_STATE = STATE_ALL;
+	
+	public String HANDLER_TEXT = null;
 	
 	AlertDialog mAlertDialog;TextView tvTitle;EditText etContent;
 	
@@ -76,17 +78,59 @@ public class MyOrderFragment extends Fragment {
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());  
+		mOrderList = new ArrayList<OrderModel>();
 
 		swipeListview = (SwipeMenuListView) getView().findViewById(R.id.empty_swipe_listview);
-		
-		mOrderList = new ArrayList<OrderModel>();
-		
-		
 		
 		swipeListview.setDividerHeight(ViewUtil.dp2px(getActivity(), 12f));
 		mAdapter = new ModelAdapter();
 		swipeListview.setAdapter(mAdapter);
 		
+		
+		swipeListview.setMenuCreator(getSwipeMenuCreator());
+		swipeListview.setOnMenuItemClickListener(getOnMenuItemClickListener());
+		
+		doPostData();
+		
+	}
+	
+	public OnMenuItemClickListener getOnMenuItemClickListener(){
+		return new OnMenuItemClickListener() {
+			OrderModel om;
+			@Override public void onMenuItemClick(final int position, SwipeMenu menu, int index) {
+				om = mOrderList.get(position);
+				if(index == 0){
+					/*TbarViewModel model = new TbarViewModel(om.title + "-评价");
+					BaseSingeFragmentActivity.startActivity(getActivity(), OrderEvaluationFragment.class, model,new OnIntentCreateListener() {
+						@Override public void onCreate(Intent intent) {
+							intent.putExtra("order_id", om.order_id);
+						}
+					});*/
+				}else if(index == 1){
+					deleteOrder(om, position);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * 删除订单
+	 * @param om
+	 * @param position
+	 */
+	protected void deleteOrder(OrderModel om,final int position){
+		JSONObject params = new JSONObject();
+		params.put("order_id", om.order_id);
+		AsyncTaskUtil.postData(getActivity(), "delOrder", params, new Callback() {
+			@Override public void onSuccess(JSONObject result) {
+				mOrderList.remove(position);
+				mAdapter.notifyDataSetChanged();
+			}
+			@Override public void onFail(String msg) {}
+		});
+	}
+	
+	public SwipeMenuCreator getSwipeMenuCreator(){
 		SwipeMenuCreator creator = new SwipeMenuCreator() {
 
 			@Override
@@ -94,7 +138,7 @@ public class MyOrderFragment extends Fragment {
 				SwipeMenuItem commontItem = new SwipeMenuItem(getActivity().getApplicationContext());
 				commontItem.setBackground(new ColorDrawable(Color.parseColor("#FFF8A11C")));
 				commontItem.setWidth(ViewUtil.dp2px(getActivity().getBaseContext(),90));
-				commontItem.setTitle("评价");
+				commontItem.setTitle(HANDLER_TEXT == null ? "操作" : HANDLER_TEXT);
 				commontItem.setTitleSize(20);
 				commontItem.setTitleColor(Color.WHITE);
 				menu.addMenuItem(commontItem);
@@ -109,31 +153,11 @@ public class MyOrderFragment extends Fragment {
 				menu.addMenuItem(deleteItem);
 			}
 		};
-		swipeListview.setMenuCreator(creator);
-		swipeListview.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			OrderModel om;
-			@Override public void onMenuItemClick(final int position, SwipeMenu menu, int index) {
-				om = mOrderList.get(position);
-				if(index == 0){
-					TbarViewModel model = new TbarViewModel(om.title + "-评价");
-					BaseSingeFragmentActivity.startActivity(getActivity(), OrderEvaluationFragment.class, model,new OnIntentCreateListener() {
-						@Override public void onCreate(Intent intent) {
-							intent.putExtra("order_id", om.order_id);
-						}
-					});
-				}else if(index == 1){
-					JSONObject params = new JSONObject();
-					params.put("order_id", om.order_id);
-					AsyncTaskUtil.postData(getActivity(), "delOrder", params, new Callback() {
-						@Override public void onSuccess(JSONObject result) {
-							mOrderList.remove(position);
-							mAdapter.notifyDataSetChanged();
-						}
-						@Override public void onFail(String msg) {}
-					});
-				}
-			}
-		});
+		return creator;
+	}
+	
+	
+	void doPostData(){
 		JSONObject params = new JSONObject();
 		params.put("type", PAY_STATE);
 		
