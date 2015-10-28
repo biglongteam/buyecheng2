@@ -55,6 +55,7 @@ import com.hangzhou.tonight.util.JsonUtils;
 import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
+import com.hangzhou.tonight.util.TimeUtil;
 import com.hangzhou.tonight.view.HeaderLayout;
 import com.hangzhou.tonight.view.HeaderLayout.HeaderStyle;
 import com.hangzhou.tonight.view.HeaderLayout.SearchState;
@@ -237,17 +238,50 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 				dismissLoadingDialog();
 				com.alibaba.fastjson.JSONObject object = JSON
 						.parseObject(result);
+				JSONObject jsonObject=new JSONObject();
+				JSONObject jsons=new JSONObject();
+				JSONArray jsonArray=new JSONArray();
+				try {
+					 jsonObject = object.getJSONObject("actInfo"); 
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					 jsons = JSON
+							.parseObject(jsonObject.getString("content")); 
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					 jsonArray=jsons.getJSONArray("detail");
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				//"content":"{\"detail\":[{\"name\":\"小聚套餐\",\"list\":[[\"啤酒\",\"30瓶\",\"699\"],[\"水果\",\"2盘\",\"299\"],[\"特色小吃\",\"2盘\",\"299\"]]}]
+				if(jsonArray!=null&&jsonArray.size()>0){
+					JSONObject jsonArray2=JSON
+							.parseObject(jsonArray.get(0).toString());
+					JSONArray oo=JSON.parseArray(jsonArray2.getString("list"));
+					StringBuffer stringBuffer=new StringBuffer();
+					if(oo!=null&&oo.size()>0){
+						for(int i=0;i<oo.size();i++){
+							JSONArray jsonA=JSON.parseArray(oo.get(i).toString());
+							for(int y=0;y<jsonA.size();y++){
+								if(y==jsonA.size()-1){
+									stringBuffer.append("￥"+jsonA.get(y)+"   \n");
+								}else{
+									stringBuffer.append(jsonA.get(y)+"   ");
+								}
+								
+							}
+						}
+					}
+					intro = jsonArray2.getString("intro");
+					detail=stringBuffer.toString()+(intro==null?"":intro);
+				}
+			
 				
-				//{"actInfo":{"act_id":"35","address":"杭州市江干区天城路88号","content":"3-4人畅爽套餐    1份     980元\n啤酒无限畅饮\n18:00到凌晨2:00，欢唱8小时\n门店价格：2480","des":"啤酒无限畅饮","endtime":"1470844800","img":"[\"0_0QQ%E6%88%AA%E5%9B%BE20150813101248.png\",\"0_1QQ%E6%88%AA%E5%9B%BE20150813101056.png\",\"0_2QQ%E6%88%AA%E5%9B%BE20150813101145.png\",\"0_3QQ%E6%88%AA%E5%9B%BE20150813101200.png\",\"0_4QQ%E6%88%AA%E5%9B%BE20150813101209.png\",\"0_7QQ%E6%88%AA%E5%9B%BE20150813101238.png\"]","lat":"30.293052","lon":"120.20591","name":"皇冠娱乐会所","phone":"15257128999","price":"0.00","review_num":"0","sales_num":"0","starttime":"1439395200","tip":"每张糯米券限20人使用，超出收费标准：超出收费标准：按照商家为标准，如有疑问请咨询商家\n每次消费不限使用糯米券张数\n包厢安排为：包厢安排为：小1包厢：3-4人，小2包厢：5-8人，中包厢：15-20人，大包厢；15-20人","title":"价值2480元15-20人欢唱套餐","value":"0.00"},"reviews":[],"s":1}
-				JSONObject jsonObject = object.getJSONObject("actInfo"); 
-				String jsons = jsonObject.getString("content"); 
-				//JSONObject jj = new JSONObject(jsons);
-				/*JsonObject jj = new 
-				JSONArray jsonarr = jsons.getJSONArray("detail");*/
-				//detail = JSON.parseObject(jsonObject.toString(), ActivesDetail.class);
 				
-				
-				intro = jsonObject.getString("intro");
 				actInfo = JSON.parseObject(jsonObject.toString(), ActivesInfo.class);
 				initData();
 			}
@@ -326,10 +360,11 @@ public class PromotionDetailActivity extends TabItemActivity implements OnClickL
 	private void initData() {
 		tvTitle.setText(actInfo.getName());
 		tv_act_title.setText(actInfo.getTitle());
-		tv_act_time.setText(actInfo.getStarttime());
+		tv_act_time.setText(TimeUtil.getTime2(Long.parseLong(actInfo.getStarttime()))
+				+"-"+TimeUtil.getTime2(Long.parseLong(actInfo.getEndtime())));
 		tv_act_address.setText(actInfo.getAddress());
 		//{"detail":[],"intro":["1111"]}
-		tv_neirong1.setText(detail+"/n"+intro);
+		tv_neirong1.setText((detail==null?"":detail));
 		tv_xuzhi1.setText(actInfo.getTip());
 		tv_charge.setText("￥"+actInfo.getPrice());
 		String imgs = actInfo.getImg();

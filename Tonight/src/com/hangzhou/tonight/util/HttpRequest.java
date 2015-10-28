@@ -170,7 +170,7 @@ public class HttpRequest {
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
             httpClient = new DefaultHttpClient();
             
-            if(null!=BaseApplication.sessionId || !"".equals(BaseApplication.sessionId)){
+            if(null!=BaseApplication.sessionId && !"".equals(BaseApplication.sessionId)){
             	 Log.e("ssss","App.sessionId="+BaseApplication.sessionId);
                     httpURLConnection.setRequestProperty("Cookie","PHPSESSID=" + BaseApplication.sessionId); 
                     //httpPost.setHeader("Cookie", "PHPSESSID=" + PHPSESSID);

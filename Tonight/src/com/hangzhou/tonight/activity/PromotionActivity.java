@@ -466,7 +466,7 @@ public class PromotionActivity extends TabItemActivity implements
 				//0_0%E9%97%A8%E5%A4%B4.jpg
 				String imgs = object.getString("img");
 				String []imgArray =  imgs.split(",");
-				String img = imgArray[0].substring(2, imgArray[0].length()-2);
+				String img = imgArray[0].trim().substring(2, imgArray[0].length()-1);
 				/*String img = null;
 				try {
 					img = URLEncoder.encode(imgStr, "utf-8");

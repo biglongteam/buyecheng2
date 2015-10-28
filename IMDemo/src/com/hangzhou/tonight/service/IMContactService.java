@@ -46,7 +46,7 @@ public class IMContactService extends Service {
 	@Override
 	public void onCreate() {
 		context = this;
-		addSubscriptionListener();
+		//addSubscriptionListener();
 		super.onCreate();
 	}
 

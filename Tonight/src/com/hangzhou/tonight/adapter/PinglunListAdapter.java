@@ -6,20 +6,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.base.BaseObjectListAdapter;
-import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.Entity;
-import com.hangzhou.tonight.entity.NearByPeople;
-import com.hangzhou.tonight.entity.PinglunEntity;
 import com.hangzhou.tonight.entity.ReviewsEntity;
-import com.hangzhou.tonight.util.PhotoUtils;
 
 public class PinglunListAdapter extends BaseObjectListAdapter {
 
