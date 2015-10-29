@@ -122,7 +122,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	// MediaPlayer mp = null;
 	boolean isPlay;
 	private boolean isShowContol;
-	TextView describe, tv_jianjie, tv_comment, tv_totalTime, tv_progressTime;
+	TextView describe, tv_jianjie, promontion_address,tv_comment, tv_totalTime, tv_progressTime;
 	LinearLayout controller_bottom;
 	Display display;
 	ImageView iv_video_bg;
@@ -188,6 +188,10 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		re_fuwu1 = (RelativeLayout) findViewById(R.id.rl_fuwu1);
 		re_fuwu2 = (RelativeLayout) findViewById(R.id.rl_fuwu2);
 		rl_fuwu3 = (RelativeLayout) findViewById(R.id.rl_fuwu3);
+		
+		tv_jianjie= (TextView) findViewById(R.id.course_plan);
+		promontion_address= (TextView) findViewById(R.id.promontion_address);
+		
 		
 		
 		
@@ -400,18 +404,42 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 				JSONObject jsonObject = JSON.parseObject(result);
 				JSONObject seller = jsonObject.getJSONObject("sellerInfo"); 
 				
-				sellerInfo = JSON.parseObject(jsonObject.toString(), MerchantInfo.class);
-					final View mView = View.inflate(MerchantDetailActivity.this,R.layout.play_view_item, null);
-					ImageView mView2 = (ImageView) mView.findViewById(R.id.mPlayImage);
+				sellerInfo = JSON.parseObject(seller.toString(), MerchantInfo.class);
+					//final View mView = View.inflate(MerchantDetailActivity.this,R.layout.play_view_item, null);
+					//ImageView mView2 = (ImageView) mView.findViewById(R.id.mPlayImage);
 					videoUrl = sellerInfo.getVideo();
-					if(videoUrl.equals("")){
+					
+					tv_jianjie.setText(sellerInfo.getName());	
+					promontion_address.setText(sellerInfo.getAddress());
+					promontion_phone.setText(sellerInfo.getPhone());
+					/*if(videoUrl!=null&&!videoUrl.equals("")){
 						imageLoader.displayImage(sellerInfo.getReception_photo(), mView2,options);
 						mAbSlidingPlayView.addView(mView);
 					}else {
 						mAbSlidingPlayView.setVisibility(View.GONE);
+					}*/
+				//imageLoader.displayImage(sellerInfo.getReception_photo(), mView2,options);
+				//mAbSlidingPlayView.addView(mView);
+				
+				
+				String imgs = sellerInfo.getPhoto();
+				String []imgArray =  imgs.substring(1, imgs.length()-1).split(",");
+				//String img = imgArray[0].substring(2, imgArray[0].length()-1);
+				for(int i = 0;i<imgArray.length;i++){
+					String img=imgArray[i].toString();
+					if(img.endsWith("%22")){
+						img=img.replace("%22", "");
 					}
+					String  url = Config.SEL_IMG+img.substring(1, img.length()-1);
+					final View mView = View.inflate(MerchantDetailActivity.this,R.layout.play_view_item, null);
+					ImageView mView2 = (ImageView) mView.findViewById(R.id.mPlayImage);
+					imageLoader.displayImage(url, mView2,options);
+					mAbSlidingPlayView.addView(mView);
 					
-					
+					}
+				
+				
+				
 				com.alibaba.fastjson.JSONArray jsonArrayacts = jsonObject.getJSONArray("acts");
 				motheracts = JSON.parseArray(jsonArrayacts.toString(),OtherActsEntity.class);
 				

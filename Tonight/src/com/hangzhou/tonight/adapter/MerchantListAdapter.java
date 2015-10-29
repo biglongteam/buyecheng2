@@ -110,7 +110,11 @@ public class MerchantListAdapter extends BaseAdapter {
     	
     	//holder.distance.setText((int)(distance/1000)+"km");
 		holder.mTvcharge.setText("￥"+people.getPrice());
-		imageLoader.displayImage(Config.SEL_IMG+people.getImg(), holder.mIvAvatar,options);
+		String img=people.getImg();
+		if(img.endsWith("%22")){
+			img=img.replace("%22", "");
+		}
+		imageLoader.displayImage(Config.SEL_IMG+img, holder.mIvAvatar,options);
 	//	holder.mIvAvatar.setImageBitmap(mApplication.getAvatar(people.getImg()));
 		return convertView;
 	}

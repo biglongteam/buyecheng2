@@ -308,7 +308,7 @@ OnClickListener, IXListViewListener{
 	 * 
 	 * @throws
 	 */
-	private void getDataList(final int currentPage,String cityId,String key,final int type,final int sort) {
+	private void getDataList(final int currentPage,final String cityId,final String key,final int type,final int sort) {
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
@@ -320,7 +320,7 @@ OnClickListener, IXListViewListener{
 			@Override
 			protected String doInBackground(Void... params) {
 
-				Map<String, String> param = setParams(currentPage);
+				Map<String, String> param = setParams(currentPage,key,cityId,type,sort);
 
 				return HttpRequest.submitPostData(
 						PreferenceConstants.TONIGHT_SERVER, param, "UTF-8");
@@ -409,12 +409,14 @@ OnClickListener, IXListViewListener{
 		return list;
 	}
 
-	private Map<String, String> setParams(int currentPage) {
+	private Map<String, String> setParams(int currentPage,String cityId,String key,final int type,final int sort) {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
 		parms.put("city", 179);
 		parms.put("page", currentPage);
+		parms.put("type", type);
+		parms.put("sort", sort);
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "getSellerList");
 		arry.add(1, 0);

@@ -28,34 +28,51 @@ public class MerchantInfo extends MerchantEntity {
 	
 
 	private String name;//(商家名称)，
-	private String[] photo;//;(活动名称)，
+	private String photo;//;(活动名称)，
 	private String video;//
-	private String value;//(套餐原价);//，
-	private String price;//(套餐折后价)，
+	//private String value;//(套餐原价);//，
+	//private String price;//(套餐折后价)，
 	private String reception_photo;//(专职接待照⽚片)，
 	private String reception_phone;//(销量专职接待电话)，
 	private String address;//(商家地址)，
+	private String phone;//(商家电话)，
 	private String	lon;//(商家经度)，
 	private String lat;//(商家纬度)}
-	private String	mark;//(商家经度)，
+	//private String	mark;//(商家经度)，
 	private String	review_num;//(商家经度)，
 	
 	
 	private String seller_id;//(商家ID)，
-	public String[] getPhoto() {
+	/*public String[] getPhoto() {
 		return photo;
 	}
 
 	public void setPhoto(String[] photo) {
 		this.photo = photo;
-	}
+	}*/
 
 	public String getVideo() {
 		return video;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	public void setVideo(String video) {
 		this.video = video;
+	}
+    
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getReception_photo() {
@@ -74,13 +91,13 @@ public class MerchantInfo extends MerchantEntity {
 		this.reception_phone = reception_phone;
 	}
 
-	public String getMark() {
+	/*public String getMark() {
 		return mark;
 	}
 
 	public void setMark(String mark) {
 		this.mark = mark;
-	}
+	}*/
 
 	public String getReview_num() {
 		return review_num;
@@ -94,7 +111,7 @@ public class MerchantInfo extends MerchantEntity {
 
 
 	
-	public String getValue() {
+	/*public String getValue() {
 		return value;
 	}
 
@@ -109,7 +126,7 @@ public class MerchantInfo extends MerchantEntity {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-
+*/
 	public String getSeller_id() {
 		return seller_id;
 	}
