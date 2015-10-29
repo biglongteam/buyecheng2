@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
@@ -86,7 +87,11 @@ public class ActivesListAdapter extends  BaseAdapter {
 		//holder.mTvdistance.setText("1k");
 		holder.mTvcharge.setText("￥"+people.getPrice());
 		//holder.mIvAvatar.setBackgroundResource(R.drawable.kc_picture);
-		imageLoader.displayImage(Config.ACT_IMG+people.getImg(), holder.mIvAvatar,options);
+		String img=people.getImg();
+		if(img.endsWith("%22")){
+			img=img.replace("%22", "");
+		}
+		imageLoader.displayImage(Config.ACT_IMG+img, holder.mIvAvatar,options);
 	//	holder.mIvAvatar.setImageBitmap(mApplication.getAvatar(people.getImg()));
 		return convertView;
 	}

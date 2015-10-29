@@ -102,9 +102,9 @@ OnClickListener, IXListViewListener{
 	private Button btRq,btJl,btJg,btHp,btQx;
 	private String cityId;
 	private String cityName;
-	int type = 1;
+	int type = 0;
 	RelativeLayout index_head;
-	private int sort = 1;
+	private int sort = 0;
 	String key;
 	ImageView imSerach;
 	ImageLoader imageLoader;
@@ -415,8 +415,13 @@ OnClickListener, IXListViewListener{
 		Map<String, Object> parms = new HashMap<String, Object>();
 		parms.put("city", 179);
 		parms.put("page", currentPage);
-		parms.put("type", type);
-		parms.put("sort", sort);
+		if(type!=0){
+			parms.put("type", type);	
+		}
+		if(sort!=0){
+			parms.put("sort", sort);
+		}
+		
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "getSellerList");
 		arry.add(1, 0);

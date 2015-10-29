@@ -26,7 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+            android:paddingRight="0dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="@dimen/x10"
+            android:paddingLeft="@dimen/x10" >
 
             <TextView
                 android:id="@+id/tv_merchant_name"
@@ -59,7 +62,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x14"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+             android:paddingRight="0dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="@dimen/x10"
+            android:paddingLeft="@dimen/x10" >
 
            <TextView
                 android:id="@+id/tv_merchant_desc"
@@ -80,7 +86,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
             android:layout_marginBottom="@dimen/x10"
-            android:paddingLeft="10dp" >
+             android:paddingRight="0dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="@dimen/x10"
+            android:paddingLeft="@dimen/x10" >
 
             <TextView
                 android:id="@+id/tv_merchant_address"

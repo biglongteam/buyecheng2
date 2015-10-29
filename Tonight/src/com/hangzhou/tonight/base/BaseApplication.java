@@ -21,8 +21,12 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
-
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.OSSService;
@@ -36,6 +40,8 @@ import com.alibaba.sdk.android.oss.util.OSSToolKit;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.comm.Constant;
 import com.hangzhou.tonight.entity.BannerEntity;
@@ -115,28 +121,106 @@ public class BaseApplication extends Application {
 		}
 		mDefaultAvatar = BitmapFactory.decodeResource(getResources(),
 				R.drawable.ic_common_def_header);
-	/*	for (int i = 1; i < 64; i++) {
-			String emoticonsName = "[zem" + i + "]";
-			int emoticonsId = getResources().getIdentifier("zem" + i,
-					"drawable", getPackageName());
-			mEmoticons.add(emoticonsName);
-			mEmoticons_Zem.add(emoticonsName);
-			mEmoticonsId.put(emoticonsName, emoticonsId);
-		}
-		for (int i = 1; i < 59; i++) {
-			String emoticonsName = "[zemoji" + i + "]";
-			int emoticonsId = getResources().getIdentifier("zemoji_e" + i,
-					"drawable", getPackageName());
-			mEmoticons.add(emoticonsName);
-			mEmoticons_Zemoji.add(emoticonsName);
-			mEmoticonsId.put(emoticonsName, emoticonsId);
-		}
-		
-*/
 		
 		//startService(new Intent(getApplicationContext(), XXService.class));
 		myPreference = MyPreference.getInstance(this);
 		preferences = getSharedPreferences(Constant.LOGIN_SET, 0);
+		
+		
+		/*LocationManager locationManager = (LocationManager)
+				getSystemService(LOCATION_SERVICE);
+		// 创建一个Criteria对象
+		Criteria criteria = new Criteria();
+		// 设置粗略精确度
+		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+		// 设置是否需要返回海拔信息
+		criteria.setAltitudeRequired(false);
+		// 设置是否需要返回方位信息
+		criteria.setBearingRequired(false);
+		// 设置是否允许付费服务
+		criteria.setCostAllowed(true);
+		// 设置电量消耗等级
+		criteria.setPowerRequirement(Criteria.POWER_HIGH);
+		// 设置是否需要返回速度信息
+		criteria.setSpeedRequired(false);
+
+		// 根据设置的Criteria对象，获取最符合此标准的provider对象
+		String currentProvider = locationManager
+				.getBestProvider(criteria, true);
+		Log.d("Location", "currentProvider: " + currentProvider);
+		// 根据当前provider对象获取最后一次位置信息
+		Location currentLocation = locationManager
+				.getLastKnownLocation(currentProvider);
+		// 如果位置信息为null，则请求更新位置信息
+		if (currentLocation == null) {
+			locationManager.requestLocationUpdates(currentProvider, 0, 0,
+					locationListener);
+		}
+		// 直到获得最后一次位置信息为止，如果未获得最后一次位置信息，则显示默认经纬度
+		// 每隔10秒获取一次位置信息
+		while (true) {
+			currentLocation = locationManager
+					.getLastKnownLocation(currentProvider);
+			if (currentLocation != null) {
+				Log.d("Location", "Latitude: " + currentLocation.getLatitude());
+				Log.d("Location", "location: " + currentLocation.getLongitude());
+				break;
+			} else {
+				Log.d("Location", "Latitude: " + 0);
+				Log.d("Location", "location: " + 0);
+			}
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				Log.e("Location", e.getMessage());
+			}
+		}
+
+		// 解析地址并显示
+		Geocoder geoCoder = new Geocoder(this);
+		try {
+			if(currentLocation!=null){
+				int latitude = (int) currentLocation.getLatitude();
+				int longitude = (int) currentLocation.getLongitude();
+				List<Address> addList = geoCoder.getFromLocation(latitude,
+						longitude, 2);
+				if (addList != null && addList.size() > 0) {
+					for (int i = 0; i < addList.size(); i++) {
+						Address ad = addList.get(i);
+						mCity = ad.getLocality();
+					}
+				}
+			}
+			
+			System.out.println("您当前的城市是:\n" + mCity);
+			if (mCity != null && !mCity.equals("")) {
+				if (mCity.endsWith("市"))
+					mCity = mCity.replace("市", "");
+			}
+			myPreference.setLocation_j(mLongitude + "");
+			myPreference.setLocation_w(mLatitude + "");
+			if (mCity.equals("")) {
+				mCity = "杭州";
+			}
+			myPreference.setCity(mCity);
+		} catch (IOException e) {
+		}*/
+	        
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// 获取当前用户位置
 		mLocationClient = new LocationClient(getApplicationContext());
 		mLocationClient.setAK("60b43d1a9513d904b6aa2948b27b4a20");
@@ -178,6 +262,9 @@ public class BaseApplication extends Application {
 				}
 				myPreference.setLocation_j(mLongitude+"");
 				myPreference.setLocation_w(mLatitude+"");
+				if(mCity.equals("")){
+					mCity="杭州";
+				}
 				myPreference.setCity(mCity);
 				mLocationClient.stop();
 			}
@@ -219,6 +306,43 @@ public class BaseApplication extends Application {
 		/*----------------阿里云OSS初始化----------------*/
 		initOssServer();
 	}
+
+
+//创建位置监听器
+private LocationListener locationListener = new LocationListener(){
+    //位置发生改变时调用
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("Location", "onLocationChanged");
+        Log.d("Location", "onLocationChanged Latitude"
+        + location.getLatitude());
+       Log.d("Location", "onLocationChanged location"
+        + location.getLongitude());
+    }
+
+    //provider失效时调用
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Location", "onProviderDisabled");
+    }
+
+    //provider启用时调用
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Location", "onProviderEnabled");
+    }
+
+    //状态改变时调用
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Location", "onStatusChanged");
+    }
+};
+
+
+
+
+
 	
 	public static OSSService ossService;
 	public static String bucketName;
