@@ -74,7 +74,7 @@ public class PayTypeActivity extends TabItemActivity implements OnClickListener{
 		act_name = getIntent().getStringExtra("actName");
 		
 		ticket_id = getIntent().getStringExtra("ticket_id");
-		if(!ticket_id.equals("0")){
+		if(!"0".equals(ticket_id)){
 			ticket_name = getIntent().getStringExtra("ticket_name");
 		}
 		ticket = getIntent().getIntExtra("ticket", 0);

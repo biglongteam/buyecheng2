@@ -20,17 +20,4 @@ public class MyOrderUnBuyFragment extends MyOrderFragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 	
-	public OnMenuItemClickListener getOnMenuItemClickListener(){
-		return new OnMenuItemClickListener() {
-			OrderModel om;
-			@Override public void onMenuItemClick(final int position, SwipeMenu menu, int index) {
-				om = mOrderList.get(position);
-				if(index == 0){
-					
-				}else if(index == 1){
-					deleteOrder(om, position);
-				}
-			}
-		};
-	}
 }

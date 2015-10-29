@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/judge_me"
+        android:visibility="gone"
         ></com.hangzhou.tonight.module.base.widget.TextViewWithDevider>
     
     <com.hangzhou.tonight.module.base.widget.TextViewWithDevider

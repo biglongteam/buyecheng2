@@ -52,7 +52,7 @@ public class OrderEvaluationFragment extends BFragment {
 				params.put("mark", (int)(rbMark.getRating() == 0f ? 1 : rbMark.getRating()));
 				params.put("content", content);
 				params.put("order_id", orderId);
-				params.put("img", new String[]{"order0.png"});
+				params.put("img", new String[]{"stag_0__w_480__uid_1000022__h_640__time_20150506235224-e"});
 				AsyncTaskUtil.postData(getActivity(), "reviewOrder", params, new Callback() {
 					@Override public void onSuccess(JSONObject result) {
 						

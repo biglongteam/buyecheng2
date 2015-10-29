@@ -47,7 +47,7 @@ public class SettingFragment extends BFragment {
 	@Override
 	protected void doHandler() {
 		//vSetting.setVisibility(View.GONE);
-		//vShare.setVisibility(View.GONE);
+		vShare.setVisibility(View.GONE);
 	}
 	
 	OnClickListener clickListener = new OnClickListener() {
