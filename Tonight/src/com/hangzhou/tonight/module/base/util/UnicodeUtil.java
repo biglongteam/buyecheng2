@@ -1,14 +1,27 @@
 package com.hangzhou.tonight.module.base.util;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.json.simple.JSONValue;
+
 public class UnicodeUtil {
-	
+
 	/**
 	 * 中文转 unicode
+	 * 
 	 * @param gbString
 	 * @return
 	 */
 	public static String gbEncoding(String gbString) {
-		char[] utfBytes = gbString.toCharArray();
+		//return StringEscapeUtils.escapeJava(gbString);
+		//return org.json.simple.JSONObject.escape(gbString);
+		//return JSONValue.escape(gbString);
+		return toUnicode(gbString, true);
+		/*char[] utfBytes = gbString.toCharArray();
 		String unicodeBytes = "";
 		for (int byteIndex = 0; byteIndex < utfBytes.length; byteIndex++) {
 			String hexB = Integer.toHexString(utfBytes[byteIndex]);
@@ -17,15 +30,22 @@ public class UnicodeUtil {
 			}
 			unicodeBytes = unicodeBytes + "\\u" + hexB;
 		}
-		return unicodeBytes;
+		return unicodeBytes;*/
 	}
-	
+
 	public static String decodeUnicode(String dataStr) {
-		int start = 0;
+		// no return fromUnicode(dataStr.toCharArray(),0,dataStr.length(),new char[200]);
+		/*StringBuffer b=new StringBuffer();
+		Matcher m = Pattern.compile("\\\\u([0-9a-fA-F]{4})").matcher(dataStr);
+		while(m.find()){
+			b.append((char)Integer.parseInt(m.group(1),16));
+		}
+		return b.toString();*/
+		/*int start = 0;
 		int end = 0;
 		final StringBuffer buffer = new StringBuffer();
 		while (start > -1) {
-			end = dataStr.indexOf("\\u", start + 2);
+			end = dataStr.indexOf("\\\\u", start + 2);
 			String charStr = "";
 			if (end == -1) {
 				charStr = dataStr.substring(start + 2, dataStr.length());
@@ -36,8 +56,207 @@ public class UnicodeUtil {
 			buffer.append(new Character(letter).toString());
 			start = end;
 		}
-		return buffer.toString();
+		return buffer.toString();*/
+		
+		Charset set = Charset.forName("UTF-16");
+		Pattern p = Pattern.compile("\\\\u([0-9a-fA-F]{4})");
+		Matcher m = p.matcher(dataStr);
+		int start = 0;
+		int end   = 0;
+		StringBuffer sb = new StringBuffer();
+		while (m.find(start)) {
+			end = m.start();
+			if (end > start) {
+				String seg = dataStr.substring(start, end);
+				if(seg.endsWith("\\")){ seg = seg.substring(0, seg.length() - 1);}
+				sb.append(seg);
+			}
+			
+			String code = m.group(1);
+			int i = Integer.valueOf(code, 16);
+			byte[] bb = new byte[4];
+			bb[0] = (byte) ((i >> 8) & 0xFF);
+			bb[1] = (byte) (i & 0xFF);
+			ByteBuffer b = ByteBuffer.wrap(bb);
+			sb.append(String.valueOf(set.decode(b)).trim());
+			start = m.end();
+		}
+		end = dataStr.length();
+		if (end > start) {
+			String seg = dataStr.substring(start, end);
+			sb.append(seg);
+		}
+		return sb.toString();  
 	}
-	
-	
+
+	/**
+	 * 将字符串编码成 Unicode 。
+	 * 
+	 * @param theString
+	 *            待转换成Unicode编码的字符串。
+	 * @param escapeSpace
+	 *            是否忽略空格。
+	 * @return 返回转换后Unicode编码的字符串。
+	 */
+	public static String toUnicode(String theString, boolean escapeSpace) {
+		int len = theString.length();
+		int bufLen = len * 2;
+		if (bufLen < 0) {
+			bufLen = Integer.MAX_VALUE;
+		}
+		StringBuffer outBuffer = new StringBuffer(bufLen);
+
+		for (int x = 0; x < len; x++) {
+			char aChar = theString.charAt(x);
+			// Handle common case first, selecting largest block that
+			// avoids the specials below
+			if ((aChar > 61) && (aChar < 127)) {
+				if (aChar == '\\') {
+					outBuffer.append('\\');
+					outBuffer.append('\\');
+					continue;
+				}
+				outBuffer.append(aChar);
+				continue;
+			}
+			switch (aChar) {
+			case ' ':
+				if (x == 0 || escapeSpace)
+					outBuffer.append('\\');
+				outBuffer.append(' ');
+				break;
+			case '\t':
+				outBuffer.append('\\');
+				outBuffer.append('t');
+				break;
+			case '\n':
+				outBuffer.append('\\');
+				outBuffer.append('n');
+				break;
+			case '\r':
+				outBuffer.append('\\');
+				outBuffer.append('r');
+				break;
+			case '\f':
+				outBuffer.append('\\');
+				outBuffer.append('f');
+				break;
+			case '=': // Fall through
+			case ':': // Fall through
+			case '#': // Fall through
+			case '!':
+				outBuffer.append('\\');
+				outBuffer.append(aChar);
+				break;
+			default:
+				if ((aChar < 0x0020) || (aChar > 0x007e)) {
+					outBuffer.append('\\');
+					outBuffer.append('u');
+					outBuffer.append(toHex((aChar >> 12) & 0xF));
+					outBuffer.append(toHex((aChar >> 8) & 0xF));
+					outBuffer.append(toHex((aChar >> 4) & 0xF));
+					outBuffer.append(toHex(aChar & 0xF));
+				} else {
+					outBuffer.append(aChar);
+				}
+			}
+		}
+		return outBuffer.toString();
+	}
+
+	/**
+	 * 从 Unicode 码转换成编码前的特殊字符串。
+	 * 
+	 * @param in
+	 *            Unicode编码的字符数组。
+	 * @param off
+	 *            转换的起始偏移量。
+	 * @param len
+	 *            转换的字符长度。
+	 * @param convtBuf
+	 *            转换的缓存字符数组。
+	 * @return 完成转换，返回编码前的特殊字符串。
+	 */
+	public static String fromUnicode(char[] in, int off, int len, char[] convtBuf) {
+		if (convtBuf.length < len) {
+			int newLen = len * 2;
+			if (newLen < 0) {
+				newLen = Integer.MAX_VALUE;
+			}
+			convtBuf = new char[newLen];
+		}
+		char aChar;
+		char[] out = convtBuf;
+		int outLen = 0;
+		int end = off + len;
+
+		while (off < end) {
+			aChar = in[off++];
+			if (aChar == '\\') {
+				aChar = in[off++];
+				if (aChar == 'u') {
+					// Read the xxxx
+					int value = 0;
+					for (int i = 0; i < 4; i++) {
+						aChar = in[off++];
+						switch (aChar) {
+						case '0':
+						case '1':
+						case '2':
+						case '3':
+						case '4':
+						case '5':
+						case '6':
+						case '7':
+						case '8':
+						case '9':
+							value = (value << 4) + aChar - '0';
+							break;
+						case 'a':
+						case 'b':
+						case 'c':
+						case 'd':
+						case 'e':
+						case 'f':
+							value = (value << 4) + 10 + aChar - 'a';
+							break;
+						case 'A':
+						case 'B':
+						case 'C':
+						case 'D':
+						case 'E':
+						case 'F':
+							value = (value << 4) + 10 + aChar - 'A';
+							break;
+						default:
+							throw new IllegalArgumentException(
+									"Malformed \\uxxxx encoding.");
+						}
+					}
+					out[outLen++] = (char) value;
+				} else {
+					if (aChar == 't') {
+						aChar = '\t';
+					} else if (aChar == 'r') {
+						aChar = '\r';
+					} else if (aChar == 'n') {
+						aChar = '\n';
+					} else if (aChar == 'f') {
+						aChar = '\f';
+					}
+					out[outLen++] = aChar;
+				}
+			} else {
+				out[outLen++] = (char) aChar;
+			}
+		}
+		return new String(out, 0, outLen);
+	}
+
+	private static final char[] hexDigit = { '0', '1', '2', '3', '4', '5', '6',
+			'7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+	private static char toHex(int nibble) {
+		return hexDigit[(nibble & 0xF)];
+	}
 }

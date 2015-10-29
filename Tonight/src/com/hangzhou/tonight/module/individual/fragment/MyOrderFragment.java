@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.math.RandomUtils;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -12,35 +15,50 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
+import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
 import com.hangzhou.tonight.module.base.helper.PicTextHelper;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
+import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
 import com.hangzhou.tonight.module.base.util.AsyncTaskUtil;
 import com.hangzhou.tonight.module.base.util.DateUtil;
 import com.hangzhou.tonight.module.base.util.ViewUtil;
 import com.hangzhou.tonight.module.base.util.ViewUtil.OnDoPicTextListener;
 import com.hangzhou.tonight.module.base.util.inter.Callback;
+import com.hangzhou.tonight.util.StringUtil;
+import com.hoo.ad.base.helper.DeviceHelper;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TableLayout.LayoutParams;
 
 /**
  * 我的订单,依据状态码标识 已支付Paid、未支付
  * @author hank
  */
 public class MyOrderFragment extends Fragment {
-	private List<OrderModel> mOrderList;
-	private ModelAdapter mAdapter;
+	protected List<OrderModel> mOrderList;
+	protected ModelAdapter mAdapter;
 	
 	SwipeMenuListView swipeListview;
 	/*** 全部、待付款,未消费,待评价*/
@@ -48,24 +66,71 @@ public class MyOrderFragment extends Fragment {
 	
 	public int PAY_STATE = STATE_ALL;
 	
+	public String HANDLER_TEXT = null;
+	
+	AlertDialog mAlertDialog;TextView tvTitle;EditText etContent;
+	
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_individual_myorder, container, false);
 	}
 	
+	@SuppressLint("InflateParams")
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());  
+		mOrderList = new ArrayList<OrderModel>();
 
 		swipeListview = (SwipeMenuListView) getView().findViewById(R.id.empty_swipe_listview);
-		
-		mOrderList = new ArrayList<OrderModel>();
-		
-		
 		
 		swipeListview.setDividerHeight(ViewUtil.dp2px(getActivity(), 12f));
 		mAdapter = new ModelAdapter();
 		swipeListview.setAdapter(mAdapter);
 		
+		
+		swipeListview.setMenuCreator(getSwipeMenuCreator());
+		swipeListview.setOnMenuItemClickListener(getOnMenuItemClickListener());
+		
+		doPostData();
+		
+	}
+	
+	public OnMenuItemClickListener getOnMenuItemClickListener(){
+		return new OnMenuItemClickListener() {
+			OrderModel om;
+			@Override public void onMenuItemClick(final int position, SwipeMenu menu, int index) {
+				om = mOrderList.get(position);
+				if(index == 0){
+					/*TbarViewModel model = new TbarViewModel(om.title + "-评价");
+					BaseSingeFragmentActivity.startActivity(getActivity(), OrderEvaluationFragment.class, model,new OnIntentCreateListener() {
+						@Override public void onCreate(Intent intent) {
+							intent.putExtra("order_id", om.order_id);
+						}
+					});*/
+				}else if(index == 1){
+					deleteOrder(om, position);
+				}
+			}
+		};
+	}
+	
+	/**
+	 * 删除订单
+	 * @param om
+	 * @param position
+	 */
+	protected void deleteOrder(OrderModel om,final int position){
+		JSONObject params = new JSONObject();
+		params.put("order_id", om.order_id);
+		AsyncTaskUtil.postData(getActivity(), "delOrder", params, new Callback() {
+			@Override public void onSuccess(JSONObject result) {
+				mOrderList.remove(position);
+				mAdapter.notifyDataSetChanged();
+			}
+			@Override public void onFail(String msg) {}
+		});
+	}
+	
+	public SwipeMenuCreator getSwipeMenuCreator(){
 		SwipeMenuCreator creator = new SwipeMenuCreator() {
 
 			@Override
@@ -73,7 +138,7 @@ public class MyOrderFragment extends Fragment {
 				SwipeMenuItem commontItem = new SwipeMenuItem(getActivity().getApplicationContext());
 				commontItem.setBackground(new ColorDrawable(Color.parseColor("#FFF8A11C")));
 				commontItem.setWidth(ViewUtil.dp2px(getActivity().getBaseContext(),90));
-				commontItem.setTitle("评价");
+				commontItem.setTitle(HANDLER_TEXT == null ? "操作" : HANDLER_TEXT);
 				commontItem.setTitleSize(20);
 				commontItem.setTitleColor(Color.WHITE);
 				menu.addMenuItem(commontItem);
@@ -88,24 +153,11 @@ public class MyOrderFragment extends Fragment {
 				menu.addMenuItem(deleteItem);
 			}
 		};
-		swipeListview.setMenuCreator(creator);
-		swipeListview.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override public void onMenuItemClick(final int position, SwipeMenu menu, int index) {
-				if(index == 0){
-					ToastHelper.show(getActivity(), "评价");//[TODO 这一块缺失]
-				}else if(index == 1){
-					JSONObject params = new JSONObject();
-					params.put("order_id", mOrderList.get(position).order_id);
-					AsyncTaskUtil.postData(getActivity(), "delOrder", params, new Callback() {
-						@Override public void onSuccess(JSONObject result) {
-							mOrderList.remove(position);
-							mAdapter.notifyDataSetChanged();
-						}
-						@Override public void onFail(String msg) {}
-					});
-				}
-			}
-		});
+		return creator;
+	}
+	
+	
+	void doPostData(){
 		JSONObject params = new JSONObject();
 		params.put("type", PAY_STATE);
 		

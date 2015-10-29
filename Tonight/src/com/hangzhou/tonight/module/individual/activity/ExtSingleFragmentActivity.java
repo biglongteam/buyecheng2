@@ -11,6 +11,7 @@ import com.hangzhou.tonight.module.base.helper.ActivityHelper;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper.OnIntentCreateListener;
 import com.hangzhou.tonight.module.base.helper.ToastHelper;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
+import com.hangzhou.tonight.module.social.activity.AddDynamicsActivity;
 
 /**
  * 个人模块-扩展类
@@ -28,7 +29,7 @@ public class ExtSingleFragmentActivity extends BaseSingeFragmentActivity {
 		tv.setPadding(left, 0, right, 0);
 		setOnClickListener(new OnHandlerClickListener() {
 			@Override public void onClick(View handlerView) {
-				ToastHelper.show(getContext(), "添加个人动态");
+				ActivityHelper.startActivity(getContext(), AddDynamicsActivity.class);
 			}
 		});
 		tv.setVisibility(View.VISIBLE);

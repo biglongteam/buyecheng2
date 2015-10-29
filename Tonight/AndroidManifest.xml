@@ -197,12 +197,20 @@
 		 <activity android:name="com.hangzhou.tonight.module.message.activity.ValidateMessageActivity" android:label="@string/message"></activity>
 		<!-- 个人信息 -->
         <activity android:name="com.hangzhou.tonight.module.social.activity.FindActivity" android:label="@string/find"></activity>
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.ExtSingleFragmentActivity"></activity>
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.FeedbackActivity" android:label="@string/feedback"></activity>
         <!-- 社交模块 -->
         <activity android:name="com.hangzhou.tonight.module.social.activity.TonightCircleActivity" android:label="@string/tonight_circle"></activity>
         <activity android:name="com.hangzhou.tonight.module.social.activity.GroupActivity" android:label="@string/group"></activity>
         <activity android:name="com.hangzhou.tonight.module.social.activity.FriendActivity" android:label="@string/friend"></activity>
+        <activity android:name="com.hangzhou.tonight.module.social.activity.AddDynamicsActivity" android:label="@string/add_dynamics"></activity>
         
-        
+        <!-- 阿里云OSS服务 start -->
+        <meta-data android:name="com.alibaba.app.ossak" android:value="nWPAatxvbX5HXMtX"></meta-data>
+		<meta-data android:name="com.alibaba.app.osssk" android:value="esxXCipVEoyUA3Jk6R20UyxmNtnUxP"></meta-data>
+		<meta-data android:name="com.alibaba.app.ossbucketname" android:value="51tonight"></meta-data>
+		 
+        <!-- 阿里云OSS服务 end   -->
         
           <activity android:name=".notice.MyNoticeActivity" android:launchMode="standard" android:screenOrientation="portrait"></activity>
        	<!-- 系统消息 -->

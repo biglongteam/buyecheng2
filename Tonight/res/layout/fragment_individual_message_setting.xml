@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TableRow 
+             android:layout_width="match_parent"
+	         android:layout_height="wrap_content"
+	         android:layout_marginTop="20dp"
+	         android:layout_marginBottom="20dp"
+	         android:layout_marginLeft="20dp"
+            >
+            <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="消息通知"
+	            android:textSize="17sp"
+	            
+	            />
+        </TableRow>
+        <View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_listview"
+            />
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+	         android:layout_marginBottom="10dp"
+	         android:layout_marginLeft="20dp"
+            >
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="要关闭或开启通知,请在手机'设置'功能中,找到应用程序进行更改"
+                />
+        </TableRow>
+        
+        <View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_listview"
+            />
+        
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+	         android:layout_marginBottom="10dp"
+	         android:layout_marginLeft="20dp"
+	          android:gravity="center_vertical"
+            >
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:text="@string/voice"
+                />
+             <View android:layout_height="0dip" android:layout_width="0dip" android:layout_weight="1.0" />
+			<ToggleButton
+		        android:id="@+id/message_setting_voice"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="20dp"/>
+			             
+        </TableRow>
+        
+         <View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_listview"
+            />
+        
+        <TableRow 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+	         android:layout_marginBottom="10dp"
+	         android:layout_marginLeft="20dp"
+	         android:gravity="center_vertical"
+            >
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:text="@string/vibration"
+                />
+            <View android:layout_height="0dip" android:layout_width="0dip" android:layout_weight="1.0" />
+			<ToggleButton
+		        android:id="@+id/message_setting_vibration"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="20dp"/>
+			             
+        </TableRow>
+        
+        <View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_listview"
+            />
+    </TableLayout>
+
+    
+    
+</LinearLayout>

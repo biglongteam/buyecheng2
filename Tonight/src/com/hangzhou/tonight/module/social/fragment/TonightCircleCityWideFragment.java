@@ -102,7 +102,10 @@ public class TonightCircleCityWideFragment extends BEmptyListviewFragment {
 				isAllowLoad = result.containsKey("nomore")? true : (result.getIntValue("nomore") != 1);	
 
 				time = result.getLongValue("time");
-				listData.addAll(JSONArray.parseArray(result.getString("moods"), DataModel.class));
+				List<DataModel>  res = JSONArray.parseArray(result.getString("moods"), DataModel.class);
+				if(null != res){
+					listData.addAll(res);
+				}
 				adapter.notifyDataSetChanged();
 			}
 			

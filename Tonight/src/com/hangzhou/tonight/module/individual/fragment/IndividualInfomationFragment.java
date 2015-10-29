@@ -245,7 +245,7 @@ public class IndividualInfomationFragment extends BFragment {
 					@Override public void onClick(DialogInterface arg0, int position) {
 						tvTemp.setText(position == 1 ? "男" : "女");
 						cm.value = position;
-						//doUpdate(cm);
+						doUpdate(cm);
 					}
 				});
 				bd.create().show();
@@ -269,7 +269,7 @@ public class IndividualInfomationFragment extends BFragment {
 							cm.value = tvTemp.getText().toString();
 							mAlertDialog.dismiss();
 							DeviceHelper.hideSoftKey(getActivity());
-							//doUpdate(cm);
+							doUpdate(cm);
 						}
 					});
 					cancel.setOnClickListener(new OnClickListener() {
@@ -345,24 +345,31 @@ public class IndividualInfomationFragment extends BFragment {
 	
 	
 	private void doUpdate(ComponentModel cm){
-		
-		JSONObject params = new JSONObject();
+		//{"birth":"1979-04-09","career":"","constellation":"白羊座","content":"hhh","created_at":"2015-04-03 10:29:17","mood_count":"14","nick":"胡东","photo":"[\"1000000_01\"]","sex":"男","sign":"哥已离开江湖，但江湖依然流传着哥的传说","time":"1445349096","type":"1","uid":"1000000","url":"null"}
+		/*JSONObject params = new JSONObject();
 		for(String key : map.keySet()){
 			orginJson.put(key, map.get(key).value);
 			if("nick".equals(key)||"photo".equals(key)||"birth".equals(key)||"sex".equals(key)||"sign".equals(key)||"career".equals(key)){
 				params.put(key, orginJson.get(key));
 			}
-		}
+		}*/
+		postUpdate(cm.filedName, cm.getValue());
+	}
+	
+	private void postUpdate(String key,Object value){
 		//TODO 什么参数错误?
+		JSONObject params = new JSONObject(orginJson);
+		if(value != null && value.equals(orginJson.get(key))){ return; }else{orginJson.put(key, value);}
+		params.put(key, value);
 		AsyncTaskUtil.postData(getActivity(), "editUserInfo", params, new Callback() {
 			@Override public void onSuccess(JSONObject result) {
 				ToastHelper.show(getActivity(), "个人信息已修改.");
 			}
 			
-			@Override public void onFail(String msg) { }
+			@Override public void onFail(String msg) {
+				ToastHelper.show(getActivity(), "修改失败.");
+			}
 		});
-		
-		
 	}
 	
 	@Override public void onBackPressed() {
